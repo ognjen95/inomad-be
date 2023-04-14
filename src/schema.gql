@@ -1,0 +1,146 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AnswerEntity {
+  answered: Boolean!
+  id: String!
+  isCorrect: Boolean!
+  text: String!
+}
+
+input AnswerInput {
+  answered: Boolean!
+  id: String!
+  isCorrect: Boolean!
+  text: String!
+}
+
+input CreateQuestionInput {
+  answers: [AnswerInput!]
+  points: Float!
+  questionGroup: String!
+  text: String!
+}
+
+input CreateTestInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateUserInput {
+  email: String!
+  employmentStatus: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+}
+
+type Edges {
+  cursor: String!
+  node: User!
+}
+
+input EmployeeStatusFilterInput {
+  contains: String
+  eq: String
+  in: [String!]
+  not: String
+}
+
+input FilterInput {
+  contains: String
+  employeeStatus: EmployeeStatusFilterInput
+  eq: String
+}
+
+type Mutation {
+  createQuestion(createQuestionInput: CreateQuestionInput!): QuestionEntity!
+  createTest(createTestInput: CreateTestInput!): Test!
+  createUser(createUserInput: CreateUserInput!): User!
+  removeTest(id: Int!): Test!
+  removeUser(id: String!): User!
+  updateTest(updateTestInput: UpdateTestInput!): Test!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+}
+
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor: String
+}
+
+input PaginationInput {
+  cursor: String
+  orderBy: String
+  skip: Int
+  take: Int
+}
+
+type Query {
+  findAllQuestion(QueryOptionsInput: QueryOptionsInput): QuestionEntityEdgesEntity!
+  findAllUsers(QueryOptionsInput: QueryOptionsInput): UserEdgesEntity!
+  findUserById(id: String!): User!
+  test(id: Int!): Test!
+  tests: [Test!]!
+}
+
+input QueryOptionsInput {
+  filters: FilterInput
+  pagination: PaginationInput
+}
+
+type QuestionEdges {
+  cursor: String!
+  node: QuestionEntity!
+}
+
+type QuestionEntity {
+  answers: [AnswerEntity!]
+  id: String!
+  points: Float!
+  questionGroup: String!
+  text: String!
+}
+
+type QuestionEntityEdgesEntity {
+  edges: [QuestionEdges!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type Test {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateTestInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateUserInput {
+  email: String
+  employmentStatus: String
+  firstName: String
+  id: String!
+  lastName: String
+  password: String
+}
+
+type User {
+  email: String!
+  employmentStatus: String!
+  firstName: String!
+  id: String!
+  lastName: String!
+  password: String!
+}
+
+type UserEdgesEntity {
+  edges: [Edges!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}

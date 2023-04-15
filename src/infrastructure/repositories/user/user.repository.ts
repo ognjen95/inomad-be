@@ -30,7 +30,7 @@ export class UserRepository implements IUserRepository {
   async findAll(options: QueryOptions): Promise<EdgesResponse<User>> {
     const { filters, pagination } = options || {};
     const cursor = pagination?.cursor;
-    console.log('filters', filters?.employeeStatus);
+
     const users = await this.prismaService.user.findMany({
       where: {
         employmentStatus: filters?.employeeStatus?.in.length

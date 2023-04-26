@@ -15,7 +15,7 @@ export class Question extends AggregateRoot {
     private text: string,
     private points: number,
     private answers: Answer[],
-    private questionGroup: string,
+    private questionGroup?: string,
   ) {
     super();
   }

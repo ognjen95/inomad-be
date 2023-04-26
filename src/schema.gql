@@ -16,16 +16,25 @@ input AnswerInput {
   text: String!
 }
 
+input CreateQuestionGroupInput {
+  name: String!
+}
+
 input CreateQuestionInput {
   answers: [AnswerInput!]
   points: Float!
-  questionGroup: String!
+  questionGroup: String
   text: String!
 }
 
 input CreateTestInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  endsAt: Int
+  name: String!
+  percentageScored: Int
+  percentageToPass: Int!
+  questionIds: [String!]!
+  startedAt: Int
+  timeLimit: Int
 }
 
 input CreateUserInput {
@@ -56,11 +65,10 @@ input FilterInput {
 
 type Mutation {
   createQuestion(createQuestionInput: CreateQuestionInput!): QuestionEntity!
-  createTest(createTestInput: CreateTestInput!): Test!
+  createQuestionGroup(createQuestionGroupInput: CreateQuestionGroupInput!): QuestionGroupEntity!
+  createTest(createTestInput: CreateTestInput!): TestEntity!
   createUser(createUserInput: CreateUserInput!): User!
-  removeTest(id: Int!): Test!
   removeUser(id: String!): User!
-  updateTest(updateTestInput: UpdateTestInput!): Test!
   updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
@@ -80,10 +88,10 @@ input PaginationInput {
 
 type Query {
   findAllQuestion(QueryOptionsInput: QueryOptionsInput): QuestionEntityEdgesEntity!
+  findAllQuestionGroups(QueryOptionsInput: QueryOptionsInput): QuestionGroupsEntityEdgesEntity!
+  findAllTests(QueryOptionsInput: QueryOptionsInput): TestsEntityEdgesEntity!
   findAllUsers(QueryOptionsInput: QueryOptionsInput): UserEdgesEntity!
   findUserById(id: String!): User!
-  test(id: Int!): Test!
-  tests: [Test!]!
 }
 
 input QueryOptionsInput {
@@ -100,7 +108,8 @@ type QuestionEntity {
   answers: [AnswerEntity!]
   id: String!
   points: Float!
-  questionGroup: String!
+  questionGroup: QuestionGroupEntity
+  testId: String
   text: String!
 }
 
@@ -110,15 +119,43 @@ type QuestionEntityEdgesEntity {
   totalCount: Int!
 }
 
-type Test {
-  """Example field (placeholder)"""
-  exampleField: Int!
+type QuestionGroupEntity {
+  Question: [QuestionEntity!]
+  id: String!
+  name: String!
 }
 
-input UpdateTestInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+type QuestionGroupsEdges {
+  cursor: String!
+  node: QuestionGroupEntity!
+}
+
+type QuestionGroupsEntityEdgesEntity {
+  edges: [QuestionGroupsEdges!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type TestEntity {
+  endsAt: Int
+  id: String!
+  name: String!
+  percentageScored: Int
+  percentageToPass: Int!
+  questions: [QuestionEntity!]!
+  startedAt: Int
+  timeLimit: Int
+}
+
+type TestsEdges {
+  cursor: String!
+  node: TestEntity!
+}
+
+type TestsEntityEdgesEntity {
+  edges: [TestsEdges!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
 }
 
 input UpdateUserInput {

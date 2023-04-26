@@ -1,4 +1,5 @@
 import { ObjectType, Field } from '@nestjs/graphql';
+import { QuestionGroupEntity } from './question-group.entity';
 
 @ObjectType()
 class AnswerEntity {
@@ -26,9 +27,12 @@ export class QuestionEntity {
   @Field()
   points: number;
 
+  @Field({ nullable: true })
+  testId?: string;
+
   @Field(() => [AnswerEntity], { nullable: true })
   answers?: AnswerEntity[];
 
-  @Field()
-  questionGroup: string;
+  @Field(() => QuestionGroupEntity, { nullable: true })
+  questionGroup?: QuestionGroupEntity;
 }

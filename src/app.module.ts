@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './infrastructure/prisma/prisma.module';
 import { TestsModule } from './presentation/modules/tests/tests.module';
 import { QuestionsModule } from './presentation/modules/questions/questions.module';
+import { QuestionGroupModule } from './presentation/modules/questions/question-group.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { QuestionsModule } from './presentation/modules/questions/questions.modu
     UsersModule,
     TestsModule,
     QuestionsModule,
+    QuestionGroupModule,
   ],
   controllers: [],
   providers: [],

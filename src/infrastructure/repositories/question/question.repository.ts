@@ -20,16 +20,58 @@ export class QuestionRepository implements IQuestionRepository {
         text: dto.getText,
         answers: dto.getAnswers,
         points: dto.getPoints,
-        questionGroup: dto.getQuestionGroup,
+        questionGroupId: dto.getQuestionGroup,
       },
     });
     return plainToInstance(Question, question);
   }
 
-  async findAll(options: QueryOptions): Promise<EdgesResponse<Question>> {
+  async findAll(options?: QueryOptions): Promise<EdgesResponse<Question>> {
+    const { filters, pagination } = options || {};
+    console.log('OPAAAA', filters?.contains, pagination?.take);
+    const questions = await this.prismaService.question.findMany({
+      where: {
+        // testId: null,
+        OR: [
+          {
+            text: {
+              contains: filters?.contains,
+              mode: this.caseSensitive,
+            },
+          },
+          {
+            questionGroup: {
+              name: {
+                contains: filters?.contains,
+                mode: this.caseSensitive,
+              },
+            },
+          },
+        ],
+      },
+      include: {
+        questionGroup: true,
+      },
+      take: pagination.take || QUERY_TAKE,
+    });
+    console.log({ first: questions });
+
+    return this.edgesFactory(plainToInstance(Question, questions));
+  }
+
+  async findAllByIds(ids: string[]): Promise<Question[]> {
     // const { filters, pagination } = options || {};
-    const question = await this.prismaService.question.findMany({});
-    return this.edgesFactory(plainToInstance(Question, question));
+    const questions = await this.prismaService.question.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+      include: {
+        questionGroup: true,
+      },
+    });
+    return plainToInstance(Question, questions);
   }
 
   // async findOneById(id: string): Promise<Question> {

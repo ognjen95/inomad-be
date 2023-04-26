@@ -20,21 +20,31 @@ model User {
 }
 
 model Question {
-  id             String       @id @default(auto()) @map("_id") @db.ObjectId
-  text           String
-  questionGroup  String
-  points         Int
-  answers        AnswerType[]
-  Test           Test?        @relation(fields: [testId], references: [id])
-  testId         String?      @db.ObjectId
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  text            String
+  questionGroup   QuestionGroup? @relation(fields: [questionGroupId], references: [id])
+  points          Int
+  answers         AnswerType[]
+  Test            Test?          @relation(fields: [testId], references: [id])
+  testId          String?        @db.ObjectId
+  questionGroupId String?        @db.ObjectId
 }
 
 model Test {
   id               String     @id @default(auto()) @map("_id") @db.ObjectId
   name             String
   questions        Question[]
-  percentageToPass Int
-  percentageScored Int
+  percentageToPass Int        @default(70)
+  percentageScored Int        @default(0)
+  timeLimit        Int
+  startedAt        DateTime?
+  endsAt           DateTime?
+}
+
+model QuestionGroup {
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  Question Question[]
 }
 
 type AnswerType {

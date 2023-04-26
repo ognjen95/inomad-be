@@ -2,14 +2,14 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { QuestionEntity } from '../../entities/questions/question.entity';
 import { CreateQuestionInput } from 'src/presentation/dto/questions/create-question.input';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { CreateQuestionCommand } from 'src/application/commands/question/create-question.command';
+import { CreateQuestionCommand } from 'src/application/commands/question/create-question/create-question.command';
 import { Question } from 'src/domain/question/Question';
-import { FindAllQuestionsQuery } from 'src/application/queries/questions/find-all-questions.query';
+import { FindAllQuestionsQuery } from 'src/application/queries/questions/find-al-questions/find-all-questions.query';
 import { QueryOptionsInput } from 'src/presentation/dto/common/query-options.dto';
 import { QuestionEntityEdgesEntity } from 'src/presentation/entities/questions/question-edges.entity';
 
-@Resolver(() => Question)
-export class QuestionsResolver {
+@Resolver(() => QuestionEntity)
+export class QuestionResolver {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,

@@ -1,35 +1,35 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { TestsService } from '../../../tests.service';
-import { Test } from '../../entities/test.entity';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { TestEntity } from '../../entities/tests/test.entity';
 import { CreateTestInput } from '../../dto/tests/create-test.input';
 import { UpdateTestInput } from '../../dto/tests/update-test.input';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { CreateTestCommand } from 'src/application/commands/tests/create-test/create-test.command';
+import { Test } from 'src/domain/test/Test';
+import { QueryOptionsInput } from 'src/presentation/dto/common/query-options.dto';
+import { FindAllTestsQuery } from 'src/application/queries/tests/find-all-tests/find-all-tests.query';
+import { TestsEntityEdgesEntity } from 'src/presentation/entities/tests/tests-edges.entity';
 
-@Resolver(() => Test)
+@Resolver(() => TestEntity)
 export class TestsResolver {
-  constructor(private readonly testsService: TestsService) {}
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
+  ) {}
 
-  @Mutation(() => Test)
-  createTest(@Args('createTestInput') createTestInput: CreateTestInput) {
-    return this.testsService.create(createTestInput);
+  @Mutation(() => TestEntity)
+  async createTest(@Args('createTestInput') createTestInput: CreateTestInput) {
+    return await this.commandBus.execute<CreateTestCommand, Test>(
+      new CreateTestCommand(createTestInput),
+    );
   }
 
-  @Query(() => [Test], { name: 'tests' })
-  findAll() {
-    return this.testsService.findAll();
-  }
-
-  @Query(() => Test, { name: 'test' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.testsService.findOne(id);
-  }
-
-  @Mutation(() => Test)
-  updateTest(@Args('updateTestInput') updateTestInput: UpdateTestInput) {
-    return this.testsService.update(updateTestInput.id, updateTestInput);
-  }
-
-  @Mutation(() => Test)
-  removeTest(@Args('id', { type: () => Int }) id: number) {
-    return this.testsService.remove(id);
+  @Query(() => TestsEntityEdgesEntity, { name: 'findAllTests' })
+  async findAll(
+    @Args('QueryOptionsInput', { nullable: true })
+    queryOptionsInput?: QueryOptionsInput,
+  ) {
+    return await this.queryBus.execute<FindAllTestsQuery, Test>(
+      new FindAllTestsQuery(queryOptionsInput),
+    );
   }
 }

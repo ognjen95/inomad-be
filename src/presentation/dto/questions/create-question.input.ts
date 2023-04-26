@@ -26,6 +26,6 @@ export class CreateQuestionInput {
   @Field(() => [AnswerInput], { nullable: true })
   answers?: AnswerInput[];
 
-  @Field()
+  @Field({ nullable: true })
   questionGroup: string;
 }

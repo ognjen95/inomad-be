@@ -1,12 +1,16 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { QuestionEntity } from '../questions/question.entity';
 
-@InputType()
-export class CreateTestInput {
+@ObjectType()
+export class TestEntity {
+  @Field()
+  id: string;
+
   @Field()
   name: string;
 
-  @Field(() => [String])
-  questionIds: string[];
+  @Field(() => [QuestionEntity])
+  questions: QuestionEntity[];
 
   @Field(() => Int)
   percentageToPass: number;

@@ -21,6 +21,10 @@ export class QuestionRepository implements IQuestionRepository {
         answers: dto.getAnswers,
         points: dto.getPoints,
         questionGroupId: dto.getQuestionGroup,
+        answerType: dto.getAnswerType,
+      },
+      include: {
+        questionGroup: true,
       },
     });
     return plainToInstance(Question, question);
@@ -52,7 +56,7 @@ export class QuestionRepository implements IQuestionRepository {
       include: {
         questionGroup: true,
       },
-      take: pagination.take || QUERY_TAKE,
+      // take: pagination.take || QUERY_TAKE,
     });
     console.log({ first: questions });
 

@@ -16,7 +16,7 @@ class CreateQuestionHandler implements ICommandHandler<CreateQuestionCommand> {
     const { text, points, answers, questionGroup } = dto;
     const question = new Question(text, points, answers, questionGroup);
 
-    question.isValid();
+    question.validateQuestions();
 
     return await this.questionRepository.create(question);
   }

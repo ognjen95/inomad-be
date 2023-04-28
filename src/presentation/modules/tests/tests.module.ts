@@ -10,6 +10,7 @@ import {
 } from 'src/application/common/constants/tokens';
 import { QuestionRepository } from 'src/infrastructure/repositories/question/question.repository';
 import FindAllTestsHandler from 'src/application/queries/tests/find-all-tests/find-all-tests.handler';
+import FindTestByIdQueryHandler from 'src/application/queries/tests/fid-one-by-id/find-one-by-id.handler';
 
 @Module({
   imports: [CqrsModule],
@@ -20,6 +21,7 @@ import FindAllTestsHandler from 'src/application/queries/tests/find-all-tests/fi
     TestRepository,
     QuestionRepository,
     FindAllTestsHandler,
+    FindTestByIdQueryHandler,
     {
       provide: TEST_REPOSITORY_TOKEN,
       useClass: TestRepository,

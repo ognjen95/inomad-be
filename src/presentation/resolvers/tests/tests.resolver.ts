@@ -1,13 +1,13 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { TestEntity } from '../../entities/tests/test.entity';
 import { CreateTestInput } from '../../dto/tests/create-test.input';
-import { UpdateTestInput } from '../../dto/tests/update-test.input';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateTestCommand } from 'src/application/commands/tests/create-test/create-test.command';
 import { Test } from 'src/domain/test/Test';
 import { QueryOptionsInput } from 'src/presentation/dto/common/query-options.dto';
 import { FindAllTestsQuery } from 'src/application/queries/tests/find-all-tests/find-all-tests.query';
 import { TestsEntityEdgesEntity } from 'src/presentation/entities/tests/tests-edges.entity';
+import { FindTestByIdQuery } from 'src/application/queries/tests/fid-one-by-id/find-one-by-id.query';
 
 @Resolver(() => TestEntity)
 export class TestsResolver {
@@ -30,6 +30,13 @@ export class TestsResolver {
   ) {
     return await this.queryBus.execute<FindAllTestsQuery, Test>(
       new FindAllTestsQuery(queryOptionsInput),
+    );
+  }
+
+  @Query(() => TestEntity, { name: 'findTestById' })
+  async findOneById(@Args('id') id: string) {
+    return await this.queryBus.execute<FindTestByIdQuery, Test>(
+      new FindTestByIdQuery(id),
     );
   }
 }

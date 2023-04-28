@@ -10,7 +10,8 @@ export type Answer = {
 
 export class Question extends AggregateRoot {
   private id: string;
-
+  private answerType: 'multiple' | 'single' | 'text' = 'single';
+  private questionGroupId?: string;
   constructor(
     private text: string,
     private points: number,
@@ -18,9 +19,10 @@ export class Question extends AggregateRoot {
     private questionGroup?: string,
   ) {
     super();
+    this.questionGroupId = questionGroup;
   }
 
-  isValid() {
+  validateQuestions() {
     if (this.answers.length) {
       if (this.answers.length < 2) {
         throw new BadRequestException(
@@ -28,13 +30,23 @@ export class Question extends AggregateRoot {
         );
       }
 
-      const correctAnswers = this.answers.some((answer) => answer.isCorrect);
-      if (!correctAnswers) {
+      const correctAnswers = this.answers.filter((answer) => answer.isCorrect);
+      const numberOfCorrectAnswers = correctAnswers.length;
+
+      if (!numberOfCorrectAnswers) {
         throw new BadRequestException(
           'Question must have at least one correct answer',
         );
       }
+
+      if (numberOfCorrectAnswers > 1) {
+        this.answerType = 'multiple';
+      } else if (numberOfCorrectAnswers === 1) {
+        this.answerType = 'single';
+      }
+      return;
     }
+    this.answerType = 'text';
   }
 
   public get getId(): string {
@@ -56,6 +68,12 @@ export class Question extends AggregateRoot {
   public get getQuestionGroup(): string {
     return this.questionGroup;
   }
+  get getQuestionGroupId(): string {
+    return this.questionGroupId;
+  }
+  public get getAnswerType(): 'multiple' | 'single' | 'text' {
+    return this.answerType;
+  }
 
   public set setId(id: string) {
     this.id = id;
@@ -75,5 +93,9 @@ export class Question extends AggregateRoot {
 
   public set setQuestionGroup(questionGroup: string) {
     this.questionGroup = questionGroup;
+  }
+
+  public set setAnswerType(answerType: 'multiple' | 'single' | 'text') {
+    this.answerType = answerType;
   }
 }

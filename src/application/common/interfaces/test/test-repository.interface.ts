@@ -5,7 +5,7 @@ import { Test } from 'src/domain/test/Test';
 export interface ITestRepository {
   create(dto: Test): Promise<Test>;
   findAll(queryOptions?: QueryOptions): Promise<EdgesResponse<Test>>;
-  //   findOneById(id: string): Promise<Question>;
+  findOneById(id: string): Promise<Test>;
   //   update(id: string, Question: Partial<Question>): Promise<Question>;
   //   remove(id: string): Promise<Question>;
 }

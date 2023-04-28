@@ -35,4 +35,7 @@ export class QuestionEntity {
 
   @Field(() => QuestionGroupEntity, { nullable: true })
   questionGroup?: QuestionGroupEntity;
+
+  @Field({ nullable: true })
+  answerType?: string;
 }

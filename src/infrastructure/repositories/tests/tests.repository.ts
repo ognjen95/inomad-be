@@ -15,32 +15,34 @@ export class TestRepository implements ITestRepository {
   protected readonly prismaService: PrismaService;
 
   async create(dto: Test): Promise<Test> {
-    const question = await this.prismaService.test.create({
+    const test = await this.prismaService.test.create({
       data: {
         name: dto.getName,
+        employeeId: dto.getEmployeeId,
+        timeLimit: dto.getTimeLimit ?? 0,
+        percentageToPass: dto.getPercentageToPass,
         questions: {
           createMany: {
             data: dto.getQuestions.map((question) => ({
               text: question.getText,
               answers: question.getAnswers,
               points: question.getPoints,
-              questionGroupId: question.getQuestionGroup,
+              questionGroupId: question.getQuestionGroupId,
+              answerType: question.getAnswerType,
             })),
           },
         },
-        timeLimit: dto.getTimeLimit ?? 0,
-        percentageToPass: dto.getPercentageToPass,
       },
       include: {
         questions: true,
       },
     });
-    return plainToInstance(Test, question);
+    return plainToInstance(Test, test);
   }
 
   async findAll(options: QueryOptions): Promise<EdgesResponse<Test>> {
     const { filters, pagination } = options || {};
-    const question = await this.prismaService.test.findMany({
+    const test = await this.prismaService.test.findMany({
       include: {
         questions: true,
       },
@@ -51,8 +53,23 @@ export class TestRepository implements ITestRepository {
         },
       },
       take: pagination?.take ?? QUERY_TAKE,
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
-    return this.edgesFactory(plainToInstance(Test, question));
+    return this.edgesFactory(plainToInstance(Test, test));
+  }
+
+  async findOneById(id: string): Promise<Test> {
+    const test = await this.prismaService.test.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        questions: true,
+      },
+    });
+    return plainToInstance(Test, test);
   }
 
   edgesFactory = async (questions: Test[]): Promise<EdgesResponse<Test>> => {

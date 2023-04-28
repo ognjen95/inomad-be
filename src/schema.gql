@@ -28,6 +28,7 @@ input CreateQuestionInput {
 }
 
 input CreateTestInput {
+  employeeId: String
   endsAt: Int
   name: String!
   percentageScored: Int
@@ -44,6 +45,11 @@ input CreateUserInput {
   lastName: String!
   password: String!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type Edges {
   cursor: String!
@@ -91,6 +97,7 @@ type Query {
   findAllQuestionGroups(QueryOptionsInput: QueryOptionsInput): QuestionGroupsEntityEdgesEntity!
   findAllTests(QueryOptionsInput: QueryOptionsInput): TestsEntityEdgesEntity!
   findAllUsers(QueryOptionsInput: QueryOptionsInput): UserEdgesEntity!
+  findTestById(id: String!): TestEntity!
   findUserById(id: String!): User!
 }
 
@@ -105,6 +112,7 @@ type QuestionEdges {
 }
 
 type QuestionEntity {
+  answerType: String
   answers: [AnswerEntity!]
   id: String!
   points: Float!
@@ -137,13 +145,15 @@ type QuestionGroupsEntityEdgesEntity {
 }
 
 type TestEntity {
-  endsAt: Int
+  createdAt: DateTime
+  employeeId: String
+  endsAt: DateTime
   id: String!
   name: String!
   percentageScored: Int
   percentageToPass: Int!
   questions: [QuestionEntity!]!
-  startedAt: Int
+  startedAt: DateTime
   timeLimit: Int
 }
 
@@ -168,6 +178,7 @@ input UpdateUserInput {
 }
 
 type User {
+  createdAt: DateTime
   email: String!
   employmentStatus: String!
   firstName: String!

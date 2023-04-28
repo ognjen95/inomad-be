@@ -9,6 +9,7 @@ export class User extends AggregateRoot {
     private email: string,
     private password: string,
     private employmentStatus: 'employed' | 'interviewing' | 'archived',
+    private createdAt?: number,
   ) {
     super();
   }

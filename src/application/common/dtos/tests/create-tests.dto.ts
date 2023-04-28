@@ -3,4 +3,5 @@ export class CreateTestDto {
   questionIds: string[];
   percentageToPass: number;
   timeLimit?: number;
+  employeeId?: string;
 }

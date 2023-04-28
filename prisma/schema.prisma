@@ -11,12 +11,16 @@ datasource db {
 }
 
 model User {
-  id               String @id @default(auto()) @map("_id") @db.ObjectId
-  email            String @unique
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  email            String    @unique
   firstName        String
   lastName         String
   employmentStatus String
   password         String
+  createdAt        DateTime? @default(now())
+
+  testId String[] @db.ObjectId
+  Test   Test[]
 }
 
 model Question {
@@ -25,6 +29,7 @@ model Question {
   questionGroup   QuestionGroup? @relation(fields: [questionGroupId], references: [id])
   points          Int
   answers         AnswerType[]
+  answerType      String?
   Test            Test?          @relation(fields: [testId], references: [id])
   testId          String?        @db.ObjectId
   questionGroupId String?        @db.ObjectId
@@ -39,6 +44,10 @@ model Test {
   timeLimit        Int
   startedAt        DateTime?
   endsAt           DateTime?
+  createdAt        DateTime?  @default(now())
+
+  employee   User?   @relation(fields: [employeeId], references: [id])
+  employeeId String? @db.ObjectId
 }
 
 model QuestionGroup {

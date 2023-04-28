@@ -22,4 +22,7 @@ export class CreateTestInput {
 
   @Field(() => Int, { nullable: true })
   endsAt?: number;
+
+  @Field({ nullable: true })
+  employeeId?: string;
 }

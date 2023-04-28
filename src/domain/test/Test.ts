@@ -10,6 +10,10 @@ export class Test extends AggregateRoot {
 
   private endsAt?: number;
 
+  private createdAt?: number;
+
+  private employeeId?: string;
+
   private questions: Question[] = [];
 
   constructor(
@@ -54,6 +58,14 @@ export class Test extends AggregateRoot {
     return this.endsAt;
   }
 
+  public get getCreatedAt(): number {
+    return this.createdAt;
+  }
+
+  public get getEmployeeId(): string {
+    return this.employeeId;
+  }
+
   public set setId(id: string) {
     this.id = id;
   }
@@ -84,5 +96,9 @@ export class Test extends AggregateRoot {
 
   public set setEndsAt(endsAt: number) {
     this.endsAt = endsAt;
+  }
+
+  public set setEmployeeId(employeeId: string) {
+    this.employeeId = employeeId;
   }
 }

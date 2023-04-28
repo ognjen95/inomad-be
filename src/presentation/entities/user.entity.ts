@@ -19,4 +19,7 @@ export class User {
 
   @Field()
   employmentStatus: 'employed' | 'interviewing' | 'archived';
+
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date;
 }

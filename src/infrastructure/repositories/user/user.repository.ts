@@ -61,7 +61,7 @@ export class UserRepository implements IUserRepository {
       take: pagination?.take || QUERY_TAKE,
       cursor: cursor ? { id: cursor } : undefined,
       orderBy: {
-        id: pagination?.orderBy || 'desc',
+        createdAt: pagination?.orderBy || 'desc',
       },
     });
     return this.edgesFactory(plainToInstance(User, users));

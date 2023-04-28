@@ -21,9 +21,15 @@ export class TestEntity {
   @Field(() => Int, { nullable: true })
   timeLimit?: number;
 
-  @Field(() => Int, { nullable: true })
-  startedAt?: number;
+  @Field(() => Date, { nullable: true })
+  startedAt?: Date;
 
-  @Field(() => Int, { nullable: true })
-  endsAt?: number;
+  @Field(() => Date, { nullable: true })
+  endsAt?: Date;
+
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date;
+
+  @Field({ nullable: true })
+  employeeId?: string;
 }

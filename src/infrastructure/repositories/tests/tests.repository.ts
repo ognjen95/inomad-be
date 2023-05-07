@@ -40,6 +40,24 @@ export class TestRepository implements ITestRepository {
     return plainToInstance(Test, test);
   }
 
+  async update(id: string, dto: Test): Promise<Test> {
+    const test = await this.prismaService.test.update({
+      where: { id },
+      data: {
+        name: dto.getName,
+        employeeId: dto.getEmployeeId,
+        timeLimit: dto.getTimeLimit ?? 0,
+        percentageToPass: dto.getPercentageToPass,
+        startedAt: dto.getStartedAt,
+        endsAt: dto.getEndsAt,
+      },
+      include: {
+        questions: true,
+      },
+    });
+    return plainToInstance(Test, test);
+  }
+
   async findAll(options: QueryOptions): Promise<EdgesResponse<Test>> {
     const { filters, pagination } = options || {};
     const test = await this.prismaService.test.findMany({

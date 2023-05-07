@@ -10,12 +10,18 @@ export type Answer = {
 
 export class Question extends AggregateRoot {
   private id: string;
+
   private answerType: 'multiple' | 'single' | 'text' = 'single';
+
   private questionGroupId?: string;
+
   constructor(
     private text: string,
+
     private points: number,
+
     private answers: Answer[],
+
     private questionGroup?: string,
   ) {
     super();
@@ -39,14 +45,19 @@ export class Question extends AggregateRoot {
         );
       }
 
-      if (numberOfCorrectAnswers > 1) {
-        this.answerType = 'multiple';
-      } else if (numberOfCorrectAnswers === 1) {
-        this.answerType = 'single';
-      }
+      if (numberOfCorrectAnswers > 1) this.answerType = 'multiple';
+      if (numberOfCorrectAnswers === 1) this.answerType = 'single';
+
       return;
     }
     this.answerType = 'text';
+  }
+
+  public update(dto: { id: string; answeredIds: string[] }) {
+    this.answers = this.answers.map((answer) => ({
+      ...answer,
+      answered: dto.answeredIds.includes(answer.id),
+    }));
   }
 
   public get getId(): string {

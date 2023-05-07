@@ -8,6 +8,8 @@ import { QueryOptionsInput } from 'src/presentation/dto/common/query-options.dto
 import { FindAllTestsQuery } from 'src/application/queries/tests/find-all-tests/find-all-tests.query';
 import { TestsEntityEdgesEntity } from 'src/presentation/entities/tests/tests-edges.entity';
 import { FindTestByIdQuery } from 'src/application/queries/tests/fid-one-by-id/find-one-by-id.query';
+import { UpdateTestInput } from 'src/presentation/dto/tests/update-test.input';
+import { UpdateTestCommand } from 'src/application/commands/tests/update-text/update-test.command';
 
 @Resolver(() => TestEntity)
 export class TestsResolver {
@@ -20,6 +22,13 @@ export class TestsResolver {
   async createTest(@Args('createTestInput') createTestInput: CreateTestInput) {
     return await this.commandBus.execute<CreateTestCommand, Test>(
       new CreateTestCommand(createTestInput),
+    );
+  }
+
+  @Mutation(() => TestEntity)
+  async updateTest(@Args('updateTestInput') updateTestInput: UpdateTestInput) {
+    return await this.commandBus.execute<UpdateTestCommand, Test>(
+      new UpdateTestCommand(updateTestInput),
     );
   }
 

@@ -6,6 +6,7 @@ import CreateQuestionHandler from 'src/application/commands/question/create-ques
 import FindAllQuestionsHandler from 'src/application/queries/questions/find-al-questions/find-all-questions.handler';
 import { QuestionResolver } from 'src/presentation/resolvers/questions/questions.resolver';
 import { CqrsModule } from '@nestjs/cqrs';
+import UpdateQuestionHandler from 'src/application/commands/question/update-question/update-question.handler';
 
 @Module({
   imports: [CqrsModule],
@@ -19,6 +20,7 @@ import { CqrsModule } from '@nestjs/cqrs';
     },
     CreateQuestionHandler,
     FindAllQuestionsHandler,
+    UpdateQuestionHandler,
   ],
 })
 export class QuestionsModule {}

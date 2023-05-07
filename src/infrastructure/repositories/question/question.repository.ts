@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
-import { plainToInstance } from 'class-transformer';
+import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { EdgesResponse } from 'src/application/common/types/query-return.type';
 import { QueryOptions } from 'src/application/common/dtos/query-options/query-options.dto';
 import { QUERY_TAKE } from '../common/constants';
@@ -56,6 +56,9 @@ export class QuestionRepository implements IQuestionRepository {
       include: {
         questionGroup: true,
       },
+      // orderBy: {
+      //   createdAt: 'desc',
+      // }
       // take: pagination.take || QUERY_TAKE,
     });
     console.log({ first: questions });
@@ -78,22 +81,29 @@ export class QuestionRepository implements IQuestionRepository {
     return plainToInstance(Question, questions);
   }
 
-  // async findOneById(id: string): Promise<Question> {
-  //   const Question = await this.prismaService.Question.findUnique({ where: { id } });
-  //   return plainToInstance(Question, Question);
-  // }
-
-  // async update(id: string, dto: Question): Promise<Question> {
-  //   const Question = await this.prismaService.Question.update({
-  //     where: { id },
-  //     data: {
-  //       password: dto.getPassword,
-  //       employmentStatus: dto.getEmploymentStatus,
-  //     },
-  //   });
-
-  //   return plainToInstance(Question, Question);
-  // }
+  async update(id: string, dto: Question): Promise<Question> {
+    const questions = await this.prismaService.question.update({
+      where: {
+        id,
+      },
+      data: {
+        answers: dto.getAnswers,
+        text: dto.getText,
+        points: dto.getPoints,
+        answerType: dto.getAnswerType,
+      },
+      include: {
+        questionGroup: true,
+      },
+    });
+    return plainToInstance(Question, questions);
+  }
+  async findOneById(id: string): Promise<Question> {
+    const question = await this.prismaService.question.findUnique({
+      where: { id },
+    });
+    return plainToInstance(Question, question);
+  }
 
   // async remove(id: string): Promise<Question> {
   //   const removedQuestion = await this.prismaService.Question.delete({ where: { id } });

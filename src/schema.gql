@@ -29,12 +29,12 @@ input CreateQuestionInput {
 
 input CreateTestInput {
   employeeId: String
-  endsAt: Int
+  endsAt: String!
   name: String!
   percentageScored: Int
   percentageToPass: Int!
   questionIds: [String!]!
-  startedAt: Int
+  startedAt: String!
   timeLimit: Int
 }
 
@@ -75,6 +75,8 @@ type Mutation {
   createTest(createTestInput: CreateTestInput!): TestEntity!
   createUser(createUserInput: CreateUserInput!): User!
   removeUser(id: String!): User!
+  updateQuestion(updateQuestionInput: UpdateQuestionInput!): QuestionEntity!
+  updateTest(updateTestInput: UpdateTestInput!): TestEntity!
   updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
@@ -166,6 +168,23 @@ type TestsEntityEdgesEntity {
   edges: [TestsEdges!]!
   pageInfo: PageInfo!
   totalCount: Int!
+}
+
+input UpdateQuestionInput {
+  answeredIds: [String!]!
+  id: String!
+}
+
+input UpdateTestInput {
+  employeeId: String
+  endsAt: String
+  id: String!
+  name: String
+  percentageScored: Int
+  percentageToPass: Int
+  questionIds: [String!]
+  startedAt: String
+  timeLimit: Int
 }
 
 input UpdateUserInput {

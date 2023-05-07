@@ -7,6 +7,8 @@ import { Question } from 'src/domain/question/Question';
 import { FindAllQuestionsQuery } from 'src/application/queries/questions/find-al-questions/find-all-questions.query';
 import { QueryOptionsInput } from 'src/presentation/dto/common/query-options.dto';
 import { QuestionEntityEdgesEntity } from 'src/presentation/entities/questions/question-edges.entity';
+import { UpdateQuestionInput } from 'src/presentation/dto/questions/update-question.input';
+import { UpdateQuestionCommand } from 'src/application/commands/question/update-question/update-question.command';
 
 @Resolver(() => QuestionEntity)
 export class QuestionResolver {
@@ -34,19 +36,18 @@ export class QuestionResolver {
     );
   }
 
+  @Mutation(() => QuestionEntity)
+  async updateQuestion(
+    @Args('updateQuestionInput') updateQuestionInput: UpdateQuestionInput,
+  ) {
+    return await this.commandBus.execute<UpdateQuestionCommand, Question>(
+      new UpdateQuestionCommand(updateQuestionInput),
+    );
+  }
+
   // @Query(() => Question, { name: 'question' })
   // findOne(@Args('id', { type: () => Int }) id: number) {
   //   return this.questionsService.findOne(id);
-  // }
-
-  // @Mutation(() => Question)
-  // updateQuestion(
-  //   @Args('updateQuestionInput') updateQuestionInput: UpdateQuestionInput,
-  // ) {
-  //   return this.questionsService.update(
-  //     updateQuestionInput.id,
-  //     updateQuestionInput,
-  //   );
   // }
 
   // @Mutation(() => Question)

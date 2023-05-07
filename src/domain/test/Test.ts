@@ -6,11 +6,11 @@ export class Test extends AggregateRoot {
 
   private percentageScored?: number;
 
-  private startedAt?: number;
+  private startedAt?: string;
 
-  private endsAt?: number;
+  private endsAt?: string;
 
-  private createdAt?: number;
+  private createdAt?: string;
 
   private employeeId?: string;
 
@@ -24,6 +24,22 @@ export class Test extends AggregateRoot {
     private timeLimit?: number,
   ) {
     super();
+  }
+
+  public update(dto: {
+    name?: string;
+    percentageToPass?: number;
+    timeLimit?: number;
+    startedAt?: string;
+    endsAt?: string;
+    employeeId?: string;
+  }) {
+    Object.keys(dto).forEach((key) => {
+      const value = dto[key];
+      if (value) {
+        this[key] = value;
+      }
+    });
   }
 
   public get getId(): string {
@@ -50,15 +66,15 @@ export class Test extends AggregateRoot {
     return this.timeLimit;
   }
 
-  public get getStartedAt(): number {
+  public get getStartedAt(): string {
     return this.startedAt;
   }
 
-  public get getEndsAt(): number {
+  public get getEndsAt(): string {
     return this.endsAt;
   }
 
-  public get getCreatedAt(): number {
+  public get getCreatedAt(): string {
     return this.createdAt;
   }
 
@@ -90,11 +106,11 @@ export class Test extends AggregateRoot {
     this.timeLimit = timeLimit;
   }
 
-  public set setStartedAt(startedAt: number) {
+  public set setStartedAt(startedAt: string) {
     this.startedAt = startedAt;
   }
 
-  public set setEndsAt(endsAt: number) {
+  public set setEndsAt(endsAt: string) {
     this.endsAt = endsAt;
   }
 

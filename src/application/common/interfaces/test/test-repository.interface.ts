@@ -6,6 +6,6 @@ export interface ITestRepository {
   create(dto: Test): Promise<Test>;
   findAll(queryOptions?: QueryOptions): Promise<EdgesResponse<Test>>;
   findOneById(id: string): Promise<Test>;
-  //   update(id: string, Question: Partial<Question>): Promise<Question>;
+  update(id: string, test: Partial<Test>): Promise<Test>;
   //   remove(id: string): Promise<Question>;
 }

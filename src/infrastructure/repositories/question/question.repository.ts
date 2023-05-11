@@ -32,7 +32,7 @@ export class QuestionRepository implements IQuestionRepository {
 
   async findAll(options?: QueryOptions): Promise<EdgesResponse<Question>> {
     const { filters, pagination } = options || {};
-    console.log('OPAAAA', filters?.contains, pagination?.take);
+
     const questions = await this.prismaService.question.findMany({
       where: {
         // testId: null,
@@ -61,7 +61,6 @@ export class QuestionRepository implements IQuestionRepository {
       // }
       // take: pagination.take || QUERY_TAKE,
     });
-    console.log({ first: questions });
 
     return this.edgesFactory(plainToInstance(Question, questions));
   }
@@ -99,7 +98,6 @@ export class QuestionRepository implements IQuestionRepository {
     return plainToInstance(Question, questions);
   }
   async findOneById(id: string): Promise<Question> {
-    console.log({ id });
     const question = await this.prismaService.question.findUnique({
       where: { id },
     });

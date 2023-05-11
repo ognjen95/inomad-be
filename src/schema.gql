@@ -182,6 +182,7 @@ input UpdateTestInput {
   percentageScored: Int
   percentageToPass: Int
   questionIds: [String!]
+  startedAt: DateTime!
   timeLimit: Int
 }
 

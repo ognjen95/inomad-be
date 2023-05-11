@@ -5,4 +5,7 @@ import { InputType, Field, PartialType } from '@nestjs/graphql';
 export class UpdateTestInput extends PartialType(CreateTestInput) {
   @Field()
   id: string;
+
+  @Field(() => Date)
+  startedAt?: Date;
 }

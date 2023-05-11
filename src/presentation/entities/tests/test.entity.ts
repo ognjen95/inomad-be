@@ -28,7 +28,7 @@ export class TestEntity {
   endsAt?: Date;
 
   @Field(() => Date, { nullable: true })
-  createdAt?: Date;
+  createdAt: Date;
 
   @Field({ nullable: true })
   employeeId?: string;

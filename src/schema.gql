@@ -29,12 +29,11 @@ input CreateQuestionInput {
 
 input CreateTestInput {
   employeeId: String
-  endsAt: String!
+  endsAt: DateTime
   name: String!
   percentageScored: Int
   percentageToPass: Int!
   questionIds: [String!]!
-  startedAt: String!
   timeLimit: Int
 }
 
@@ -177,13 +176,12 @@ input UpdateQuestionInput {
 
 input UpdateTestInput {
   employeeId: String
-  endsAt: String
+  endsAt: DateTime
   id: String!
   name: String
   percentageScored: Int
   percentageToPass: Int
   questionIds: [String!]
-  startedAt: String
   timeLimit: Int
 }
 

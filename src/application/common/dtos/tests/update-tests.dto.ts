@@ -4,6 +4,6 @@ export class UpdateTestDto {
   percentageToPass?: number;
   timeLimit?: number;
   employeeId?: string;
-  startedAt?: string;
-  endsAt?: string;
+  startedAt?: Date;
+  endsAt?: Date;
 }

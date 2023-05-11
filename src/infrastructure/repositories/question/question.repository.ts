@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
-import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { EdgesResponse } from 'src/application/common/types/query-return.type';
 import { QueryOptions } from 'src/application/common/dtos/query-options/query-options.dto';
 import { QUERY_TAKE } from '../common/constants';
@@ -99,6 +99,7 @@ export class QuestionRepository implements IQuestionRepository {
     return plainToInstance(Question, questions);
   }
   async findOneById(id: string): Promise<Question> {
+    console.log({ id });
     const question = await this.prismaService.question.findUnique({
       where: { id },
     });

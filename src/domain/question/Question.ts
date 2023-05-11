@@ -1,5 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { AggregateRoot } from '@nestjs/cqrs';
+import { v4 as uuidv4 } from 'uuid';
 
 export type Answer = {
   id: string;
@@ -54,10 +55,42 @@ export class Question extends AggregateRoot {
   }
 
   public update(dto: { id: string; answeredIds: string[] }) {
-    this.answers = this.answers.map((answer) => ({
-      ...answer,
-      answered: dto.answeredIds.includes(answer.id),
-    }));
+    this.answers = this.answers.map((answer, index) => {
+      const isSelectedAnswer = dto.answeredIds.includes(answer.id);
+      const alreadyAnswered = answer.answered && isSelectedAnswer;
+      const singleAnswer = this.answerType === 'single';
+      console.log({ singleAnswer });
+      if (singleAnswer) {
+        if (isSelectedAnswer) {
+          return {
+            ...answer,
+            answered: true,
+          };
+        } else {
+          return {
+            ...answer,
+            answered: false,
+          };
+        }
+      }
+
+      if (alreadyAnswered) {
+        console.log('first', index);
+        return {
+          ...answer,
+          answered: false,
+        };
+      }
+      if (isSelectedAnswer) {
+        console.log('second', index);
+        return {
+          ...answer,
+          answered: true,
+        };
+      }
+      console.log('third', index);
+      return answer;
+    });
   }
 
   public get getId(): string {
@@ -99,7 +132,11 @@ export class Question extends AggregateRoot {
   }
 
   public set setAnswers(answers: Answer[]) {
-    this.answers = answers;
+    this.answers = answers.map((answer) => ({
+      ...answer,
+      answered: false,
+      id: uuidv4(),
+    }));
   }
 
   public set setQuestionGroup(questionGroup: string) {

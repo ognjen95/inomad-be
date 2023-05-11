@@ -17,11 +17,11 @@ export class CreateTestInput {
   @Field(() => Int, { nullable: true })
   timeLimit?: number;
 
-  @Field()
-  startedAt?: string;
+  // @Field()
+  // startedAt?: Date;
 
-  @Field()
-  endsAt?: string;
+  @Field({ nullable: true })
+  endsAt: Date;
 
   @Field({ nullable: true })
   employeeId?: string;

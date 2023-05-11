@@ -22,6 +22,9 @@ class CreateTestHandler implements ICommandHandler<CreateTestCommand> {
     const { name, questionIds, percentageToPass, timeLimit } = dto;
     const test = new Test(name, percentageToPass, timeLimit);
     const questions = await this.questionRepository.findAllByIds(questionIds);
+    questions.forEach((question) => {
+      question.setAnswers = question.getAnswers;
+    });
 
     test.setQuestions = questions;
 

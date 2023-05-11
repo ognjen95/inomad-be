@@ -6,11 +6,11 @@ export class Test extends AggregateRoot {
 
   private percentageScored?: number;
 
-  private startedAt?: string;
+  private startedAt?: Date;
 
-  private endsAt?: string;
+  private endsAt?: Date;
 
-  private createdAt?: string;
+  private createdAt?: Date;
 
   private employeeId?: string;
 
@@ -30,8 +30,8 @@ export class Test extends AggregateRoot {
     name?: string;
     percentageToPass?: number;
     timeLimit?: number;
-    startedAt?: string;
-    endsAt?: string;
+    startedAt?: Date;
+    endsAt?: Date;
     employeeId?: string;
   }) {
     Object.keys(dto).forEach((key) => {
@@ -66,15 +66,15 @@ export class Test extends AggregateRoot {
     return this.timeLimit;
   }
 
-  public get getStartedAt(): string {
+  public get getStartedAt(): Date {
     return this.startedAt;
   }
 
-  public get getEndsAt(): string {
+  public get getEndsAt(): Date {
     return this.endsAt;
   }
 
-  public get getCreatedAt(): string {
+  public get getCreatedAt(): Date {
     return this.createdAt;
   }
 
@@ -91,7 +91,12 @@ export class Test extends AggregateRoot {
   }
 
   public set setQuestions(questions: Question[]) {
-    this.questions = questions;
+    const newQuestions = questions.map((question) => {
+      question.setAnswers = question.getAnswers;
+      return question;
+    });
+
+    this.questions = newQuestions;
   }
 
   public set setPercentageToPass(percentageToPass: number) {
@@ -106,11 +111,11 @@ export class Test extends AggregateRoot {
     this.timeLimit = timeLimit;
   }
 
-  public set setStartedAt(startedAt: string) {
+  public set setStartedAt(startedAt: Date) {
     this.startedAt = startedAt;
   }
 
-  public set setEndsAt(endsAt: string) {
+  public set setEndsAt(endsAt: Date) {
     this.endsAt = endsAt;
   }
 

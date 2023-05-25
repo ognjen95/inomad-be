@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { TestsService } from '../../../tests.service';
 import { TestsResolver } from '../../resolvers/tests/tests.resolver';
 import { CqrsModule } from '@nestjs/cqrs';
 import CreateTestHandler from 'src/application/commands/tests/create-test/create-test.handler';
@@ -17,7 +16,6 @@ import UpdateTestHandler from 'src/application/commands/tests/update-text/update
   imports: [CqrsModule],
   providers: [
     TestsResolver,
-    TestsService,
     CreateTestHandler,
     TestRepository,
     QuestionRepository,

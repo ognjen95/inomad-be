@@ -1,0 +1,74 @@
+import { Inject, Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
+import { plainToInstance } from 'class-transformer';
+import { TimeOff } from 'src/domain/time-off/TimeOff';
+import { ITimeOffRepository } from 'src/application/common/interfaces/time-off/time-off-repository.interface';
+import { QueryOptions } from 'src/application/common/dtos/query-options/query-options.dto';
+import { EdgesResponse } from 'src/application/common/types/query-return.type';
+
+@Injectable()
+export class TimeOffRepository implements ITimeOffRepository {
+  private readonly caseSensitive = 'insensitive';
+
+  @Inject()
+  protected readonly prismaService: PrismaService;
+
+  async create(dto: TimeOff): Promise<TimeOff> {
+    const timeOff = await this.prismaService.timeOff.create({
+      data: {
+        name: dto.getName,
+        forYear: dto.getForYear,
+        totalDays: dto.getTotalDays,
+        remainingDays: dto.getRemainingDays,
+      },
+    });
+
+    return plainToInstance(TimeOff, timeOff);
+  }
+
+  async findAll(): Promise<EdgesResponse<TimeOff>> {
+    const timeOffs = await this.prismaService.timeOff.findMany({
+      where: {
+        employeeId: {
+          isSet: false,
+        },
+      },
+    });
+
+    return this.edgesFactory(plainToInstance(TimeOff, timeOffs));
+  }
+
+  async findByEmployeeId(
+    employeeId: string,
+    forYear?: number,
+  ): Promise<TimeOff[]> {
+    const timeOffs = await this.prismaService.timeOff.findMany({
+      where: {
+        employeeId,
+        forYear: forYear ?? new Date().getFullYear(),
+      },
+    });
+
+    return plainToInstance(TimeOff, timeOffs);
+  }
+
+  edgesFactory = async (
+    timeOff: TimeOff[],
+  ): Promise<EdgesResponse<TimeOff>> => {
+    const totalCount = await this.prismaService.question.count();
+
+    return {
+      totalCount,
+      edges: timeOff.map((item) => {
+        return {
+          cursor: item.getId,
+          node: plainToInstance(TimeOff, item),
+        };
+      }),
+      pageInfo: {
+        startCursor: timeOff[0]?.getId,
+        endCursor: timeOff[timeOff.length - 1]?.getId,
+      },
+    };
+  };
+}

@@ -9,6 +9,7 @@ import { PrismaModule } from './infrastructure/prisma/prisma.module';
 import { TestsModule } from './presentation/modules/tests/tests.module';
 import { QuestionsModule } from './presentation/modules/questions/questions.module';
 import { QuestionGroupModule } from './presentation/modules/questions/question-group.module';
+import { TimeOffModule } from './presentation/modules/time-off/time-off.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { QuestionGroupModule } from './presentation/modules/questions/question-g
     TestsModule,
     QuestionsModule,
     QuestionGroupModule,
+    TimeOffModule,
   ],
   controllers: [],
   providers: [],

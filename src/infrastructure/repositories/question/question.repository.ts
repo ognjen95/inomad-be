@@ -35,7 +35,9 @@ export class QuestionRepository implements IQuestionRepository {
 
     const questions = await this.prismaService.question.findMany({
       where: {
-        // testId: null,
+        testId: {
+          isSet: false,
+        },
         OR: [
           {
             text: {

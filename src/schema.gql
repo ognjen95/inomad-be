@@ -37,6 +37,12 @@ input CreateTestInput {
   timeLimit: Int
 }
 
+input CreateTimeOffInput {
+  forYear: Int!
+  name: String!
+  totalDays: Int!
+}
+
 input CreateUserInput {
   email: String!
   employmentStatus: String!
@@ -72,6 +78,7 @@ type Mutation {
   createQuestion(createQuestionInput: CreateQuestionInput!): QuestionEntity!
   createQuestionGroup(createQuestionGroupInput: CreateQuestionGroupInput!): QuestionGroupEntity!
   createTest(createTestInput: CreateTestInput!): TestEntity!
+  createTimeOff(createTimeOffInput: CreateTimeOffInput!): TimeOffEntity!
   createUser(createUserInput: CreateUserInput!): User!
   removeUser(id: String!): User!
   updateQuestion(updateQuestionInput: UpdateQuestionInput!): QuestionEntity!
@@ -97,8 +104,10 @@ type Query {
   findAllQuestion(QueryOptionsInput: QueryOptionsInput): QuestionEntityEdgesEntity!
   findAllQuestionGroups(QueryOptionsInput: QueryOptionsInput): QuestionGroupsEntityEdgesEntity!
   findAllTests(QueryOptionsInput: QueryOptionsInput): TestsEntityEdgesEntity!
+  findAllTimeOffs: TimeOffEntityEdgesEntity!
   findAllUsers(QueryOptionsInput: QueryOptionsInput): UserEdgesEntity!
   findTestById(id: String!): TestEntity!
+  findTimeOffsByEmployeeId(employeeId: String!, forYear: Float!): [TimeOffEntity!]!
   findUserById(id: String!): User!
 }
 
@@ -165,6 +174,29 @@ type TestsEdges {
 
 type TestsEntityEdgesEntity {
   edges: [TestsEdges!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type TimeOffEdges {
+  cursor: String!
+  node: TimeOffEntity!
+}
+
+type TimeOffEntity {
+  employee: User
+  employeeId: String
+  forYear: Int!
+  id: String!
+  name: String!
+  pendingDays: Int!
+  remainingDays: Int!
+  totalDays: Int!
+  usedDays: Int!
+}
+
+type TimeOffEntityEdgesEntity {
+  edges: [TimeOffEdges!]!
   pageInfo: PageInfo!
   totalCount: Int!
 }

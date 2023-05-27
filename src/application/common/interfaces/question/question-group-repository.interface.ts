@@ -1,5 +1,5 @@
 import { EdgesResponse } from '../../types/query-return.type';
-import { QueryOptions } from '../../dtos/query-options/query-options.dto';
+import { QueryOptions } from '../../../../domain/question/dtos/query-options.dto';
 import { QuestionGroup } from 'src/domain/question/QuestionGroup';
 
 export interface IQuestionGroupRepository {

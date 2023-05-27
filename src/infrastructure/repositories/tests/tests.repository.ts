@@ -5,7 +5,7 @@ import { EdgesResponse } from 'src/application/common/types/query-return.type';
 import { QUERY_TAKE } from '../common/constants';
 import { Test } from 'src/domain/test/Test';
 import { ITestRepository } from 'src/application/common/interfaces/test/test-repository.interface';
-import { QueryOptions } from 'src/application/common/dtos/query-options/query-options.dto';
+import { QueryOptions } from 'src/domain/question/dtos/query-options.dto';
 
 @Injectable()
 export class TestRepository implements ITestRepository {

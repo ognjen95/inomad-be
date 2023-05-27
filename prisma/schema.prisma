@@ -19,6 +19,8 @@ model User {
   password         String
   createdAt        DateTime? @default(now())
 
+  compensation Compensation[]
+
   testId String[] @db.ObjectId
   Test   Test[]
 
@@ -28,6 +30,18 @@ model User {
   timeOffRequestsForApproval TimeOffRequest[] @relation("approvedBy")
 }
 
+model Compensation {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  totalCost Float
+  gross Float
+  net Float
+  paymentsPerMonth Int @default(1)
+  paymentType String @default("salary") // Salary Hourly Commission
+  currency String
+  employee User? @relation(fields: [employeeId], references: [id])
+  employeeId String? @db.ObjectId
+  startDate DateTime
+}
 model TimeOff {
   id String    @id @default(auto()) @map("_id") @db.ObjectId
   name String
@@ -39,15 +53,14 @@ model TimeOff {
 
   employee User? @relation(fields: [employeeId], references: [id])
   employeeId String? @db.ObjectId
+  timeOffRequest TimeOffRequest[]
 }
 
 model TimeOffRequest {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  timeOffId String    @db.ObjectId
   startDate DateTime
   endDate   DateTime
   reason    String
-  status    String
   createdAt DateTime @default(now())
   approvedAt DateTime?
   declinedAt DateTime?
@@ -58,8 +71,8 @@ model TimeOffRequest {
   approvedBy User? @relation("approvedBy", fields: [approvedById], references: [id])
   approvedById String? @db.ObjectId
 
-  // employee   User?   @relation(fields: [employeeId], references: [id])
-  // employeeId String? @db.ObjectId
+  timeOffId String  @db.ObjectId
+  timeOff TimeOff? @relation(fields: [timeOffId], references: [id])
 }
 
 model Question {

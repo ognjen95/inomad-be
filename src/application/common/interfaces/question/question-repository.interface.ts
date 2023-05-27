@@ -1,6 +1,6 @@
 import { Question } from 'src/domain/question/Question';
 import { EdgesResponse } from '../../types/query-return.type';
-import { QueryOptions } from '../../dtos/query-options/query-options.dto';
+import { QueryOptions } from '../../../../domain/question/dtos/query-options.dto';
 
 export interface IQuestionRepository {
   create(dto: Question): Promise<Question>;

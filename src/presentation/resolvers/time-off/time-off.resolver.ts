@@ -7,6 +7,8 @@ import { TimeOff } from 'src/domain/time-off/TimeOff';
 import { FindAllTimeOffsQuery } from 'src/application/queries/time-off/find-all-time-offs/find-all-time-offs.query';
 import { TimeOffEntityEdgesEntity } from 'src/presentation/entities/time-off/time-off-edges.entity';
 import { FindByEmployeeIdQuery } from 'src/application/queries/time-off/find-by-employee-id/find-by-employee-id..query';
+import { UpdateTimeOffInput } from 'src/presentation/dto/time-off/update-time-off.input';
+import { UpdateTimeOffCommand } from 'src/application/commands/time-off/update-time-off/update-time-off.command';
 
 @Resolver(() => TimeOffEntity)
 export class TimeOffResolver {
@@ -21,6 +23,15 @@ export class TimeOffResolver {
   ) {
     return await this.commandBus.execute<CreateTimeOffCommand, TimeOff>(
       new CreateTimeOffCommand(createTimeOffInput),
+    );
+  }
+
+  @Mutation(() => TimeOffEntity, { name: 'updateTimeOff' })
+  async update(
+    @Args('updateTimeOffInput') updateTimeOffInput: UpdateTimeOffInput,
+  ) {
+    return await this.commandBus.execute<UpdateTimeOffCommand, TimeOff>(
+      new UpdateTimeOffCommand(updateTimeOffInput),
     );
   }
 

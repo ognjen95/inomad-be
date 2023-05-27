@@ -43,6 +43,14 @@ input CreateTimeOffInput {
   totalDays: Int!
 }
 
+input CreateTimeOffRequestInput {
+  endDate: DateTime
+  reason: String!
+  requestedById: String!
+  startDate: DateTime
+  timeOffId: String!
+}
+
 input CreateUserInput {
   email: String!
   employmentStatus: String!
@@ -79,10 +87,13 @@ type Mutation {
   createQuestionGroup(createQuestionGroupInput: CreateQuestionGroupInput!): QuestionGroupEntity!
   createTest(createTestInput: CreateTestInput!): TestEntity!
   createTimeOff(createTimeOffInput: CreateTimeOffInput!): TimeOffEntity!
+  createTimeOffRequest(createTimeOffRequestInput: CreateTimeOffRequestInput!): TimeOffRequestEntity!
   createUser(createUserInput: CreateUserInput!): User!
   removeUser(id: String!): User!
   updateQuestion(updateQuestionInput: UpdateQuestionInput!): QuestionEntity!
   updateTest(updateTestInput: UpdateTestInput!): TestEntity!
+  updateTimeOff(updateTimeOffInput: UpdateTimeOffInput!): TimeOffEntity!
+  updateTimeOffRequest(updateTimeOffRequestInput: UpdateTimeOffRequestInput!): TimeOffRequestEntity!
   updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
@@ -107,6 +118,7 @@ type Query {
   findAllTimeOffs: TimeOffEntityEdgesEntity!
   findAllUsers(QueryOptionsInput: QueryOptionsInput): UserEdgesEntity!
   findTestById(id: String!): TestEntity!
+  findTimeOffRequests(timeOffRequestQueryOptions: TimeOffRequestQueryOptions): TimeOffRequestEdgesEntity!
   findTimeOffsByEmployeeId(employeeId: String!, forYear: Float!): [TimeOffEntity!]!
   findUserById(id: String!): User!
 }
@@ -201,6 +213,38 @@ type TimeOffEntityEdgesEntity {
   totalCount: Int!
 }
 
+type TimeOffRequestEdges {
+  cursor: String!
+  node: TimeOffRequestEntity!
+}
+
+type TimeOffRequestEdgesEntity {
+  edges: [TimeOffRequestEdges!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type TimeOffRequestEntity {
+  approvedAt: DateTime
+  approvedById: String
+  createdAt: DateTime
+  declinedAt: DateTime
+  endDate: DateTime
+  id: String!
+  reason: String!
+  requestedById: String!
+  startDate: DateTime
+  timeOffId: String!
+}
+
+input TimeOffRequestQueryOptions {
+  approvedById: String
+  isApproved: Boolean
+  isDeclined: Boolean
+  requestedById: String
+  timeOffId: String
+}
+
 input UpdateQuestionInput {
   answeredIds: [String!]!
   id: String!
@@ -216,6 +260,24 @@ input UpdateTestInput {
   questionIds: [String!]
   startedAt: DateTime!
   timeLimit: Int
+}
+
+input UpdateTimeOffInput {
+  approvedDays: Int
+  employeeId: String
+  forYear: Int
+  name: String
+  remainingDays: Int
+  timeOffId: String!
+  totalDays: Int
+  usedDays: Int
+}
+
+input UpdateTimeOffRequestInput {
+  approvedAt: DateTime
+  approvedBy: String!
+  declinedAt: DateTime
+  id: String!
 }
 
 input UpdateUserInput {

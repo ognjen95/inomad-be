@@ -10,6 +10,7 @@ import { TestsModule } from './presentation/modules/tests/tests.module';
 import { QuestionsModule } from './presentation/modules/questions/questions.module';
 import { QuestionGroupModule } from './presentation/modules/questions/question-group.module';
 import { TimeOffModule } from './presentation/modules/time-off/time-off.module';
+import { TimeOffRequestModule } from './presentation/modules/time-off/time-off-request.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { TimeOffModule } from './presentation/modules/time-off/time-off.module';
     QuestionsModule,
     QuestionGroupModule,
     TimeOffModule,
+    TimeOffRequestModule,
   ],
   controllers: [],
   providers: [],

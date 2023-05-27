@@ -1,6 +1,6 @@
 import { User } from 'src/domain/user/User';
 import { EdgesResponse } from '../../types/query-return.type';
-import { QueryOptions } from '../../dtos/query-options/query-options.dto';
+import { QueryOptions } from '../../../../domain/question/dtos/query-options.dto';
 
 export interface IUserRepository {
   create(dto: User): Promise<User>;

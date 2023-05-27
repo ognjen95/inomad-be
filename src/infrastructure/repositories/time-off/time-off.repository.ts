@@ -3,7 +3,6 @@ import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
 import { TimeOff } from 'src/domain/time-off/TimeOff';
 import { ITimeOffRepository } from 'src/application/common/interfaces/time-off/time-off-repository.interface';
-import { QueryOptions } from 'src/application/common/dtos/query-options/query-options.dto';
 import { EdgesResponse } from 'src/application/common/types/query-return.type';
 
 @Injectable()
@@ -20,6 +19,24 @@ export class TimeOffRepository implements ITimeOffRepository {
         forYear: dto.getForYear,
         totalDays: dto.getTotalDays,
         remainingDays: dto.getRemainingDays,
+        employeeId: dto.getEmployeeId,
+      },
+    });
+
+    return plainToInstance(TimeOff, timeOff);
+  }
+
+  async update(dto: TimeOff): Promise<TimeOff> {
+    const timeOff = await this.prismaService.timeOff.update({
+      where: {
+        id: dto.getId,
+      },
+      data: {
+        name: dto.getName,
+        forYear: dto.getForYear,
+        totalDays: dto.getTotalDays,
+        remainingDays: dto.getRemainingDays,
+        employeeId: dto.getEmployeeId,
       },
     });
 
@@ -36,6 +53,16 @@ export class TimeOffRepository implements ITimeOffRepository {
     });
 
     return this.edgesFactory(plainToInstance(TimeOff, timeOffs));
+  }
+
+  async findOneById(id: string): Promise<TimeOff> {
+    const timeOff = await this.prismaService.timeOff.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return plainToInstance(TimeOff, timeOff);
   }
 
   async findByEmployeeId(
@@ -55,7 +82,7 @@ export class TimeOffRepository implements ITimeOffRepository {
   edgesFactory = async (
     timeOff: TimeOff[],
   ): Promise<EdgesResponse<TimeOff>> => {
-    const totalCount = await this.prismaService.question.count();
+    const totalCount = await this.prismaService.timeOff.count();
 
     return {
       totalCount,

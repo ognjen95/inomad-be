@@ -1,4 +1,4 @@
-import { CreateQuestionDto } from 'src/application/common/dtos/question/create-question.dto';
+import { CreateQuestionDto } from 'src/domain/question/dtos/create-question.dto';
 
 export class CreateQuestionCommand {
   constructor(public readonly dto: CreateQuestionDto) {}

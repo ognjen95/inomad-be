@@ -1,4 +1,4 @@
-import { QueryOptions } from 'src/application/common/dtos/query-options/query-options.dto';
+import { QueryOptions } from 'src/domain/question/dtos/query-options.dto';
 
 export class FindAllQuestionGroupsQuery {
   constructor(public readonly queryOptions?: QueryOptions) {}

@@ -6,6 +6,7 @@ import { TIME_OFF_TOKEN } from 'src/application/common/constants/tokens';
 import CreateTimeOffHandler from 'src/application/commands/time-off/create-time-off/create-time-off.handler';
 import FindAllTimeOffsHandler from 'src/application/queries/time-off/find-all-time-offs/find-all-time-offs.handler';
 import FindByEmployeeIdQueryHandler from 'src/application/queries/time-off/find-by-employee-id/find-by-employee-id.handler';
+import UpdateTimeOffHandler from 'src/application/commands/time-off/update-time-off/update-time-off.handler';
 
 @Module({
   imports: [CqrsModule],
@@ -14,6 +15,7 @@ import FindByEmployeeIdQueryHandler from 'src/application/queries/time-off/find-
     CreateTimeOffHandler,
     FindAllTimeOffsHandler,
     FindByEmployeeIdQueryHandler,
+    UpdateTimeOffHandler,
     {
       provide: TIME_OFF_TOKEN,
       useClass: TimeOffRepository,

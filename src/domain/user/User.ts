@@ -1,8 +1,12 @@
 import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
 import { AggregateRoot } from '@nestjs/cqrs';
+import { TimeOff } from '../time-off/TimeOff';
 
 export class User extends AggregateRoot {
   private id: string;
+
+  private timeOff?: TimeOff[];
+
   constructor(
     private firstName: string,
     private lastName: string,
@@ -13,6 +17,32 @@ export class User extends AggregateRoot {
   ) {
     super();
   }
+
+  updateUser = (data: {
+    password?: string;
+    employmentStatus?: 'employed' | 'interviewing' | 'archived';
+    id: string;
+  }) => {
+    const { password, employmentStatus } = data || {};
+
+    if (password) {
+      if (password === this.password) {
+        throw new BadRequestException('Password is the same as the old one');
+      }
+
+      this.password = password;
+    }
+
+    if (employmentStatus) {
+      if (employmentStatus === this.employmentStatus) {
+        throw new BadRequestException(
+          'Employee already has this employment status',
+        );
+      }
+
+      this.employmentStatus = employmentStatus;
+    }
+  };
 
   get getId() {
     return this.id;
@@ -64,29 +94,19 @@ export class User extends AggregateRoot {
     this.employmentStatus = employmentStatus;
   }
 
-  updateUser = (data: {
-    password?: string;
-    employmentStatus?: 'employed' | 'interviewing' | 'archived';
-    id: string;
-  }) => {
-    const { password, employmentStatus } = data || {};
+  get getCreatedAt() {
+    return this.createdAt;
+  }
 
-    if (password) {
-      if (password === this.password) {
-        throw new BadRequestException('Password is the same as the old one');
-      }
+  set setCreatedAt(createdAt: Date) {
+    this.createdAt = createdAt;
+  }
 
-      this.password = password;
-    }
+  get getTimeOff(): TimeOff[] {
+    return this.timeOff;
+  }
 
-    if (employmentStatus) {
-      if (employmentStatus === this.employmentStatus) {
-        throw new BadRequestException(
-          'Employee already has this employment status',
-        );
-      }
-
-      this.employmentStatus = employmentStatus;
-    }
-  };
+  set setTimeOff(timeOffs: TimeOff[]) {
+    this.timeOff = timeOffs;
+  }
 }

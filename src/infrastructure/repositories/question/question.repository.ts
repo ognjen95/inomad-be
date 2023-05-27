@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
 import { EdgesResponse } from 'src/application/common/types/query-return.type';
-import { QueryOptions } from 'src/application/common/dtos/query-options/query-options.dto';
+import { QueryOptions } from 'src/domain/question/dtos/query-options.dto';
 import { QUERY_TAKE } from '../common/constants';
 import { IQuestionRepository } from 'src/application/common/interfaces/question/question-repository.interface';
 import { Question } from 'src/domain/question/Question';

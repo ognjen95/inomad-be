@@ -1,3 +1,6 @@
+import { BadRequestException } from '@nestjs/common';
+import { UpdateTimeOffDto } from './dtos/update-time-off.dto';
+
 export class TimeOff {
   private id: string;
 
@@ -19,6 +22,26 @@ export class TimeOff {
     this.remainingDays = totalDays;
     this.pendingDays = 0;
     this.usedDays = 0;
+  }
+
+  public update(dto: UpdateTimeOffDto) {
+    Object.keys(dto).forEach((key) => {
+      const value = dto[key];
+      if (value && this[key]) {
+        this[key] = value;
+      }
+    });
+
+    if (dto.approvedDays) {
+      if (dto.approvedDays > this.remainingDays) {
+        throw new BadRequestException("You don't have enough remaining days ");
+      }
+
+      this.usedDays += dto.approvedDays;
+      this.remainingDays -= dto.approvedDays;
+      this.totalDays -= dto.approvedDays;
+      this.pendingDays -= dto.approvedDays;
+    }
   }
 
   public get getId(): string {

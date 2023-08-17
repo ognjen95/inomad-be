@@ -57,7 +57,7 @@ export class TimeOffRequestRepository implements ITimeOffRequestRepository {
     const timeOffRequests = await this.prismaService.timeOffRequest.findMany({
       where: {
         approvedById: {
-          isSet: dto.isApproved,
+          isSet: dto?.isApproved ?? false,
         },
         OR: [
           {

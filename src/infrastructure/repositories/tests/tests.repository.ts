@@ -37,6 +37,7 @@ export class TestRepository implements ITestRepository {
         questions: true,
       },
     });
+
     return plainToInstance(Test, test);
   }
 

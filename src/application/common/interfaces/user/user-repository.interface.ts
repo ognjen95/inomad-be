@@ -1,10 +1,9 @@
 import { User } from 'src/domain/user/User';
-import { EdgesResponse } from '../../types/query-return.type';
 import { QueryOptions } from '../../../../domain/question/dtos/query-options.dto';
 
 export interface IUserRepository {
-  create(dto: User): Promise<User>;
-  findAll(queryOptions?: QueryOptions): Promise<EdgesResponse<User>>;
+  create(dto: User);
+  findAll(queryOptions?: QueryOptions): Promise<User[]>;
   findOneById(id: string): Promise<User>;
   update(id: string, user: Partial<User>): Promise<User>;
   remove(id: string): Promise<User>;

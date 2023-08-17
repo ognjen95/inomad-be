@@ -4,7 +4,7 @@ import { User } from 'src/domain/user/User';
 import { Inject } from '@nestjs/common';
 import { USER_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
 import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';
-import { EdgesResponse } from 'src/application/common/types/query-return.type';
+import { Connection, connectionFromArray } from 'graphql-relay';
 
 @QueryHandler(FindAllUsersQuery)
 class FindAllUsersHandler implements IQueryHandler<FindAllUsersQuery> {
@@ -15,8 +15,10 @@ class FindAllUsersHandler implements IQueryHandler<FindAllUsersQuery> {
 
   async execute({
     queryOptions,
-  }: FindAllUsersQuery): Promise<EdgesResponse<User>> {
-    return await this.userRepository.findAll(queryOptions);
+  }: FindAllUsersQuery): Promise<Connection<User>> {
+    const users = await this.userRepository.findAll(queryOptions);
+
+    return connectionFromArray(users, {});
   }
 }
 

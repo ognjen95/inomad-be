@@ -10,69 +10,165 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id               String    @id @default(auto()) @map("_id") @db.ObjectId
-  email            String    @unique
-  firstName        String
-  lastName         String
-  employmentStatus String
-  password         String
-  createdAt        DateTime? @default(now())
+model Documents {
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  url          String
+  documentType DocumentType @default(OTHER)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  customer     User?        @relation(fields: [customerId], references: [id])
+  customerId   String?      @db.ObjectId
+}
 
-  compensation Compensation[]
+model Case {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  status    CaseStatus @default(PENDING)
+  isPrivate Boolean    @default(false)
+
+  employees    User[]   @relation(fields: [employeesIds], references: [id])
+  employeesIds String[] @db.ObjectId
+
+  providers    User[]   @relation("providers", fields: [prividersIds], references: [id])
+  prividersIds String[] @db.ObjectId
+
+  aplicants    User[]   @relation("applicants", fields: [aplicantsIds], references: [id])
+  aplicantsIds String[] @db.ObjectId
+
+  providerCompany   ProviderCompany? @relation(fields: [providerCompanyId], references: [id])
+  providerCompanyId String?          @db.ObjectId
+
+  employerCompany   EmployerCompany? @relation(fields: [employerCompanyId], references: [id])
+  employerCompanyId String?          @db.ObjectId
+}
+
+model ProviderCompany {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  emai      String   @unique
+  website   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  rating    Int      @default(0)
+  employees User[]
+  cases     Case[]
+}
+
+model EmployerCompany {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  website   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cases     Case[]
+  employees User[]
+}
+
+model User {
+  id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  email            String           @unique
+  firstName        String
+  middleName       String?
+  lastName         String
+  employmentStatus EmploymentStatus @default(PENDING)
+  password         String
+  birthday         DateTime?
+  createdAt        DateTime         @default(now())
+  userRole         UserRoles
 
   testId String[] @db.ObjectId
   Test   Test[]
 
   timeOffRequest TimeOffRequest[]
-  timeOff TimeOff[]
+  timeOff        TimeOff[]
 
   timeOffRequestsForApproval TimeOffRequest[] @relation("approvedBy")
+
+  documents Documents[]
+
+  workExperience WorkExperience[]
+
+  family         User[]  @relation("family")
+  headOfFamily   User?   @relation("family", fields: [headOfFamilyId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  headOfFamilyId String? @db.ObjectId
+
+  providerCompany   ProviderCompany? @relation(fields: [providerCompanyId], references: [id])
+  providerCompanyId String?          @db.ObjectId
+
+  cases    Case[]   @relation(fields: [casesIds], references: [id])
+  casesIds String[] @db.ObjectId
+
+  providerCases     Case[]   @relation("providers", fields: [providerCassesIds], references: [id])
+  providerCassesIds String[] @db.ObjectId
+
+  apllication    Case[]   @relation("applicants", fields: [applicationIds], references: [id])
+  applicationIds String[] @db.ObjectId
+
+  employerCompany   EmployerCompany? @relation(fields: [employerCompanyId], references: [id])
+  employerCompanyId String?          @db.ObjectId
+}
+
+model WorkExperience {
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  description  String
+  role         String
+  startDate    DateTime
+  endDate      DateTime
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  employee     User?          @relation(fields: [employeeId], references: [id])
+  employeeId   String?        @db.ObjectId
+  compensation Compensation[]
 }
 
 model Compensation {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  totalCost Float
-  gross Float
-  net Float
-  paymentsPerMonth Int @default(1)
-  paymentType String @default("salary") // Salary Hourly Commission
-  currency String
-  employee User? @relation(fields: [employeeId], references: [id])
-  employeeId String? @db.ObjectId
-  startDate DateTime
+  id               String          @id @default(auto()) @map("_id") @db.ObjectId
+  totalCost        Float
+  gross            Float
+  net              Float
+  paymentsPerMonth Int             @default(1)
+  paymentType      PaymentType     @default(SALARY) // Salary Hourly Commission
+  currency         String          @default("EUR")
+  startDate        DateTime
+  WorkExperience   WorkExperience? @relation(fields: [workExperienceId], references: [id])
+  workExperienceId String?         @db.ObjectId
 }
-model TimeOff {
-  id String    @id @default(auto()) @map("_id") @db.ObjectId
-  name String
-  forYear Int
-  totalDays Int 
-  usedDays Int @default(0)
-  pendingDays Int @default(0)
-  remainingDays Int 
 
-  employee User? @relation(fields: [employeeId], references: [id])
-  employeeId String? @db.ObjectId
+model TimeOff {
+  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  forYear       Int
+  totalDays     Int
+  usedDays      Int    @default(0)
+  pendingDays   Int    @default(0)
+  remainingDays Int
+
+  employee       User?            @relation(fields: [employeeId], references: [id])
+  employeeId     String?          @db.ObjectId
   timeOffRequest TimeOffRequest[]
 }
 
 model TimeOffRequest {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  startDate DateTime
-  endDate   DateTime
-  reason    String
-  createdAt DateTime @default(now())
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  startDate  DateTime
+  endDate    DateTime
+  reason     String
+  createdAt  DateTime  @default(now())
   approvedAt DateTime?
   declinedAt DateTime?
 
-  requestedBy User? @relation(fields: [requestedById], references: [id])
+  requestedBy   User?   @relation(fields: [requestedById], references: [id])
   requestedById String? @db.ObjectId
 
-  approvedBy User? @relation("approvedBy", fields: [approvedById], references: [id])
+  approvedBy   User?   @relation("approvedBy", fields: [approvedById], references: [id])
   approvedById String? @db.ObjectId
 
-  timeOffId String  @db.ObjectId
-  timeOff TimeOff? @relation(fields: [timeOffId], references: [id])
+  timeOffId String   @db.ObjectId
+  timeOff   TimeOff? @relation(fields: [timeOffId], references: [id])
 }
 
 model Question {
@@ -113,4 +209,58 @@ type AnswerType {
   text      String
   isCorrect Boolean
   answered  Boolean
+}
+
+enum DocumentType {
+  IDENTITY_CARD
+  DRIVING_LICENSE
+  PASSPORT
+  PROOF_OF_ACCOMODATION
+  TRAVEL_TICKET
+  VISA
+  MEDICAL_INSURANCE
+  FINANCIAL_PROOF
+  INVOICES
+  EMPLOYMENT_CONTRACT
+  CRIMINAL_RECORD
+  MARIGE_CERTIFICATE
+  BIRTTH_CERTIFICATE
+  EDUCATION_DIPLOMA
+  EMPLOYMENT_CONFIRMATION_LETTER
+  TAX_RECEIPT
+  APPLICATION_FORM
+  CV
+  OTHER
+}
+
+enum PaymentType {
+  SALARY
+  HOURLY
+  COMMISSION
+}
+
+enum UserRoles {
+  ADMIN
+  SUPER_ADMIN
+  PROVIDER_EMPLOYEE
+  PROVIDER_SUPERVISOR
+  EMPLOYER_SUPERVISOR
+  EMPLOYER_EMPLOYEE
+  CUSTOMER
+}
+
+enum EmploymentStatus {
+  PENDING
+  ACTIVE
+  INACTIVE
+  TERMINATED
+}
+
+enum CaseStatus {
+  PENDING // Customer is collecting documents
+  REVIEW // Provider is reviewing documents
+  SENT // Application is sent to the embassy and waiting for response
+  APPROVED // Application is approved by the embassy
+  REJECTED // Application is rejected by the embassy
+  CANCELLED // Application is cancelled by the customer
 }

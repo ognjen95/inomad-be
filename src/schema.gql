@@ -16,6 +16,29 @@ input AnswerInput {
   text: String!
 }
 
+type Compensation {
+  currency: String
+  employeeId: String!
+  gross: Int!
+  id: String!
+  net: Int
+  paymentType: String!
+  paymentsPerMonth: Int
+  startDate: DateTime!
+  totalCost: Int!
+}
+
+input CreateCompensationInput {
+  currency: String
+  employeeId: String!
+  gross: Int!
+  net: Int
+  paymentType: String!
+  paymentsPerMonth: Int
+  startDate: DateTime!
+  totalCost: Int!
+}
+
 input CreateQuestionGroupInput {
   name: String!
 }
@@ -53,10 +76,11 @@ input CreateTimeOffRequestInput {
 
 input CreateUserInput {
   email: String!
-  employmentStatus: String!
   firstName: String!
   lastName: String!
+  middleName: String
   password: String!
+  userRole: UserRoles!
 }
 
 """
@@ -64,16 +88,18 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Edges {
-  cursor: String!
-  node: User!
-}
-
 input EmployeeStatusFilterInput {
   contains: String
   eq: String
   in: [String!]
   not: String
+}
+
+enum EmploymentStatus {
+  ACTIVE
+  INACTIVE
+  PENDING
+  TERMINATED
 }
 
 input FilterInput {
@@ -83,24 +109,33 @@ input FilterInput {
 }
 
 type Mutation {
+  createCompensation(createCompensationInput: CreateCompensationInput!): Compensation!
   createQuestion(createQuestionInput: CreateQuestionInput!): QuestionEntity!
   createQuestionGroup(createQuestionGroupInput: CreateQuestionGroupInput!): QuestionGroupEntity!
   createTest(createTestInput: CreateTestInput!): TestEntity!
   createTimeOff(createTimeOffInput: CreateTimeOffInput!): TimeOffEntity!
   createTimeOffRequest(createTimeOffRequestInput: CreateTimeOffRequestInput!): TimeOffRequestEntity!
-  createUser(createUserInput: CreateUserInput!): User!
-  removeUser(id: String!): User!
+  createUser(args: CreateUserInput!): MutationReturn!
+  removeCompensation(id: Int!): Compensation!
+  removeUser(id: String!): UserEntity!
+  updateCompensation(updateCompensationInput: UpdateCompensationInput!): Compensation!
   updateQuestion(updateQuestionInput: UpdateQuestionInput!): QuestionEntity!
   updateTest(updateTestInput: UpdateTestInput!): TestEntity!
   updateTimeOff(updateTimeOffInput: UpdateTimeOffInput!): TimeOffEntity!
-  updateTimeOffRequest(updateTimeOffRequestInput: UpdateTimeOffRequestInput!): TimeOffRequestEntity!
-  updateUser(updateUserInput: UpdateUserInput!): User!
+  updateTimeOffRequest(updateTimeOffRequestInput: UpdateTimeOffRequestInput!): TimeOffRequestEdgesEntity!
+  updateUser(args: UpdateUserInput!): UserEntity!
+}
+
+type MutationReturn {
+  error: String
+  errorMsg: String
+  isCompleted: Boolean!
 }
 
 type PageInfo {
   endCursor: String
-  hasNextPage: Boolean
-  hasPreviousPage: Boolean
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
   startCursor: String
 }
 
@@ -112,15 +147,15 @@ input PaginationInput {
 }
 
 type Query {
+  compensation(id: Int!): Compensation!
   findAllQuestion(QueryOptionsInput: QueryOptionsInput): QuestionEntityEdgesEntity!
   findAllQuestionGroups(QueryOptionsInput: QueryOptionsInput): QuestionGroupsEntityEdgesEntity!
   findAllTests(QueryOptionsInput: QueryOptionsInput): TestsEntityEdgesEntity!
-  findAllTimeOffs: TimeOffEntityEdgesEntity!
-  findAllUsers(QueryOptionsInput: QueryOptionsInput): UserEdgesEntity!
   findTestById(id: String!): TestEntity!
-  findTimeOffRequests(timeOffRequestQueryOptions: TimeOffRequestQueryOptions): TimeOffRequestEdgesEntity!
-  findTimeOffsByEmployeeId(employeeId: String!, forYear: Float!): [TimeOffEntity!]!
-  findUserById(id: String!): User!
+  timeOffs: TimeOffConnection!
+  timeOffsByUserId(employeeId: String!, forYear: Float!): TimeOffConnection!
+  userById(id: String!): UserEntity!
+  users(args: QueryOptionsInput): UserConnection!
 }
 
 input QueryOptionsInput {
@@ -145,7 +180,6 @@ type QuestionEntity {
 
 type QuestionEntityEdgesEntity {
   edges: [QuestionEdges!]!
-  pageInfo: PageInfo!
   totalCount: Int!
 }
 
@@ -162,7 +196,6 @@ type QuestionGroupsEdges {
 
 type QuestionGroupsEntityEdgesEntity {
   edges: [QuestionGroupsEdges!]!
-  pageInfo: PageInfo!
   totalCount: Int!
 }
 
@@ -186,6 +219,11 @@ type TestsEdges {
 
 type TestsEntityEdgesEntity {
   edges: [TestsEdges!]!
+  totalCount: Int!
+}
+
+type TimeOffConnection {
+  edges: [TimeOffEdges!]!
   pageInfo: PageInfo!
   totalCount: Int!
 }
@@ -196,21 +234,16 @@ type TimeOffEdges {
 }
 
 type TimeOffEntity {
-  employee: User
+  employee: UserEntity
   employeeId: String
   forYear: Int!
   id: String!
   name: String!
   pendingDays: Int!
   remainingDays: Int!
+  timeOffRequests(timeOffRequestQueryOptions: TimeOffRequestQueryOptions): TimeOffRequestEdgesEntity!
   totalDays: Int!
   usedDays: Int!
-}
-
-type TimeOffEntityEdgesEntity {
-  edges: [TimeOffEdges!]!
-  pageInfo: PageInfo!
-  totalCount: Int!
 }
 
 type TimeOffRequestEdges {
@@ -220,7 +253,6 @@ type TimeOffRequestEdges {
 
 type TimeOffRequestEdgesEntity {
   edges: [TimeOffRequestEdges!]!
-  pageInfo: PageInfo!
   totalCount: Int!
 }
 
@@ -243,6 +275,18 @@ input TimeOffRequestQueryOptions {
   isDeclined: Boolean
   requestedById: String
   timeOffId: String
+}
+
+input UpdateCompensationInput {
+  currency: String
+  employeeId: String
+  gross: Int
+  id: String!
+  net: Int
+  paymentType: String
+  paymentsPerMonth: Int
+  startDate: DateTime
+  totalCost: Int
 }
 
 input UpdateQuestionInput {
@@ -282,25 +326,44 @@ input UpdateTimeOffRequestInput {
 
 input UpdateUserInput {
   email: String
-  employmentStatus: String
   firstName: String
   id: String!
   lastName: String
+  middleName: String
   password: String
+  userRole: UserRoles
 }
 
-type User {
+type UserConnection {
+  edges: [UserEdges!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserEdges {
+  cursor: String!
+  node: UserEntity!
+}
+
+type UserEntity {
+  birthday: DateTime
   createdAt: DateTime
   email: String!
-  employmentStatus: String!
+  employmentStatus: EmploymentStatus!
+  family: [UserEntity!]
   firstName: String!
   id: String!
   lastName: String!
-  password: String!
+  middleName: String
+  userRole: UserRoles!
 }
 
-type UserEdgesEntity {
-  edges: [Edges!]!
-  pageInfo: PageInfo!
-  totalCount: Int!
+enum UserRoles {
+  ADMIN
+  CUSTOMER
+  EMPLOYER_EMPLOYEE
+  EMPLOYER_SUPERVISOR
+  PROVIDER_EMPLOYEE
+  PROVIDER_SUPERVISOR
+  SUPER_ADMIN
 }

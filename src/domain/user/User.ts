@@ -1,26 +1,31 @@
 import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
 import { AggregateRoot } from '@nestjs/cqrs';
 import { TimeOff } from '../time-off/TimeOff';
+import { EmploymentStatus, UserRoles } from './enums';
 
 export class User extends AggregateRoot {
   private id: string;
 
   private timeOff?: TimeOff[];
 
+  private employmentStatus: EmploymentStatus = EmploymentStatus.PENDING;
+
+  // private createdAt: Date = new Date();
+
   constructor(
     private firstName: string,
+    private middleName: string,
     private lastName: string,
     private email: string,
     private password: string,
-    private employmentStatus: 'employed' | 'interviewing' | 'archived',
-    private createdAt?: Date,
+    private userRole: UserRoles,
   ) {
     super();
   }
 
   updateUser = (data: {
     password?: string;
-    employmentStatus?: 'employed' | 'interviewing' | 'archived';
+    employmentStatus?: EmploymentStatus;
     id: string;
   }) => {
     const { password, employmentStatus } = data || {};
@@ -60,6 +65,14 @@ export class User extends AggregateRoot {
     this.firstName = firstName;
   }
 
+  get getMiddleName() {
+    return this.middleName;
+  }
+
+  set setMiddleName(middleName: string) {
+    this.middleName = middleName;
+  }
+
   get getLastName() {
     return this.lastName;
   }
@@ -84,23 +97,29 @@ export class User extends AggregateRoot {
     this.password = password;
   }
 
+  get getUserRole() {
+    return this.userRole;
+  }
+
+  set setUserRole(userRole: UserRoles) {
+    this.userRole = userRole;
+  }
+
   get getEmploymentStatus() {
     return this.employmentStatus;
   }
 
-  set setEmploymentStatus(
-    employmentStatus: 'employed' | 'interviewing' | 'archived',
-  ) {
+  set setEmploymentStatus(employmentStatus: EmploymentStatus) {
     this.employmentStatus = employmentStatus;
   }
 
-  get getCreatedAt() {
-    return this.createdAt;
-  }
+  // get getCreatedAt() {
+  //   return this.createdAt;
+  // }
 
-  set setCreatedAt(createdAt: Date) {
-    this.createdAt = createdAt;
-  }
+  // set setCreatedAt(createdAt: Date) {
+  //   this.createdAt = createdAt;
+  // }
 
   get getTimeOff(): TimeOff[] {
     return this.timeOff;

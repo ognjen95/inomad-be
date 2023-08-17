@@ -1,6 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { QuestionEntity } from './question.entity';
-import { PageInfo } from '../edges.entity';
+// import { PageInfo } from '../edges.entity';
 
 @ObjectType()
 export class QuestionEdges {
@@ -18,6 +18,6 @@ export class QuestionEntityEdgesEntity {
   @Field(() => [QuestionEdges])
   edges: QuestionEdges[];
 
-  @Field(() => PageInfo)
-  pageInfo: PageInfo;
+  // @Field(() => PageInfo)
+  // pageInfo: PageInfo;
 }

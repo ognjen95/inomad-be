@@ -1,6 +1,6 @@
 export type EdgesResponse<T> = {
   totalCount: number;
-  edges: Edge<T>[];
+  edges: EdgesT<T>[];
   pageInfo: PageInfo;
 };
 
@@ -11,7 +11,7 @@ export type PageInfo = {
   endCursor?: string;
 };
 
-export type Edge<T> = {
+export type EdgesT<T> = {
   cursor: string;
   node: T;
 };

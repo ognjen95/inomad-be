@@ -11,6 +11,7 @@ import { QuestionsModule } from './presentation/modules/questions/questions.modu
 import { QuestionGroupModule } from './presentation/modules/questions/question-group.module';
 import { TimeOffModule } from './presentation/modules/time-off/time-off.module';
 import { TimeOffRequestModule } from './presentation/modules/time-off/time-off-request.module';
+import { CompensationModule } from './presentation/modules/compensation/compensation.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { TimeOffRequestModule } from './presentation/modules/time-off/time-off-r
     QuestionGroupModule,
     TimeOffModule,
     TimeOffRequestModule,
+    CompensationModule,
   ],
   controllers: [],
   providers: [],

@@ -1,6 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { TestEntity } from './test.entity';
-import { PageInfo } from '../edges.entity';
+// import { PageInfo } from '../edges.entity';
 
 @ObjectType()
 export class TestsEdges {
@@ -19,6 +19,6 @@ export class TestsEntityEdgesEntity {
   @Field(() => [TestsEdges])
   edges: TestsEdges[];
 
-  @Field(() => PageInfo)
-  pageInfo: PageInfo;
+  // @Field(() => PageInfo)
+  // pageInfo: PageInfo;
 }

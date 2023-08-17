@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, ResolveField } from '@nestjs/graphql';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { TimeOffRequestEntity } from 'src/presentation/entities/time-off/time-off-request';
 import { CreateTimeOffRequestInput } from 'src/presentation/dto/time-off/create-time-off-request.input';
@@ -28,7 +28,7 @@ export class TimeOffRequestResolver {
     >(new CreateTimeOffRequestCommand(createTimeOffRequestInput));
   }
 
-  @Mutation(() => TimeOffRequestEntity)
+  @Mutation(() => TimeOffRequestEdgesEntity)
   async updateTimeOffRequest(
     @Args('updateTimeOffRequestInput')
     updateTimeOffRequestInput: UpdateTimeOffRequestInput,
@@ -39,14 +39,14 @@ export class TimeOffRequestResolver {
     >(new UpdateTimeOffRequestCommand(updateTimeOffRequestInput));
   }
 
-  @Query(() => TimeOffRequestEdgesEntity, { name: 'findTimeOffRequests' })
-  async timeOffRequests(
-    @Args('timeOffRequestQueryOptions', { nullable: true })
-    timeOffRequestQueryOptions?: TimeOffRequestQueryOptions,
-  ) {
-    return await this.queryBus.execute<
-      FindTimeOffRequestsQuery,
-      TimeOffRequest
-    >(new FindTimeOffRequestsQuery(timeOffRequestQueryOptions));
-  }
+  // @Query(() => TimeOffRequestEdgesEntity, { name: 'findTimeOffRequests' })
+  // async timeOffRequests(
+  //   @Args('timeOffRequestQueryOptions', { nullable: true })
+  //   timeOffRequestQueryOptions?: TimeOffRequestQueryOptions,
+  // ) {
+  //   return await this.queryBus.execute<
+  //     FindTimeOffRequestsQuery,
+  //     TimeOffRequest
+  //   >(new FindTimeOffRequestsQuery(timeOffRequestQueryOptions));
+  // }
 }

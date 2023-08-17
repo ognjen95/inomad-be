@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { PageInfo } from '../edges.entity';
+// import { PageInfo } from '../edges.entity';
 import { TimeOffRequestEntity } from './time-off-request';
 
 @ObjectType()
@@ -19,6 +19,6 @@ export class TimeOffRequestEdgesEntity {
   @Field(() => [TimeOffRequestEdges])
   edges: TimeOffRequestEdges[];
 
-  @Field(() => PageInfo)
-  pageInfo: PageInfo;
+  // @Field(() => PageInfo)
+  // pageInfo: PageInfo;
 }

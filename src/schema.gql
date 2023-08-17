@@ -16,6 +16,43 @@ input AnswerInput {
   text: String!
 }
 
+input ApplicantsIdsInput {
+  hasSome: String!
+}
+
+type Case {
+  applicantsIds: [String!]!
+  employeesIds: [String!]
+  employerCompanyId: String
+  id: String!
+  isPrivate: Boolean
+  name: String!
+  providerCompanyId: String
+  providersIds: [String!]
+  status: CaseStatus!
+}
+
+type CaseConnection {
+  edges: [CaseEdges!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CaseEdges {
+  cursor: String!
+  node: Case!
+}
+
+enum CaseStatus {
+  APPROVED
+  CANCELLED
+  PENDING
+  REJECTED
+  REVIEW
+  SENT
+  UNASSIGNED
+}
+
 type Compensation {
   currency: String
   employeeId: String!
@@ -26,6 +63,14 @@ type Compensation {
   paymentsPerMonth: Int
   startDate: DateTime!
   totalCost: Int!
+}
+
+input CreateCaseInput {
+  applicantsIds: [String!]!
+  employeesIds: [String!] = []
+  isPrivate: Boolean = false
+  name: String!
+  providersIds: [String!] = []
 }
 
 input CreateCompensationInput {
@@ -109,6 +154,7 @@ input FilterInput {
 }
 
 type Mutation {
+  createCase(args: CreateCaseInput!): MutationReturn!
   createCompensation(createCompensationInput: CreateCompensationInput!): Compensation!
   createQuestion(createQuestionInput: CreateQuestionInput!): QuestionEntity!
   createQuestionGroup(createQuestionGroupInput: CreateQuestionGroupInput!): QuestionGroupEntity!
@@ -118,7 +164,7 @@ type Mutation {
   createUser(args: CreateUserInput!): MutationReturn!
   removeCompensation(id: Int!): Compensation!
   removeUser(id: String!): UserEntity!
-  updateCompensation(updateCompensationInput: UpdateCompensationInput!): Compensation!
+  updateCase(args: UpdateCaseInput!): MutationReturn!
   updateQuestion(updateQuestionInput: UpdateQuestionInput!): QuestionEntity!
   updateTest(updateTestInput: UpdateTestInput!): TestEntity!
   updateTimeOff(updateTimeOffInput: UpdateTimeOffInput!): TimeOffEntity!
@@ -147,6 +193,8 @@ input PaginationInput {
 }
 
 type Query {
+  case(id: String!): Case!
+  cases: CaseConnection!
   compensation(id: Int!): Compensation!
   findAllQuestion(QueryOptionsInput: QueryOptionsInput): QuestionEntityEdgesEntity!
   findAllQuestionGroups(QueryOptionsInput: QueryOptionsInput): QuestionGroupsEntityEdgesEntity!
@@ -277,16 +325,16 @@ input TimeOffRequestQueryOptions {
   timeOffId: String
 }
 
-input UpdateCompensationInput {
-  currency: String
-  employeeId: String
-  gross: Int
+input UpdateCaseInput {
+  applicantsIds: [String!]
+  employeesIds: [String!] = []
+  employerCompanyId: String
   id: String!
-  net: Int
-  paymentType: String
-  paymentsPerMonth: Int
-  startDate: DateTime
-  totalCost: Int
+  isPrivate: Boolean = false
+  name: String
+  providerCompanyId: String
+  providersIds: [String!] = []
+  status: CaseStatus
 }
 
 input UpdateQuestionInput {
@@ -347,6 +395,8 @@ type UserEdges {
 
 type UserEntity {
   birthday: DateTime
+  case(id: String!): Case!
+  cases(args: UserQueryOptionsInput): CaseConnection!
   createdAt: DateTime
   email: String!
   employmentStatus: EmploymentStatus!
@@ -358,6 +408,11 @@ type UserEntity {
   userRole: UserRoles!
 }
 
+input UserQueryOptionsInput {
+  userId: String
+  where: UserWhereInput!
+}
+
 enum UserRoles {
   ADMIN
   CUSTOMER
@@ -366,4 +421,8 @@ enum UserRoles {
   PROVIDER_EMPLOYEE
   PROVIDER_SUPERVISOR
   SUPER_ADMIN
+}
+
+input UserWhereInput {
+  applicationId: ApplicantsIdsInput!
 }

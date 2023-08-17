@@ -1,4 +1,11 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  ResolveField,
+  Parent,
+  Args,
+} from '@nestjs/graphql';
 import { UserConnection, UserEntity } from '../../entities/user/user.entity';
 import { UpdateUserInput } from 'src/presentation/dto/user/update-user.input';
 import { CreateUserInput } from 'src/presentation/dto/user/create-user.input';
@@ -10,6 +17,13 @@ import { UpdateUserCommand } from 'src/application/commands/user/update-user/upd
 import { RemoveUserCommand } from 'src/application/commands/user/remove-user/remove-user.command';
 import { QueryOptionsInput } from 'src/presentation/dto/common/query-options.dto';
 import { MutationReturn } from 'src/presentation/common/entities/mutation-return-type';
+import { FindAllCasesQuery } from 'src/application/queries/cases/find-all-cases/find-all-casses.query';
+import {
+  Case,
+  CaseConnection,
+} from 'src/presentation/entities/cases/case.entity';
+import { UserQueryOptionsInput } from 'src/presentation/dto/user/query-options.input';
+import { FindCaseByIdQuery } from 'src/application/queries/cases/find-case-by-id/find-case-by-id.query';
 
 @Resolver(() => UserEntity)
 export class UsersResolver {
@@ -53,6 +67,26 @@ export class UsersResolver {
   async findOneById(@Args('id') id: string) {
     return await this.queryBus.execute<FindUserByIdQuery, UserEntity>(
       new FindUserByIdQuery(id),
+    );
+  }
+
+  @ResolveField(() => CaseConnection, { name: 'cases' })
+  findAllUserCases(
+    @Parent() user: UserEntity,
+    @Args('args', { nullable: true }) args: UserQueryOptionsInput,
+  ) {
+    return this.queryBus.execute<FindAllCasesQuery, Case>(
+      new FindAllCasesQuery({
+        userId: user.id,
+        where: args?.where,
+      }),
+    );
+  }
+
+  @ResolveField(() => Case, { name: 'case' })
+  findUserCaseById(@Args('id') id: string) {
+    return this.queryBus.execute<FindCaseByIdQuery, Case>(
+      new FindCaseByIdQuery(id),
     );
   }
 }

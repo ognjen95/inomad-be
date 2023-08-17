@@ -26,17 +26,17 @@ model Case {
   name      String
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  status    CaseStatus @default(PENDING)
+  status    CaseStatus @default(UNASIGNED)
   isPrivate Boolean    @default(false)
 
   employees    User[]   @relation(fields: [employeesIds], references: [id])
   employeesIds String[] @db.ObjectId
 
-  providers    User[]   @relation("providers", fields: [prividersIds], references: [id])
-  prividersIds String[] @db.ObjectId
+  providers    User[]   @relation("providers", fields: [providersIds], references: [id])
+  providersIds String[] @db.ObjectId
 
-  aplicants    User[]   @relation("applicants", fields: [aplicantsIds], references: [id])
-  aplicantsIds String[] @db.ObjectId
+  applicants    User[]   @relation("applicants", fields: [applicantsIds], references: [id])
+  applicantsIds String[] @db.ObjectId
 
   providerCompany   ProviderCompany? @relation(fields: [providerCompanyId], references: [id])
   providerCompanyId String?          @db.ObjectId
@@ -98,8 +98,8 @@ model User {
   providerCompany   ProviderCompany? @relation(fields: [providerCompanyId], references: [id])
   providerCompanyId String?          @db.ObjectId
 
-  cases    Case[]   @relation(fields: [casesIds], references: [id])
-  casesIds String[] @db.ObjectId
+  emplyerCases    Case[]   @relation(fields: [employerCasesIds], references: [id])
+  employerCasesIds String[] @db.ObjectId
 
   providerCases     Case[]   @relation("providers", fields: [providerCassesIds], references: [id])
   providerCassesIds String[] @db.ObjectId
@@ -257,6 +257,7 @@ enum EmploymentStatus {
 }
 
 enum CaseStatus {
+  UNASIGNED // No one is assigned
   PENDING // Customer is collecting documents
   REVIEW // Provider is reviewing documents
   SENT // Application is sent to the embassy and waiting for response

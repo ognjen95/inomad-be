@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
-import { AggregateRoot } from '@nestjs/cqrs';
+import { AggregateRoot } from '@nestjs/cqrs/dist/aggregate-root';
 import { TimeOff } from '../time-off/TimeOff';
 import { EmploymentStatus, UserRoles } from './enums';
 

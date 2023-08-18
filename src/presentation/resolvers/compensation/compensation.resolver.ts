@@ -1,8 +1,7 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { CompensationService } from './compensation.service';
-import { Compensation } from '../../entities/compensation/compensation.entity';
-import { CreateCompensationInput } from '../../dto/compensation/create-compensation.input';
-// import { UpdateCompensationInput } from '../../dto/compensation/update-compensation.input';
+import { Compensation } from '../../../domain/compensation/compensation.entity';
+import { CreateCompensationInput } from '../../../domain/compensation/dtos/compensation/create-compensation.input';
 
 @Resolver(() => Compensation)
 export class CompensationResolver {

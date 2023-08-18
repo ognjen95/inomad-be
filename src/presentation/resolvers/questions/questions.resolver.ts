@@ -1,13 +1,13 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { QuestionEntity } from '../../entities/questions/question.entity';
-import { CreateQuestionInput } from 'src/presentation/dto/questions/create-question.input';
+import { QuestionEntity } from '../../../domain/question/questions/question.entity';
+import { CreateQuestionInput } from 'src/domain/question/dtos/questions/create-question.input';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateQuestionCommand } from 'src/application/commands/question/create-question/create-question.command';
 import { Question } from 'src/domain/question/Question';
 import { FindAllQuestionsQuery } from 'src/application/queries/questions/find-al-questions/find-all-questions.query';
-import { QueryOptionsInput } from 'src/presentation/dto/common/query-options.dto';
-import { QuestionEntityEdgesEntity } from 'src/presentation/entities/questions/question-edges.entity';
-import { UpdateQuestionInput } from 'src/presentation/dto/questions/update-question.input';
+import { QueryOptionsInput } from 'src/domain/common/query-options.dto';
+import { QuestionEntityEdgesEntity } from 'src/domain/question/questions/question-edges.entity';
+import { UpdateQuestionInput } from 'src/domain/question/dtos/questions/update-question.input';
 import { UpdateQuestionCommand } from 'src/application/commands/question/update-question/update-question.command';
 
 @Resolver(() => QuestionEntity)

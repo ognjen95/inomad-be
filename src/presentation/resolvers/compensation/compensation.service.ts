@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCompensationInput } from '../../dto/compensation/create-compensation.input';
-import { UpdateCompensationInput } from '../../dto/compensation/update-compensation.input';
+import { CreateCompensationInput } from '../../../domain/compensation/dtos/compensation/create-compensation.input';
+import { UpdateCompensationInput } from '../../../domain/compensation/dtos/compensation/update-compensation.input';
 
 @Injectable()
 export class CompensationService {

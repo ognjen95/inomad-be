@@ -1,14 +1,14 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { TestEntity } from '../../entities/tests/test.entity';
-import { CreateTestInput } from '../../dto/tests/create-test.input';
+import { TestEntity } from '../../../domain/test/test.entity';
+import { CreateTestInput } from '../../../domain/test/dtos/tests/create-test.input';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateTestCommand } from 'src/application/commands/tests/create-test/create-test.command';
 import { Test } from 'src/domain/test/Test';
-import { QueryOptionsInput } from 'src/presentation/dto/common/query-options.dto';
+import { QueryOptionsInput } from 'src/domain/common/query-options.dto';
 import { FindAllTestsQuery } from 'src/application/queries/tests/find-all-tests/find-all-tests.query';
-import { TestsEntityEdgesEntity } from 'src/presentation/entities/tests/tests-edges.entity';
+import { TestsEntityEdgesEntity } from 'src/domain/test/tests-edges.entity';
 import { FindTestByIdQuery } from 'src/application/queries/tests/fid-one-by-id/find-one-by-id.query';
-import { UpdateTestInput } from 'src/presentation/dto/tests/update-test.input';
+import { UpdateTestInput } from 'src/domain/test/dtos/tests/update-test.input';
 import { UpdateTestCommand } from 'src/application/commands/tests/update-text/update-test.command';
 
 @Resolver(() => TestEntity)

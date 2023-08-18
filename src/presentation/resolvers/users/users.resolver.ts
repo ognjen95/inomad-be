@@ -13,7 +13,7 @@ import { FindAllUsersQuery } from 'src/application/queries/users/find-all/find-a
 import { FindUserByIdQuery } from 'src/application/queries/users/find-user-by-id/find-user-by-id.query';
 import { UpdateUserCommand } from 'src/application/commands/user/update-user/update-user.command';
 import { RemoveUserCommand } from 'src/application/commands/user/remove-user/remove-user.command';
-import { QueryOptionsInput } from 'src/presentation/dto/common/query-options.dto';
+import { QueryOptionsInput } from 'src/domain/common/query-options.dto';
 import { MutationReturn } from 'src/presentation/common/entities/mutation-return-type';
 import { FindAllCasesQuery } from 'src/application/queries/cases/find-all-cases/find-all-casses.query';
 

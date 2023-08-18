@@ -1,6 +1,6 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindAllUsersQuery } from './find-all-users.query';
-import { User } from 'src/domain/user/User';
+import { User } from 'src/domain/user/user';
 import { Inject } from '@nestjs/common';
 import { USER_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
 import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';

@@ -4,7 +4,7 @@ import { ICaseRepository } from 'src/application/common/interfaces/case/case-rep
 import { Inject } from '@nestjs/common';
 import { CASE_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
 
-import { Case } from 'src/domain/case/Case';
+import { Case } from 'src/domain/case/case';
 
 @QueryHandler(FindCaseByIdQuery)
 class FindCaseByIdHandler implements IQueryHandler<FindCaseByIdQuery> {

@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateCaseCommand } from './create-case.command';
 import { ICaseRepository } from 'src/application/common/interfaces/case/case-repository.interface';
-import { Case } from 'src/domain/case/Case';
+import { Case } from 'src/domain/case/case';
 import { Inject } from '@nestjs/common';
 import { CASE_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
 
@@ -13,7 +13,6 @@ class CreateCaseHandler implements ICommandHandler<CreateCaseCommand> {
   ) {}
 
   async execute({ dto }: CreateCaseCommand) {
-    console.log({ dto });
     const newCase = new Case(
       dto.name,
       dto.applicantsIds,

@@ -1,52 +1,34 @@
 import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
-import { AggregateRoot } from '@nestjs/cqrs/dist/aggregate-root';
 import { TimeOff } from '../time-off/TimeOff';
 import { EmploymentStatus, UserRoles } from './enums';
+import { UpdateUserInput } from './dtos/update-user.input';
+import { UserEntity } from './user.entity';
 
-export class User extends AggregateRoot {
-  private id: string;
-
-  private timeOff?: TimeOff[];
-
-  private employmentStatus: EmploymentStatus = EmploymentStatus.PENDING;
-
-  // private createdAt: Date = new Date();
-
+export class User extends UserEntity {
   constructor(
-    private firstName: string,
-    private middleName: string,
-    private lastName: string,
-    private email: string,
-    private password: string,
-    private userRole: UserRoles,
+    firstName: string,
+    middleName: string,
+    lastName: string,
+    email: string,
+    password: string,
+    userRole: UserRoles,
+    providerCompanyId?: string,
   ) {
     super();
+
+    this.firstName = firstName;
+    this.middleName = middleName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+    this.userRole = userRole;
+    this.providerCompanyId = providerCompanyId;
   }
 
-  updateUser = (data: {
-    password?: string;
-    employmentStatus?: EmploymentStatus;
-    id: string;
-  }) => {
-    const { password, employmentStatus } = data || {};
-
-    if (password) {
-      if (password === this.password) {
-        throw new BadRequestException('Password is the same as the old one');
-      }
-
-      this.password = password;
-    }
-
-    if (employmentStatus) {
-      if (employmentStatus === this.employmentStatus) {
-        throw new BadRequestException(
-          'Employee already has this employment status',
-        );
-      }
-
-      this.employmentStatus = employmentStatus;
-    }
+  updateUser = (dto: UpdateUserInput) => {
+    this.setPassword = dto.password;
+    this.setEmploymentStatus = dto.employmentStatus;
+    this.setProviderCompanyId = dto.providerCompanyId;
   };
 
   get getId() {
@@ -110,16 +92,13 @@ export class User extends AggregateRoot {
   }
 
   set setEmploymentStatus(employmentStatus: EmploymentStatus) {
+    if (!employmentStatus) return;
     this.employmentStatus = employmentStatus;
   }
 
-  // get getCreatedAt() {
-  //   return this.createdAt;
-  // }
-
-  // set setCreatedAt(createdAt: Date) {
-  //   this.createdAt = createdAt;
-  // }
+  get getCreatedAt() {
+    return this.createdAt;
+  }
 
   get getTimeOff(): TimeOff[] {
     return this.timeOff;
@@ -127,5 +106,33 @@ export class User extends AggregateRoot {
 
   set setTimeOff(timeOffs: TimeOff[]) {
     this.timeOff = timeOffs;
+  }
+
+  get getBirthday() {
+    return this.birthday;
+  }
+
+  set setBirthday(birthday: Date) {
+    if (!birthday) return;
+    this.birthday = birthday;
+  }
+
+  get getProviderCompanyId() {
+    return this.providerCompanyId;
+  }
+
+  set setProviderCompanyId(providerCompanyId: string) {
+    if (
+      this.userRole !== UserRoles.PROVIDER_EMPLOYEE &&
+      this.userRole !== UserRoles.PROVIDER_SUPERVISOR
+    )
+      throw new BadRequestException(
+        'Only provider employee can have provider company',
+      );
+
+    if (this.providerCompanyId)
+      throw new BadRequestException('User already has provider company');
+
+    this.providerCompanyId = providerCompanyId;
   }
 }

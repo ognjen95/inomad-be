@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
 import { ICaseRepository } from 'src/application/common/interfaces/case/case-repository.interface';
-import { Case } from 'src/domain/case/Case';
+import { Case } from 'src/domain/case/case';
 import { CaseStatus } from '@prisma/client';
 import { plainToInstance } from 'class-transformer';
-import { UserQueryOptions } from 'src/domain/user/dtos/user-query-options';
+import { CaseQueryOptionsInput } from 'src/domain/case/dtos/query-options.input';
 
 @Injectable()
 export class CaseRepository implements ICaseRepository {
@@ -54,14 +54,26 @@ export class CaseRepository implements ICaseRepository {
     return plainToInstance(Case, foundCase);
   }
 
-  async findAll(options: UserQueryOptions): Promise<Case[]> {
-    console.log(options);
+  async findAll(options: CaseQueryOptionsInput): Promise<Case[]> {
+    const where = options.where ?? {};
+    const applicantsIds = options.userId
+      ? {
+          has: options.userId,
+        }
+      : undefined;
+
+    const providerCompanyId = options.providerCompanyId
+      ? {
+          equals: options.providerCompanyId,
+        }
+      : undefined;
+
+    console.log({ id: options.providerCompanyId });
     const cases = await this.db.case.findMany({
       where: {
-        ...options.where,
-        applicantsIds: {
-          has: options.userId,
-        },
+        ...where,
+        applicantsIds,
+        providerCompanyId: options.providerCompanyId,
       },
     });
 

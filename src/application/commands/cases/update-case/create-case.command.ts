@@ -1,5 +1,5 @@
-import { CreateCaseDto } from 'src/domain/case/dtos/crete-case-dto';
+import { CreateCaseInput } from 'src/domain/case/dtos/create-case.input';
 
 export class CreateCaseCommand {
-  constructor(public readonly dto: CreateCaseDto) {}
+  constructor(public readonly dto: CreateCaseInput) {}
 }

@@ -1,11 +1,12 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { UserEntity } from '../user/user.entity';
 import {
   Connection as RelayConnection,
   Edge as RelayEdge,
   PageInfo as RelayPageInfo,
 } from 'graphql-relay';
-import { PageInfo } from 'src/presentation/common/entities/page-info.entity';
+import { PageInfo } from 'src/domain/common/page-info.entity';
+import { User } from 'src/domain/user/user';
+import { UserEntity } from 'src/domain/user/user.entity';
 
 @ObjectType()
 export class TimeOffEntity {
@@ -34,7 +35,7 @@ export class TimeOffEntity {
   employeeId: string;
 
   @Field(() => UserEntity, { nullable: true })
-  employee: UserEntity;
+  employee: User;
 }
 
 @ObjectType()

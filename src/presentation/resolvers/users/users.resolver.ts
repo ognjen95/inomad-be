@@ -6,9 +6,7 @@ import {
   Parent,
   Args,
 } from '@nestjs/graphql';
-import { UserConnection, UserEntity } from '../../entities/user/user.entity';
-import { UpdateUserInput } from 'src/presentation/dto/user/update-user.input';
-import { CreateUserInput } from 'src/presentation/dto/user/create-user.input';
+
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateUserCommand } from 'src/application/commands/user/create-user/create-user.command';
 import { FindAllUsersQuery } from 'src/application/queries/users/find-all/find-all-users.query';
@@ -18,12 +16,16 @@ import { RemoveUserCommand } from 'src/application/commands/user/remove-user/rem
 import { QueryOptionsInput } from 'src/presentation/dto/common/query-options.dto';
 import { MutationReturn } from 'src/presentation/common/entities/mutation-return-type';
 import { FindAllCasesQuery } from 'src/application/queries/cases/find-all-cases/find-all-casses.query';
-import {
-  Case,
-  CaseConnection,
-} from 'src/presentation/entities/cases/case.entity';
-import { UserQueryOptionsInput } from 'src/presentation/dto/user/query-options.input';
+
 import { FindCaseByIdQuery } from 'src/application/queries/cases/find-case-by-id/find-case-by-id.query';
+import { CreateUserInput } from 'src/domain/user/dtos/create-user.input';
+import { UpdateUserInput } from 'src/domain/user/dtos/update-user.input';
+import { UserQueryOptionsInput } from 'src/domain/user/dtos/query-options.input';
+import { UserConnection } from 'src/domain/user/user-connection';
+import { CaseConnection } from 'src/domain/case/case-connection';
+import { CaseEntity } from 'src/domain/case/case.entity';
+import { UserEntity } from 'src/domain/user/user.entity';
+import { User } from 'src/domain/user/user';
 
 @Resolver(() => UserEntity)
 export class UsersResolver {
@@ -72,20 +74,20 @@ export class UsersResolver {
 
   @ResolveField(() => CaseConnection, { name: 'cases' })
   findAllUserCases(
-    @Parent() user: UserEntity,
+    @Parent() user: User,
     @Args('args', { nullable: true }) args: UserQueryOptionsInput,
   ) {
-    return this.queryBus.execute<FindAllCasesQuery, Case>(
+    return this.queryBus.execute<FindAllCasesQuery, CaseEntity>(
       new FindAllCasesQuery({
-        userId: user.id,
-        where: args?.where,
+        userId: user.getId,
+        where: args.where,
       }),
     );
   }
 
-  @ResolveField(() => Case, { name: 'case' })
+  @ResolveField(() => CaseEntity, { name: 'case' })
   findUserCaseById(@Args('id') id: string) {
-    return this.queryBus.execute<FindCaseByIdQuery, Case>(
+    return this.queryBus.execute<FindCaseByIdQuery, CaseEntity>(
       new FindCaseByIdQuery(id),
     );
   }

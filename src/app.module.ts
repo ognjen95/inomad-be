@@ -13,6 +13,7 @@ import { TimeOffModule } from './presentation/modules/time-off/time-off.module';
 import { TimeOffRequestModule } from './presentation/modules/time-off/time-off-request.module';
 import { CompensationModule } from './presentation/modules/compensation/compensation.module';
 import { CasesModule } from './presentation/modules/cases/cases.module';
+import { ProviderCompanyModule } from './presentation/modules/provider-company/provider-company.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { CasesModule } from './presentation/modules/cases/cases.module';
     TimeOffRequestModule,
     CompensationModule,
     CasesModule,
+    ProviderCompanyModule,
   ],
   controllers: [],
   providers: [],

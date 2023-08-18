@@ -1,8 +1,7 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { CreateCaseDto } from 'src/domain/case/dtos/crete-case-dto';
 
 @InputType()
-export class CreateCaseInput implements CreateCaseDto {
+export class CreateCaseInput {
   @Field()
   name: string;
 

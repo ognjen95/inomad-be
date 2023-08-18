@@ -59,7 +59,6 @@ export class Question extends AggregateRoot {
       const isSelectedAnswer = dto.answeredIds.includes(answer.id);
       const alreadyAnswered = answer.answered && isSelectedAnswer;
       const singleAnswer = this.answerType === 'single';
-      console.log({ singleAnswer });
       if (singleAnswer) {
         if (isSelectedAnswer) {
           return {
@@ -75,20 +74,17 @@ export class Question extends AggregateRoot {
       }
 
       if (alreadyAnswered) {
-        console.log('first', index);
         return {
           ...answer,
           answered: false,
         };
       }
       if (isSelectedAnswer) {
-        console.log('second', index);
         return {
           ...answer,
           answered: true,
         };
       }
-      console.log('third', index);
       return answer;
     });
   }

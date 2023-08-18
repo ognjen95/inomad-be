@@ -1,5 +1,4 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { UserQueryOptions } from 'src/domain/user/dtos/user-query-options';
 
 @InputType()
 export class ApplicantsIdsInput {
@@ -14,7 +13,7 @@ export class UserWhereInput {
 }
 
 @InputType()
-export class UserQueryOptionsInput implements UserQueryOptions {
+export class UserQueryOptionsInput {
   @Field({ nullable: true })
   userId: string;
 

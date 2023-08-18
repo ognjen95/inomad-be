@@ -5,17 +5,17 @@ import { Inject } from '@nestjs/common';
 import { CASE_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
 import { connectionFromArray } from 'graphql-relay/connection/arrayConnection';
 import { Connection } from 'graphql-relay';
-import { Case } from 'src/domain/case/Case';
+import { Case } from 'src/domain/case/case';
 
 @QueryHandler(FindAllCasesQuery)
 class FindAllCasesHandler implements IQueryHandler<FindAllCasesQuery> {
   constructor(
     @Inject(CASE_REPOSITORY_TOKEN)
-    private readonly userRepository: ICaseRepository,
+    private readonly casesRepository: ICaseRepository,
   ) {}
 
   async execute({ options }: FindAllCasesQuery): Promise<Connection<Case>> {
-    const cases = await this.userRepository.findAll(options);
+    const cases = await this.casesRepository.findAll(options);
 
     return connectionFromArray(cases, {});
   }

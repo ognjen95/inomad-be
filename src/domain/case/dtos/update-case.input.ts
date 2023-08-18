@@ -6,13 +6,9 @@ import {
   PartialType,
   registerEnumType,
 } from '@nestjs/graphql';
-import { UpdateCaseDto } from 'src/domain/case/dtos/update-case-dto';
 
 @InputType()
-export class UpdateCaseInput
-  extends PartialType(CreateCaseInput)
-  implements UpdateCaseDto
-{
+export class UpdateCaseInput extends PartialType(CreateCaseInput) {
   @Field(() => String)
   id: string;
 

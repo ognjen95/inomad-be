@@ -71,7 +71,6 @@ export class TimeOffResolver {
     @Args('timeOffRequestQueryOptions', { nullable: true })
     timeOffRequestQueryOptions?: TimeOffRequestQueryOptions,
   ) {
-    console.log({ timeOff });
     return await this.queryBus.execute<
       FindTimeOffRequestsQuery,
       TimeOffRequest

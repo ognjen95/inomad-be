@@ -19,6 +19,8 @@ model Documents {
   updatedAt    DateTime     @updatedAt
   customer     User?        @relation(fields: [customerId], references: [id])
   customerId   String?      @db.ObjectId
+  Case         Case?        @relation(fields: [caseId], references: [id])
+  caseId       String?      @db.ObjectId
 }
 
 model Case {
@@ -28,6 +30,8 @@ model Case {
   updatedAt DateTime   @updatedAt
   status    CaseStatus @default(UNASIGNED)
   isPrivate Boolean    @default(false)
+
+  documents Documents[]
 
   employees    User[]   @relation(fields: [employeesIds], references: [id])
   employeesIds String[] @db.ObjectId
@@ -47,24 +51,16 @@ model Case {
 
 model ProviderCompany {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  emai      String   @unique
+  name      String   @unique
+  email     String   @unique
   website   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   rating    Int      @default(0)
   employees User[]
   cases     Case[]
-}
 
-model EmployerCompany {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  website   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  cases     Case[]
-  employees User[]
+  @@unique([name, email])
 }
 
 model User {
@@ -98,7 +94,7 @@ model User {
   providerCompany   ProviderCompany? @relation(fields: [providerCompanyId], references: [id])
   providerCompanyId String?          @db.ObjectId
 
-  emplyerCases    Case[]   @relation(fields: [employerCasesIds], references: [id])
+  emplyerCases     Case[]   @relation(fields: [employerCasesIds], references: [id])
   employerCasesIds String[] @db.ObjectId
 
   providerCases     Case[]   @relation("providers", fields: [providerCassesIds], references: [id])
@@ -150,6 +146,16 @@ model TimeOff {
   employee       User?            @relation(fields: [employeeId], references: [id])
   employeeId     String?          @db.ObjectId
   timeOffRequest TimeOffRequest[]
+}
+
+model EmployerCompany {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  website   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cases     Case[]
+  employees User[]
 }
 
 model TimeOffRequest {

@@ -1,9 +1,8 @@
-import { Case } from 'src/domain/case/Case';
-import { UserQueryOptions } from 'src/domain/user/dtos/user-query-options';
-
+import { Case } from 'src/domain/case/case';
+import { CaseQueryOptionsInput } from 'src/domain/case/dtos/query-options.input';
 export interface ICaseRepository {
   create(dto: Case): void;
   update(dto: Case): void;
   findOneById(id: string): Promise<Case>;
-  findAll(options: UserQueryOptions): Promise<Array<Case>>;
+  findAll(options: CaseQueryOptionsInput): Promise<Array<Case>>;
 }

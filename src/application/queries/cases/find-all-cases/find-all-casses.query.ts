@@ -1,5 +1,5 @@
-import { UserQueryOptions } from 'src/domain/user/dtos/user-query-options';
+import { CaseQueryOptionsInput } from 'src/domain/case/dtos/query-options.input';
 
 export class FindAllCasesQuery {
-  constructor(public options?: UserQueryOptions) {}
+  constructor(public options?: CaseQueryOptionsInput) {}
 }

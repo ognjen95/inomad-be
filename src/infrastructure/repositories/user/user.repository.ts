@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-import { User } from 'src/domain/user/User';
+import { User } from 'src/domain/user/user';
 import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
 import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';
@@ -22,6 +22,7 @@ export class UserRepository implements IUserRepository {
         password: dto.getPassword,
         employmentStatus: dto.getEmploymentStatus,
         userRole: dto.getUserRole,
+        providerCompanyId: dto.getProviderCompanyId,
       },
     });
   }
@@ -37,12 +38,19 @@ export class UserRepository implements IUserRepository {
     return plainToInstance(User, user);
   }
 
+  async findOneByEmail(email: string): Promise<User> {
+    const user = await this.prismaService.user.findUnique({ where: { email } });
+    return plainToInstance(User, user);
+  }
+
   async update(id: string, dto: User): Promise<User> {
     const user = await this.prismaService.user.update({
       where: { id },
       data: {
         password: dto.getPassword,
         employmentStatus: dto.getEmploymentStatus,
+        userRole: dto.getUserRole,
+        providerCompanyId: dto.getProviderCompanyId,
       },
     });
 

@@ -1,5 +1,5 @@
-import { UpdateCaseDto } from 'src/domain/case/dtos/update-case-dto';
+import { UpdateCaseInput } from 'src/domain/case/dtos/update-case.input';
 
 export class UpdateCaseCommand {
-  constructor(public readonly dto: UpdateCaseDto) {}
+  constructor(public readonly dto: UpdateCaseInput) {}
 }

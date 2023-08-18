@@ -1,36 +1,26 @@
-import { AggregateRoot } from '@nestjs/cqrs/dist/aggregate-root';
 import { CaseStatus } from './enums';
 import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
-import { UpdateCaseDto } from './dtos/update-case-dto';
+import { UpdateCaseInput } from './dtos/update-case.input';
+import { CaseEntity } from './case.entity';
 
-export class Case extends AggregateRoot {
-  private id: string;
-
-  private status: CaseStatus = CaseStatus.UNASSIGNED;
-
-  private createdAt: Date = new Date();
-
-  private updatedAt: Date = new Date();
-
-  private providerCompanyId = '';
-
-  private employerCompanyId = '';
-
+export class Case extends CaseEntity {
   constructor(
-    private name: string,
-
-    private applicantsIds: string[],
-
-    private isPrivate: boolean,
-
-    private employeesIds: string[],
-
-    private providersIds: string[],
+    name: string,
+    applicantsIds: string[],
+    isPrivate: boolean,
+    employeesIds: string[],
+    providersIds: string[],
   ) {
     super();
+
+    this.name = name;
+    this.applicantsIds = applicantsIds;
+    this.isPrivate = isPrivate;
+    this.employeesIds = employeesIds;
+    this.providersIds = providersIds;
   }
 
-  update(dto: UpdateCaseDto) {
+  update(dto: UpdateCaseInput) {
     this.setName = dto.name;
     this.setIsPrivate = !!dto.isPrivate;
     this.setEmployeesIds = dto.employeesIds;

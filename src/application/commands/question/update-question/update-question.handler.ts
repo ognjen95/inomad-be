@@ -15,9 +15,7 @@ class UpdateQuestionHandler implements ICommandHandler<UpdateQuestionCommand> {
   async execute({ dto }: UpdateQuestionCommand): Promise<Question> {
     const question = await this.questionRepository.findOneById(dto.id);
 
-    console.log(question);
     question.update(dto);
-    console.log(question);
     return await this.questionRepository.update(dto.id, question);
   }
 }

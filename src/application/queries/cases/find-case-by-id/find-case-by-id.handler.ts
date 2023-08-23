@@ -1,6 +1,6 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindCaseByIdQuery } from './find-case-by-id.query';
-import { ICaseRepository } from 'src/application/common/interfaces/case/case-repository.interface';
+import { ICaseRepository } from 'src/application/common/interfaces/case/case-request-repository.interface';
 import { Inject } from '@nestjs/common';
 import { CASE_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
 

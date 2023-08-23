@@ -1,10 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-
-@InputType()
-export class ApplicantsIdsInput {
-  @Field()
-  hasSome?: string;
-}
+import { ApplicantsIdsInput } from 'src/domain/user/dtos/query-options.input';
 
 @InputType()
 export class CaseWhereInput {
@@ -16,6 +11,9 @@ export class CaseWhereInput {
 export class CaseQueryOptionsInput {
   @Field({ nullable: true })
   providerCompanyId?: string;
+
+  @Field({ nullable: true })
+  caseId?: string;
 
   @Field({ nullable: true })
   userId?: string;

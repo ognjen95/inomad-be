@@ -14,7 +14,7 @@ export class UserEntity extends AggregateRoot {
   @Field()
   protected firstName: string;
 
-  @Field()
+  @Field({ nullable: true })
   protected middleName: string;
 
   @Field()
@@ -24,6 +24,8 @@ export class UserEntity extends AggregateRoot {
   protected email: string;
 
   @Field()
+  protected caseId: string;
+
   protected password: string;
 
   @Field(() => UserRoles)
@@ -31,6 +33,9 @@ export class UserEntity extends AggregateRoot {
 
   @Field({ nullable: true })
   protected providerCompanyId?: string;
+
+  @Field(() => [String], { nullable: true })
+  protected applicationIds: string[];
 
   @Field(() => Date, { nullable: true })
   protected birthday: Date;

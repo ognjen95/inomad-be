@@ -6,8 +6,8 @@ export class MutationReturn {
   isCompleted: boolean;
 
   @Field({ nullable: true, defaultValue: null })
-  error: string;
+  error?: string;
 
   @Field({ nullable: true, defaultValue: null })
-  errorMsg: string;
+  errorMsg?: string;
 }

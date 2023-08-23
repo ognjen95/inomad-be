@@ -6,10 +6,10 @@ import { CaseEntity } from './case.entity';
 export class Case extends CaseEntity {
   constructor(
     name: string,
-    applicantsIds: string[],
+    applicantsIds: string[] = [],
     isPrivate: boolean,
-    employeesIds: string[],
-    providersIds: string[],
+    employeesIds: string[] = [],
+    providersIds: string[] = [],
   ) {
     super();
 
@@ -57,14 +57,18 @@ export class Case extends CaseEntity {
   set setStatus(status: CaseStatus) {
     if (!status) return;
 
-    if (!this.providerCompanyId) {
-      throw new BadRequestException(
-        'There is no applicant or assigned provider for this case',
-      );
-    }
-
     this.status = status;
   }
+
+  // get getCaseRequestId() {
+  //   return this.caseRequestId;
+  // }
+
+  // set setCaseRequestId(caseRequestId: string) {
+  //   if (!caseRequestId) return;
+
+  //   this.caseRequestId = caseRequestId;
+  // }
 
   get getCreatedAt() {
     return this.createdAt;
@@ -126,6 +130,12 @@ export class Case extends CaseEntity {
 
   set setProviderCompanyId(providerCompanyId: string) {
     if (!providerCompanyId) return;
+
+    if (this.providerCompanyId) {
+      throw new BadRequestException(
+        'This case is already assigned to a provider',
+      );
+    }
 
     this.providerCompanyId = providerCompanyId;
   }

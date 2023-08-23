@@ -45,6 +45,41 @@ type CaseEntity {
   updatedAt: DateTime!
 }
 
+input CaseQueryOptionsInput {
+  caseId: String
+  providerCompanyId: String
+  userId: String
+  where: CaseWhereInput
+}
+
+type CaseRequestConnection {
+  edges: [CaseRequestEdges!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type CaseRequestEdges {
+  cursor: String!
+  node: CaseRequestEntity!
+}
+
+type CaseRequestEntity {
+  applicantId: String!
+  caseId: String!
+  createdAt: DateTime!
+  id: String!
+  providerCompanyId: String!
+  status: CaseRequestStatus!
+  updatedAt: DateTime!
+}
+
+enum CaseRequestStatus {
+  APPROVED
+  CANCELED
+  PENDING
+  REJECTED
+}
+
 enum CaseStatus {
   APPROVED
   CANCELLED
@@ -53,6 +88,10 @@ enum CaseStatus {
   REVIEW
   SENT
   UNASSIGNED
+}
+
+input CaseWhereInput {
+  applicationId: ApplicantsIdsInput!
 }
 
 type Compensation {
@@ -73,6 +112,12 @@ input CreateCaseInput {
   isPrivate: Boolean = false
   name: String!
   providersIds: [String!] = []
+}
+
+input CreateCaseRequestInput {
+  applicantId: String!
+  caseId: String!
+  providerCompanyId: String!
 }
 
 input CreateCompensationInput {
@@ -132,6 +177,7 @@ input CreateTimeOffRequestInput {
 }
 
 input CreateUserInput {
+  companyId: String
   email: String!
   firstName: String!
   lastName: String!
@@ -167,6 +213,7 @@ input FilterInput {
 
 type Mutation {
   createCase(args: CreateCaseInput!): MutationReturn!
+  createCaseRequest(args: CreateCaseRequestInput!): MutationReturn!
   createCompensation(createCompensationInput: CreateCompensationInput!): Compensation!
   createProviderCompany(args: CreateProviderCompanyInput!): MutationReturn!
   createQuestion(createQuestionInput: CreateQuestionInput!): QuestionEntity!
@@ -175,9 +222,11 @@ type Mutation {
   createTimeOff(createTimeOffInput: CreateTimeOffInput!): TimeOffEntity!
   createTimeOffRequest(createTimeOffRequestInput: CreateTimeOffRequestInput!): TimeOffRequestEntity!
   createUser(args: CreateUserInput!): MutationReturn!
+  removeCaseRequest(id: Int!): CaseRequestEntity!
   removeCompensation(id: Int!): Compensation!
   removeUser(id: String!): UserEntity!
   updateCase(args: UpdateCaseInput!): MutationReturn!
+  updateCaseRequest(args: UpdateCaseRequestInput!): MutationReturn!
   updateQuestion(updateQuestionInput: UpdateQuestionInput!): QuestionEntity!
   updateTest(updateTestInput: UpdateTestInput!): TestEntity!
   updateTimeOff(updateTimeOffInput: UpdateTimeOffInput!): TimeOffEntity!
@@ -219,6 +268,8 @@ type ProviderCompanyEntity {
 
 type Query {
   case(id: String!): CaseEntity!
+  caseRequest(id: Int!): CaseRequestEntity!
+  caseRequests(options: CaseQueryOptionsInput): CaseRequestConnection!
   cases: CaseConnection!
   compensation(id: Int!): Compensation!
   findAllQuestion(QueryOptionsInput: QueryOptionsInput): QuestionEntityEdgesEntity!
@@ -363,6 +414,12 @@ input UpdateCaseInput {
   status: CaseStatus
 }
 
+input UpdateCaseRequestInput {
+  id: String!
+  status: CaseRequestStatus! = PENDING
+  userId: String!
+}
+
 input UpdateQuestionInput {
   answeredIds: [String!]!
   id: String!
@@ -399,6 +456,7 @@ input UpdateTimeOffRequestInput {
 }
 
 input UpdateUserInput {
+  companyId: String
   email: String
   employmentStatus: EmploymentStatus
   firstName: String
@@ -422,8 +480,10 @@ type UserEdges {
 }
 
 type UserEntity {
+  applicationIds: [String!]
   birthday: DateTime
   case(id: String!): CaseEntity!
+  caseId: String!
   cases(args: UserQueryOptionsInput): CaseConnection!
   createdAt: DateTime!
   email: String!
@@ -432,8 +492,7 @@ type UserEntity {
   firstName: String!
   id: String!
   lastName: String!
-  middleName: String!
-  password: String!
+  middleName: String
   providerCompanyId: String
   userRole: UserRoles!
 }

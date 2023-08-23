@@ -15,7 +15,7 @@ import { UpdateUserCommand } from 'src/application/commands/user/update-user/upd
 import { RemoveUserCommand } from 'src/application/commands/user/remove-user/remove-user.command';
 import { QueryOptionsInput } from 'src/domain/common/query-options.dto';
 import { MutationReturn } from 'src/presentation/common/entities/mutation-return-type';
-import { FindAllCasesQuery } from 'src/application/queries/cases/find-all-cases/find-all-casses.query';
+import { FindAllCasesQuery } from 'src/application/queries/cases/find-all-cases/find-all-cases.query';
 
 import { FindCaseByIdQuery } from 'src/application/queries/cases/find-case-by-id/find-case-by-id.query';
 import { CreateUserInput } from 'src/domain/user/dtos/create-user.input';
@@ -80,7 +80,7 @@ export class UsersResolver {
     return this.queryBus.execute<FindAllCasesQuery, CaseEntity>(
       new FindAllCasesQuery({
         userId: user.getId,
-        where: args.where,
+        where: args?.where,
       }),
     );
   }

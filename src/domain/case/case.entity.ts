@@ -1,6 +1,7 @@
 import { AggregateRoot } from '@nestjs/cqrs';
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { CaseStatus } from './enums';
+// import { CaseRequest } from '../case-request/case-request';
 
 @ObjectType()
 export class CaseEntity extends AggregateRoot {
@@ -13,14 +14,17 @@ export class CaseEntity extends AggregateRoot {
   @Field()
   protected name: string;
 
+  // @Field((){ nullable: true })
+  // protected caseRequests: CaseRequest[];
+
   @Field(() => [String])
-  protected applicantsIds: string[];
+  protected applicantsIds: Array<string>;
 
   @Field({ nullable: true, defaultValue: false })
-  protected isPrivate?: boolean;
+  protected isPrivate: boolean;
 
   @Field(() => [String], { nullable: true, defaultValue: [] })
-  protected employeesIds: string[];
+  protected employeesIds: Array<string>;
 
   @Field(() => [String], { nullable: true, defaultValue: [] })
   protected providersIds: Array<string>;

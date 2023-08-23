@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
-import { ICaseRepository } from 'src/application/common/interfaces/case/case-repository.interface';
+import { ICaseRepository } from 'src/application/common/interfaces/case/case-request-repository.interface';
 import { Case } from 'src/domain/case/case';
 import { CaseStatus } from '@prisma/client';
 import { plainToInstance } from 'class-transformer';
@@ -13,20 +13,28 @@ export class CaseRepository implements ICaseRepository {
   @Inject()
   protected readonly db: PrismaService;
 
-  async create(dto: Case) {
-    await this.db.case.create({
+  async create(dto: Case): Promise<Case> {
+    const createdCase = await this.db.case.create({
       data: {
         name: dto.getName,
         isPrivate: dto.getIsPrivate,
-        employeesIds: dto.getEmployeesIds,
-        providersIds: dto.getProvidersIds,
-        applicantsIds: dto.getApplicantsIds,
+        applicants: {
+          connect: dto.getApplicantsIds.map((id) => ({ id })),
+        },
+        providers: {
+          connect: dto.getProvidersIds.map((id) => ({ id })),
+        },
+        employees: {
+          connect: dto.getEmployeesIds.map((id) => ({ id })),
+        },
       },
     });
+
+    return plainToInstance(Case, createdCase);
   }
 
-  async update(dto: Case) {
-    await this.db.case.update({
+  async update(dto: Case): Promise<Case> {
+    const updatedCase = await this.db.case.update({
       where: {
         id: dto.getId,
       },
@@ -42,6 +50,8 @@ export class CaseRepository implements ICaseRepository {
         updatedAt: new Date(),
       },
     });
+
+    return plainToInstance(Case, updatedCase);
   }
 
   async findOneById(id: string): Promise<Case> {
@@ -50,7 +60,7 @@ export class CaseRepository implements ICaseRepository {
         id,
       },
     });
-
+    console.log({ foundCase });
     return plainToInstance(Case, foundCase);
   }
 
@@ -68,12 +78,11 @@ export class CaseRepository implements ICaseRepository {
         }
       : undefined;
 
-    console.log({ id: options.providerCompanyId });
     const cases = await this.db.case.findMany({
       where: {
         ...where,
         applicantsIds,
-        providerCompanyId: options.providerCompanyId,
+        providerCompanyId,
       },
     });
 

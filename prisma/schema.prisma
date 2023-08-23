@@ -23,12 +23,23 @@ model Documents {
   caseId       String?      @db.ObjectId
 }
 
+model CaseRequest {
+  id                String            @id @default(auto()) @map("_id") @db.ObjectId
+  status            CaseRequestStatus @default(PENDING)
+  applicantId       String            @db.ObjectId
+  providerCompanyId String            @db.ObjectId
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  case              Case?             @relation(fields: [caseId], references: [id])
+  caseId            String            @db.ObjectId
+}
+
 model Case {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  status    CaseStatus @default(UNASIGNED)
+  status    CaseStatus @default(UNASSIGNED)
   isPrivate Boolean    @default(false)
 
   documents Documents[]
@@ -47,6 +58,8 @@ model Case {
 
   employerCompany   EmployerCompany? @relation(fields: [employerCompanyId], references: [id])
   employerCompanyId String?          @db.ObjectId
+
+  caseRequest CaseRequest[]
 }
 
 model ProviderCompany {
@@ -263,11 +276,18 @@ enum EmploymentStatus {
 }
 
 enum CaseStatus {
-  UNASIGNED // No one is assigned
+  UNASSIGNED // No one is assigned
   PENDING // Customer is collecting documents
   REVIEW // Provider is reviewing documents
   SENT // Application is sent to the embassy and waiting for response
   APPROVED // Application is approved by the embassy
   REJECTED // Application is rejected by the embassy
   CANCELLED // Application is cancelled by the customer
+}
+
+enum CaseRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
 }

@@ -12,7 +12,7 @@ import { CreateProviderCompanyCommand } from 'src/application/commands/provider-
 import { MutationReturn } from 'src/presentation/common/entities/mutation-return-type';
 import { ProviderCompany } from 'src/domain/provider-company/provider-company';
 import { CaseConnection } from 'src/domain/case/case-connection';
-import { FindAllCasesQuery } from 'src/application/queries/cases/find-all-cases/find-all-casses.query';
+import { FindAllCasesQuery } from 'src/application/queries/cases/find-all-cases/find-all-cases.query';
 import { CaseEntity } from 'src/domain/case/case.entity';
 import { FindProviderCompanyByIdQuery } from 'src/application/queries/provider-company/find-provider-company-by-id/find-provider-company-by-id.query';
 import { ProviderCompanyEntity } from 'src/domain/provider-company/provider-company.entity';

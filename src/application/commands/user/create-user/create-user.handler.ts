@@ -1,43 +1,37 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateUserCommand } from './create-user.command';
 import { User } from 'src/domain/user/user';
-import { Inject } from '@nestjs/common';
-import { USER_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
-import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';
+
+import { UserRoles } from 'src/domain/user/enums';
+
+import { UserOnboardingService } from 'src/application/services/onboarding/user-onboarding.service';
+import { MutationReturn } from 'src/presentation/common/entities/mutation-return-type';
 
 @CommandHandler(CreateUserCommand)
 class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
-  constructor(
-    @Inject(USER_REPOSITORY_TOKEN)
-    private readonly userRepository: IUserRepository,
-  ) {}
+  constructor(private readonly onboardingService: UserOnboardingService) {}
 
-  async execute({ dto }: CreateUserCommand) {
-    try {
-      const { firstName, lastName, middleName, email, password, userRole } =
-        dto;
-      const user = new User(
-        firstName,
-        middleName ?? '',
-        lastName,
-        email,
-        password,
-        userRole,
-      );
+  async execute({ dto }: CreateUserCommand): Promise<MutationReturn> {
+    const user = new User(
+      dto.firstName,
+      dto.middleName,
+      dto.lastName,
+      dto.email,
+      dto.password,
+      dto.userRole,
+    );
 
-      console.log({ userRole });
+    if (user.getUserRole === UserRoles.CUSTOMER) {
+      return await this.onboardingService.onboardCustomer(user);
+    }
 
-      await this.userRepository.create(user);
+    if (
+      user.getUserRole === UserRoles.PROVIDER_SUPERVISOR ||
+      user.getUserRole === UserRoles.PROVIDER_EMPLOYEE
+    ) {
+      user.setProviderCompanyId = dto.companyId;
 
-      return {
-        isCompleted: true,
-      };
-    } catch (error) {
-      return {
-        isCompleted: false,
-        errorMsg: "Couldn't create user",
-        error: error.message,
-      };
+      return await this.onboardingService.onboardProvider(user);
     }
   }
 }

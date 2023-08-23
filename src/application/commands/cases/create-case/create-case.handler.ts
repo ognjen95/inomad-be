@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateCaseCommand } from './create-case.command';
-import { ICaseRepository } from 'src/application/common/interfaces/case/case-repository.interface';
+import { ICaseRepository } from 'src/application/common/interfaces/case/case-request-repository.interface';
 import { Case } from 'src/domain/case/case';
 import { Inject } from '@nestjs/common';
 import { CASE_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
@@ -21,18 +21,10 @@ class CreateCaseHandler implements ICommandHandler<CreateCaseCommand> {
       dto.employeesIds,
     );
 
-    try {
-      this.caseRepository.create(newCase);
-      return {
-        isCompleted: true,
-      };
-    } catch (error) {
-      return {
-        isCompleted: false,
-        errorMsg: "Couldn't create case",
-        error: error.message,
-      };
-    }
+    this.caseRepository.create(newCase);
+    return {
+      isCompleted: true,
+    };
   }
 }
 

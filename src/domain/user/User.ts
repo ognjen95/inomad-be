@@ -87,6 +87,15 @@ export class User extends UserEntity {
     this.userRole = userRole;
   }
 
+  get getApplicationIds() {
+    return this.applicationIds;
+  }
+
+  set setApplicationIds(applicationIds: string[]) {
+    if (!applicationIds) return;
+    this.applicationIds = applicationIds;
+  }
+
   get getEmploymentStatus() {
     return this.employmentStatus;
   }

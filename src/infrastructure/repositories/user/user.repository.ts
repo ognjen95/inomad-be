@@ -12,8 +12,8 @@ export class UserRepository implements IUserRepository {
   @Inject()
   protected readonly prismaService: PrismaService;
 
-  async create(dto: User) {
-    await this.prismaService.user.create({
+  async create(dto: User): Promise<User> {
+    const user = await this.prismaService.user.create({
       data: {
         email: dto.getEmail,
         birthday: new Date('04.01.1995'),
@@ -25,6 +25,8 @@ export class UserRepository implements IUserRepository {
         providerCompanyId: dto.getProviderCompanyId,
       },
     });
+
+    return plainToInstance(User, user);
   }
 
   async findAll(): Promise<User[]> {
@@ -51,6 +53,7 @@ export class UserRepository implements IUserRepository {
         employmentStatus: dto.getEmploymentStatus,
         userRole: dto.getUserRole,
         providerCompanyId: dto.getProviderCompanyId,
+        applicationIds: dto.getApplicationIds,
       },
     });
 

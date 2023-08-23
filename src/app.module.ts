@@ -14,6 +14,7 @@ import { TimeOffRequestModule } from './presentation/modules/time-off/time-off-r
 import { CompensationModule } from './presentation/modules/compensation/compensation.module';
 import { CasesModule } from './presentation/modules/cases/cases.module';
 import { ProviderCompanyModule } from './presentation/modules/provider-company/provider-company.module';
+import { CaseRequestModule } from './presentation/modules/cases/case-request.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { ProviderCompanyModule } from './presentation/modules/provider-company/p
     CompensationModule,
     CasesModule,
     ProviderCompanyModule,
+    CaseRequestModule,
   ],
   controllers: [],
   providers: [],

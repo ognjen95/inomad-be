@@ -12,6 +12,9 @@ export class UserEntity extends AggregateRoot {
   protected id: string;
 
   @Field()
+  protected externalId: string;
+
+  @Field()
   protected firstName: string;
 
   @Field({ nullable: true })

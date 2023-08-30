@@ -4,12 +4,17 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
 import CreateProviderCompanyHandler from 'src/application/commands/provider-company/create-provider-company/provider-compay.handler';
 import {
+  AUTH_SERVICE_TOKEN,
+  CASE_REPOSITORY_TOKEN,
   PROVIDER_REPOSITORY_TOKEN,
   USER_REPOSITORY_TOKEN,
 } from 'src/application/common/constants/tokens';
 import { ProviderCompanyRepository } from 'src/infrastructure/repositories/provider-company/provider-company.repository';
 import { UserRepository } from 'src/infrastructure/repositories/user/user.repository';
 import FindProviderCompanyByIdHandler from 'src/application/queries/provider-company/find-provider-company-by-id/find-provider-company-by-id.handler';
+import { UserOnboardingService } from 'src/application/services/onboarding/user-onboarding.service';
+import { CaseRepository } from 'src/infrastructure/repositories/case/case.repository';
+import { AuthService } from 'src/application/services/auth/auth-service';
 
 @Module({
   imports: [CqrsModule],
@@ -24,8 +29,17 @@ import FindProviderCompanyByIdHandler from 'src/application/queries/provider-com
       provide: USER_REPOSITORY_TOKEN,
       useClass: UserRepository,
     },
+    {
+      provide: CASE_REPOSITORY_TOKEN,
+      useClass: CaseRepository,
+    },
+    {
+      provide: AUTH_SERVICE_TOKEN,
+      useClass: AuthService,
+    },
     CreateProviderCompanyHandler,
     FindProviderCompanyByIdHandler,
+    UserOnboardingService,
   ],
 })
 export class ProviderCompanyModule {}

@@ -15,6 +15,10 @@ import { CompensationModule } from './presentation/modules/compensation/compensa
 import { CasesModule } from './presentation/modules/cases/cases.module';
 import { ProviderCompanyModule } from './presentation/modules/provider-company/provider-company.module';
 import { CaseRequestModule } from './presentation/modules/cases/case-request.module';
+import { AuthModule } from './presentation/modules/auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthorizationGuard } from './presentation/decorators/authorization-guard';
+import { DocumentsModule } from './presentation/modules/documents/documents.module';
 
 @Module({
   imports: [
@@ -40,8 +44,15 @@ import { CaseRequestModule } from './presentation/modules/cases/case-request.mod
     CasesModule,
     ProviderCompanyModule,
     CaseRequestModule,
+    AuthModule,
+    DocumentsModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthorizationGuard,
+    },
+  ],
 })
 export class AppModule {}

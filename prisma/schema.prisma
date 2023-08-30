@@ -11,16 +11,18 @@ datasource db {
 }
 
 model Documents {
-  id           String       @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  url          String
-  documentType DocumentType @default(OTHER)
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  customer     User?        @relation(fields: [customerId], references: [id])
-  customerId   String?      @db.ObjectId
-  Case         Case?        @relation(fields: [caseId], references: [id])
-  caseId       String?      @db.ObjectId
+  id                String           @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  fileId            String?          
+  documentType      DocumentType     @default(OTHER)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  customer          User?            @relation(fields: [customerId], references: [id])
+  customerId        String?          @db.ObjectId
+  Case              Case?            @relation(fields: [caseId], references: [id])
+  caseId            String?          @db.ObjectId
+  providerCompany   ProviderCompany? @relation(fields: [providerCompanyId], references: [id])
+  providerCompanyId String?          @db.ObjectId
 }
 
 model CaseRequest {
@@ -63,27 +65,28 @@ model Case {
 }
 
 model ProviderCompany {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String   @unique
-  email     String   @unique
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  name      String      @unique
+  email     String      @unique
   website   String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  rating    Int      @default(0)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  rating    Int         @default(0)
   employees User[]
   cases     Case[]
+  Documents Documents[]
 
   @@unique([name, email])
 }
 
 model User {
   id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  externalId       String           @unique
   email            String           @unique
   firstName        String
   middleName       String?
   lastName         String
   employmentStatus EmploymentStatus @default(PENDING)
-  password         String
   birthday         DateTime?
   createdAt        DateTime         @default(now())
   userRole         UserRoles

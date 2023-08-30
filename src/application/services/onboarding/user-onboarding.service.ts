@@ -1,6 +1,7 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { User } from 'src/domain/user/user';
 import {
+  AUTH_SERVICE_TOKEN,
   CASE_REPOSITORY_TOKEN,
   PROVIDER_REPOSITORY_TOKEN,
   USER_REPOSITORY_TOKEN,
@@ -9,7 +10,9 @@ import { IUserRepository } from 'src/application/common/interfaces/user/user-rep
 import { ICaseRepository } from 'src/application/common/interfaces/case/case-request-repository.interface';
 import { generateCaseName } from 'src/domain/case/utils/generate-case-name';
 import { Case } from 'src/domain/case/case';
-import { MutationReturn } from 'src/presentation/common/entities/mutation-return-type';
+import { MutationReturn } from 'src/application/common/return-dtos/mutation-return-dt0';
+import { IAuthService } from 'src/application/common/interfaces/auth/auth.interface';
+import { CreateUserInput } from 'src/domain/user/dtos/create-user.input';
 
 @Injectable()
 export class UserOnboardingService {
@@ -22,9 +25,36 @@ export class UserOnboardingService {
 
     @Inject(PROVIDER_REPOSITORY_TOKEN)
     private readonly providerRepository: ICaseRepository,
+
+    @Inject(AUTH_SERVICE_TOKEN)
+    private readonly authService: IAuthService,
   ) {}
 
-  async onboardCustomer(user: User): Promise<MutationReturn> {
+  async onboardCustomer(dto: CreateUserInput): Promise<MutationReturn> {
+    const user = new User(
+      dto.firstName,
+      dto.middleName,
+      dto.lastName,
+      dto.email,
+      dto.password,
+      dto.userRole,
+    );
+
+    const userExists = await this.userRepository.findOneByEmail(user.getEmail);
+
+    if (userExists) {
+      throw new BadRequestException('You can not create user');
+    }
+
+    const externalUserId = await this.authService.registerUser(
+      user.getEmail,
+      user.getPassword,
+      user.getFirstName,
+      user.getLastName,
+    );
+
+    user.setExternalId = externalUserId as string;
+
     const newUser = await this.userRepository.create(user);
 
     const caseName = generateCaseName(newUser.getLastName);
@@ -42,7 +72,24 @@ export class UserOnboardingService {
     };
   }
 
-  async onboardProvider(user: User): Promise<MutationReturn> {
+  async onboardProvider(dto: CreateUserInput): Promise<MutationReturn> {
+    const user = new User(
+      dto.firstName,
+      dto.middleName,
+      dto.lastName,
+      dto.email,
+      dto.password,
+      dto.userRole,
+    );
+
+    user.setProviderCompanyId = dto.companyId;
+
+    const userExists = await this.userRepository.findOneByEmail(user.getEmail);
+
+    if (userExists) {
+      throw new BadRequestException('You can not create user');
+    }
+
     if (!user.getProviderCompanyId) {
       throw new BadRequestException('Provider company is required');
     }
@@ -54,6 +101,15 @@ export class UserOnboardingService {
     if (!providerCompany) {
       throw new BadRequestException('Provider company not found');
     }
+
+    const externalUserId = await this.authService.registerUser(
+      user.getEmail,
+      user.getPassword,
+      user.getFirstName,
+      user.getLastName,
+    );
+
+    user.setExternalId = externalUserId as string;
 
     await this.userRepository.create(user);
 

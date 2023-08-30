@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args, Parent } from '@nestjs/graphql';
 
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { MutationReturn } from 'src/presentation/common/entities/mutation-return-type';
+import { MutationReturn } from 'src/application/common/return-dtos/mutation-return-dt0';
 import { CreateCaseCommand } from 'src/application/commands/cases/create-case/create-case.command';
 import { UpdateCaseCommand } from 'src/application/commands/cases/update-case/update-case.command';
 import { FindAllCasesQuery } from 'src/application/queries/cases/find-all-cases/find-all-cases.query';

@@ -20,6 +20,11 @@ input ApplicantsIdsInput {
   hasSome: String!
 }
 
+type AuthReturn {
+  accessToken: String!
+  refreshToken: String!
+}
+
 type CaseConnection {
   edges: [CaseEdges!]!
   pageInfo: PageInfo!
@@ -114,12 +119,6 @@ input CreateCaseInput {
   providersIds: [String!] = []
 }
 
-input CreateCaseRequestInput {
-  applicantId: String!
-  caseId: String!
-  providerCompanyId: String!
-}
-
 input CreateCompensationInput {
   currency: String
   employeeId: String!
@@ -129,6 +128,15 @@ input CreateCompensationInput {
   paymentsPerMonth: Int
   startDate: DateTime!
   totalCost: Int!
+}
+
+input CreateDocumentInput {
+  caseId: String
+  customerId: String
+  documentType: DocumentType!
+  fileId: String
+  name: String!
+  providerCompanyId: String
 }
 
 input CreateProviderCompanyInput {
@@ -191,6 +199,50 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type DocumentConnection {
+  edges: [DocumentEdges!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type DocumentEdges {
+  cursor: String!
+  node: DocumentEntity!
+}
+
+type DocumentEntity {
+  caseId: String
+  createdAt: DateTime!
+  customerId: String
+  documentType: DocumentType!
+  fileId: String
+  id: String!
+  name: String!
+  providerCompanyId: String
+}
+
+enum DocumentType {
+  APPLICATION_FORM
+  BIRTH_CERTIFICATE
+  CRIMINAL_RECORD
+  CV
+  DRIVING_LICENSE
+  EDUCATION_DIPLOMA
+  EMPLOYMENT_CONFIRMATION_LETTER
+  EMPLOYMENT_CONTRACT
+  FINANCIAL_PROOF
+  IDENTITY_CARD
+  INVOICES
+  MARRIAGE_CERTIFICATE
+  MEDICAL_INSURANCE
+  OTHER
+  PASSPORT
+  PROOF_OF_ACCOMMODATION
+  TAX_RECEIPT
+  TRAVEL_TICKET
+  VISA
+}
+
 input EmployeeStatusFilterInput {
   contains: String
   eq: String
@@ -213,8 +265,9 @@ input FilterInput {
 
 type Mutation {
   createCase(args: CreateCaseInput!): MutationReturn!
-  createCaseRequest(args: CreateCaseRequestInput!): MutationReturn!
+  createCaseRequest(providerCompanyId: String!): MutationReturn!
   createCompensation(createCompensationInput: CreateCompensationInput!): Compensation!
+  createDocument(args: CreateDocumentInput!): MutationReturn!
   createProviderCompany(args: CreateProviderCompanyInput!): MutationReturn!
   createQuestion(createQuestionInput: CreateQuestionInput!): QuestionEntity!
   createQuestionGroup(createQuestionGroupInput: CreateQuestionGroupInput!): QuestionGroupEntity!
@@ -222,11 +275,13 @@ type Mutation {
   createTimeOff(createTimeOffInput: CreateTimeOffInput!): TimeOffEntity!
   createTimeOffRequest(createTimeOffRequestInput: CreateTimeOffRequestInput!): TimeOffRequestEntity!
   createUser(args: CreateUserInput!): MutationReturn!
+  login(email: String!, password: String!): AuthReturn!
   removeCaseRequest(id: Int!): CaseRequestEntity!
   removeCompensation(id: Int!): Compensation!
   removeUser(id: String!): UserEntity!
   updateCase(args: UpdateCaseInput!): MutationReturn!
   updateCaseRequest(args: UpdateCaseRequestInput!): MutationReturn!
+  updateDocument(args: UpdateDocumentInput!): MutationReturn!
   updateQuestion(updateQuestionInput: UpdateQuestionInput!): QuestionEntity!
   updateTest(updateTestInput: UpdateTestInput!): TestEntity!
   updateTimeOff(updateTimeOffInput: UpdateTimeOffInput!): TimeOffEntity!
@@ -254,6 +309,11 @@ input PaginationInput {
   take: Int
 }
 
+type PresignedUrlReturn {
+  id: String!
+  link: String!
+}
+
 type ProviderCompanyEntity {
   cases: CaseConnection!
   createdAt: DateTime!
@@ -272,11 +332,15 @@ type Query {
   caseRequests(options: CaseQueryOptionsInput): CaseRequestConnection!
   cases: CaseConnection!
   compensation(id: Int!): Compensation!
+  document(id: String!): DocumentEntity!
+  documents: DocumentConnection!
+  downloadLink(id: String!): String!
   findAllQuestion(QueryOptionsInput: QueryOptionsInput): QuestionEntityEdgesEntity!
   findAllQuestionGroups(QueryOptionsInput: QueryOptionsInput): QuestionGroupsEntityEdgesEntity!
   findAllTests(QueryOptionsInput: QueryOptionsInput): TestsEntityEdgesEntity!
   findTestById(id: String!): TestEntity!
-  providerCompany(id: String!): ProviderCompanyEntity!
+  presignedUrl(fileNames: [String!]!): [PresignedUrlReturn!]!
+  providerCompany: ProviderCompanyEntity
   timeOffs: TimeOffConnection!
   timeOffsByUserId(employeeId: String!, forYear: Float!): TimeOffConnection!
   userById(id: String!): UserEntity!
@@ -417,7 +481,16 @@ input UpdateCaseInput {
 input UpdateCaseRequestInput {
   id: String!
   status: CaseRequestStatus! = PENDING
-  userId: String!
+}
+
+input UpdateDocumentInput {
+  caseId: String
+  customerId: String
+  documentType: DocumentType
+  fileId: String
+  id: String!
+  name: String
+  providerCompanyId: String
 }
 
 input UpdateQuestionInput {
@@ -488,6 +561,7 @@ type UserEntity {
   createdAt: DateTime!
   email: String!
   employmentStatus: EmploymentStatus!
+  externalId: String!
   family: [UserEntity!]
   firstName: String!
   id: String!

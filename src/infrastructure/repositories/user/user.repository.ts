@@ -19,10 +19,10 @@ export class UserRepository implements IUserRepository {
         birthday: new Date('04.01.1995'),
         firstName: dto.getFirstName,
         lastName: dto.getLastName,
-        password: dto.getPassword,
         employmentStatus: dto.getEmploymentStatus,
         userRole: dto.getUserRole,
         providerCompanyId: dto.getProviderCompanyId,
+        externalId: dto.getExternalId,
       },
     });
 
@@ -36,7 +36,22 @@ export class UserRepository implements IUserRepository {
   }
 
   async findOneById(id: string): Promise<User> {
-    const user = await this.prismaService.user.findUnique({ where: { id } });
+    const user = await this.prismaService.user.findUnique({
+      where: { id },
+    });
+    return plainToInstance(User, user);
+  }
+
+  async findOneByExternalId(id: string): Promise<User> {
+    const user = await this.prismaService.user.findUnique({
+      where: { externalId: id },
+      select: {
+        id: true,
+        userRole: true,
+        providerCompanyId: true,
+        applicationIds: true,
+      },
+    });
     return plainToInstance(User, user);
   }
 
@@ -49,7 +64,6 @@ export class UserRepository implements IUserRepository {
     const user = await this.prismaService.user.update({
       where: { id },
       data: {
-        password: dto.getPassword,
         employmentStatus: dto.getEmploymentStatus,
         userRole: dto.getUserRole,
         providerCompanyId: dto.getProviderCompanyId,

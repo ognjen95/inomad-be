@@ -8,8 +8,8 @@ import {
 } from 'src/application/common/constants/tokens';
 import { ProviderCompany } from 'src/domain/provider-company/provider-company';
 import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';
-import { User } from 'src/domain/user/user';
 import { UserRoles } from 'src/domain/user/enums';
+import { UserOnboardingService } from 'src/application/services/onboarding/user-onboarding.service';
 
 @CommandHandler(CreateProviderCompanyCommand)
 class CreateProviderCompanyHandler
@@ -18,8 +18,11 @@ class CreateProviderCompanyHandler
   constructor(
     @Inject(PROVIDER_REPOSITORY_TOKEN)
     private readonly providerRepository: IProviderCompanyRepository,
+
     @Inject(USER_REPOSITORY_TOKEN)
     private readonly userRepository: IUserRepository,
+
+    private readonly onboardingService: UserOnboardingService,
   ) {}
 
   async execute({ dto }: CreateProviderCompanyCommand): Promise<any> {
@@ -29,45 +32,33 @@ class CreateProviderCompanyHandler
       dto.website,
     );
 
-    try {
-      const user = await this.userRepository.findOneByEmail(dto.email);
+    const user = await this.userRepository.findOneByEmail(dto.email);
 
-      if (user) {
-        throw new BadRequestException('Could not create company supervisor');
-      }
-
-      const createdCompany = await this.providerRepository
-        .create(providerCompany)
-        .catch(() => {
-          throw new BadRequestException("Couldn't create provider company");
-        });
-
-      const providerCompanySupervisor = new User(
-        dto.firstName,
-        dto.middleName ?? '',
-        dto.lastName,
-        dto.email,
-        dto.password,
-        UserRoles.PROVIDER_SUPERVISOR,
-      );
-
-      providerCompanySupervisor.setProviderCompanyId = createdCompany.getId;
-
-      await this.userRepository.create(providerCompanySupervisor).catch(() => {
-        throw new BadRequestException(
-          "Couldn't create provider company supervisor",
-        );
-      });
-
-      return {
-        isCompleted: true,
-      };
-    } catch (error) {
-      return {
-        isCompleted: false,
-        error: error.message,
-      };
+    if (user) {
+      throw new BadRequestException('Could not create company');
     }
+
+    const createdCompany = await this.providerRepository.create(
+      providerCompany,
+    );
+
+    if (!createdCompany) {
+      throw new BadRequestException('Could not create company supervisor');
+    }
+
+    await this.onboardingService.onboardProvider({
+      firstName: dto.firstName,
+      middleName: dto.middleName,
+      lastName: dto.lastName,
+      email: dto.email,
+      password: dto.password,
+      userRole: UserRoles.PROVIDER_SUPERVISOR,
+      companyId: createdCompany.getId,
+    });
+
+    return {
+      isCompleted: true,
+    };
   }
 }
 

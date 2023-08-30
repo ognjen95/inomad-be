@@ -8,9 +8,6 @@ export class UpdateCaseRequestInput {
 
   @Field(() => CaseRequestStatus, { defaultValue: CaseRequestStatus.PENDING })
   status: CaseRequestStatus;
-
-  @Field()
-  userId: string;
 }
 
 registerEnumType(CaseRequestStatus, {

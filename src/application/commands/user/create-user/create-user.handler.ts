@@ -5,33 +5,22 @@ import { User } from 'src/domain/user/user';
 import { UserRoles } from 'src/domain/user/enums';
 
 import { UserOnboardingService } from 'src/application/services/onboarding/user-onboarding.service';
-import { MutationReturn } from 'src/presentation/common/entities/mutation-return-type';
+import { MutationReturn } from 'src/application/common/return-dtos/mutation-return-dt0';
 
 @CommandHandler(CreateUserCommand)
 class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
   constructor(private readonly onboardingService: UserOnboardingService) {}
 
   async execute({ dto }: CreateUserCommand): Promise<MutationReturn> {
-    const user = new User(
-      dto.firstName,
-      dto.middleName,
-      dto.lastName,
-      dto.email,
-      dto.password,
-      dto.userRole,
-    );
-
-    if (user.getUserRole === UserRoles.CUSTOMER) {
-      return await this.onboardingService.onboardCustomer(user);
+    if (dto.userRole === UserRoles.CUSTOMER) {
+      return await this.onboardingService.onboardCustomer(dto);
     }
 
     if (
-      user.getUserRole === UserRoles.PROVIDER_SUPERVISOR ||
-      user.getUserRole === UserRoles.PROVIDER_EMPLOYEE
+      dto.userRole === UserRoles.PROVIDER_SUPERVISOR ||
+      dto.userRole === UserRoles.PROVIDER_EMPLOYEE
     ) {
-      user.setProviderCompanyId = dto.companyId;
-
-      return await this.onboardingService.onboardProvider(user);
+      return await this.onboardingService.onboardProvider(dto);
     }
   }
 }

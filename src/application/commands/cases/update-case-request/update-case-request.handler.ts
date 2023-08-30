@@ -7,7 +7,7 @@ import {
 } from 'src/application/common/constants/tokens';
 import { UpdateCaseRequestCommand } from './update-case-request.command';
 import { ICaseRequestRepository } from 'src/application/common/interfaces/case/case-repository.interface';
-import { MutationReturn } from 'src/presentation/common/entities/mutation-return-type';
+import { MutationReturn } from 'src/application/common/return-dtos/mutation-return-dt0';
 import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';
 import { ICaseRepository } from 'src/application/common/interfaces/case/case-request-repository.interface';
 import { CaseStatus } from 'src/domain/case/enums';
@@ -28,10 +28,11 @@ class UpdateCaseRequestHandler
     private readonly caseRepository: ICaseRepository,
   ) {}
 
-  async execute({ dto }: UpdateCaseRequestCommand): Promise<MutationReturn> {
-    const providerSupervisor = await this.userRepository.findOneById(
-      dto.userId,
-    );
+  async execute({
+    userId,
+    dto,
+  }: UpdateCaseRequestCommand): Promise<MutationReturn> {
+    const providerSupervisor = await this.userRepository.findOneById(userId);
 
     if (!providerSupervisor) {
       throw new NotFoundException('User not found');

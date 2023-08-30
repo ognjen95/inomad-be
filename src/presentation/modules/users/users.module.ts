@@ -6,6 +6,7 @@ import { UserRepository } from 'src/infrastructure/repositories/user/user.reposi
 import { PrismaModule } from 'src/infrastructure/prisma/prisma.module';
 import FindAllUsersHandler from 'src/application/queries/users/find-all/find-all-users.handler';
 import {
+  AUTH_SERVICE_TOKEN,
   CASE_REPOSITORY_TOKEN,
   PROVIDER_REPOSITORY_TOKEN,
   TIME_OFF_TOKEN,
@@ -18,6 +19,7 @@ import { TimeOffRepository } from 'src/infrastructure/repositories/time-off/time
 import { CaseRepository } from 'src/infrastructure/repositories/case/case.repository';
 import { UserOnboardingService } from 'src/application/services/onboarding/user-onboarding.service';
 import { ProviderCompanyRepository } from 'src/infrastructure/repositories/provider-company/provider-company.repository';
+import { AuthService } from 'src/application/services/auth/auth-service';
 
 @Module({
   imports: [CqrsModule],
@@ -40,7 +42,12 @@ import { ProviderCompanyRepository } from 'src/infrastructure/repositories/provi
       provide: PROVIDER_REPOSITORY_TOKEN,
       useClass: ProviderCompanyRepository,
     },
+    {
+      provide: AUTH_SERVICE_TOKEN,
+      useClass: AuthService,
+    },
     UserOnboardingService,
+    AuthService,
     CreateUserHandler,
     UpdateUserHandler,
     FindAllUsersHandler,

@@ -39,6 +39,14 @@ export class User extends UserEntity {
     this.id = id;
   }
 
+  get getExternalId() {
+    return this.externalId;
+  }
+
+  set setExternalId(externalId: string) {
+    this.externalId = externalId;
+  }
+
   get getFirstName() {
     return this.firstName;
   }

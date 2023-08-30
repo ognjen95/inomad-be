@@ -1,6 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { BadRequestException, Inject } from '@nestjs/common';
 import {
+  CASE_REPOSITORY_TOKEN,
   CASE_REQUEST_REPOSITORY_TOKEN,
   PROVIDER_REPOSITORY_TOKEN,
   USER_REPOSITORY_TOKEN,
@@ -10,8 +11,9 @@ import { ICaseRequestRepository } from 'src/application/common/interfaces/case/c
 import { CaseRequest } from 'src/domain/case-request/case-request';
 import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';
 import { ICaseRepository } from 'src/application/common/interfaces/case/case-request-repository.interface';
-import { MutationReturn } from 'src/presentation/common/entities/mutation-return-type';
+import { MutationReturn } from 'src/application/common/return-dtos/mutation-return-dt0';
 import { UserRoles } from 'src/domain/user/enums';
+import { IProviderCompanyRepository } from 'src/application/common/interfaces/provider-company/provider-company-repository.interface';
 
 @CommandHandler(CreateCaseRequestCommand)
 class CreateCaseRequestHandler
@@ -25,29 +27,44 @@ class CreateCaseRequestHandler
     private readonly useRepository: IUserRepository,
 
     @Inject(PROVIDER_REPOSITORY_TOKEN)
-    private readonly providerCompany: ICaseRepository,
+    private readonly providerCompany: IProviderCompanyRepository,
+
+    @Inject(CASE_REPOSITORY_TOKEN)
+    private readonly caseRepository: ICaseRepository,
   ) {}
 
-  async execute({ dto }: CreateCaseRequestCommand): Promise<MutationReturn> {
-    const applicant = await this.useRepository.findOneById(dto.applicantId);
+  async execute({
+    userId,
+    caseId,
+    providerCompanyId,
+  }: CreateCaseRequestCommand): Promise<MutationReturn> {
+    const applicant = await this.useRepository.findOneById(userId);
 
     if (!applicant || applicant.getUserRole !== UserRoles.CUSTOMER) {
       throw new BadRequestException('You cannot create a case request');
     }
 
     const providerCompany = await this.providerCompany.findOneById(
-      dto.providerCompanyId,
+      providerCompanyId,
     );
 
     if (!providerCompany) {
       throw new BadRequestException('Provider company do not accept new cases');
     }
 
-    const caseRequest = new CaseRequest(
-      dto.applicantId,
-      dto.providerCompanyId,
-      dto.caseId,
-    );
+    const caseExist = await this.caseRepository.findOneById(caseId);
+
+    if (!caseExist || caseExist.getProviderCompanyId === providerCompanyId) {
+      throw new BadRequestException("Can't create a case requests");
+    }
+
+    if (caseExist.getApplicantsIds.includes(userId)) {
+      throw new BadRequestException(
+        'You already have a case request for this case',
+      );
+    }
+
+    const caseRequest = new CaseRequest(userId, providerCompanyId, caseId);
 
     await this.caseRequestRepository.create(caseRequest);
 

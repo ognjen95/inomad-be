@@ -5,6 +5,7 @@ export interface IUserRepository {
   create(dto: User): Promise<User>;
   findAll(queryOptions?: QueryOptions): Promise<User[]>;
   findOneById(id: string): Promise<User>;
+  findOneByExternalId(id: string): Promise<User>;
   findOneByEmail(email: string): Promise<User>;
   update(id: string, user: Partial<User>): Promise<User>;
   remove(id: string): Promise<User>;

@@ -37,14 +37,17 @@ type CaseEdges {
 }
 
 type CaseEntity {
+  applicants: [UserEntity!]
   applicantsIds: [String!]!
   createdAt: DateTime!
+  employees: [UserEntity!]
   employeesIds: [String!]
   employerCompanyId: String
   id: String!
   isPrivate: Boolean
   name: String!
   providerCompanyId: String
+  providers: [UserEntity!]
   providersIds: [String!]
   status: CaseStatus!
   updatedAt: DateTime!
@@ -70,6 +73,7 @@ type CaseRequestEdges {
 
 type CaseRequestEntity {
   applicantId: String!
+  case: CaseEntity
   caseId: String!
   createdAt: DateTime!
   id: String!
@@ -261,6 +265,8 @@ input FilterInput {
   contains: String
   employeeStatus: EmployeeStatusFilterInput
   eq: String
+  providerCompanyId: String
+  userRoles: [UserRoles!]
 }
 
 type Mutation {
@@ -315,10 +321,11 @@ type PresignedUrlReturn {
 }
 
 type ProviderCompanyEntity {
+  caseRequests(options: CaseQueryOptionsInput): CaseRequestConnection!
   cases: CaseConnection!
   createdAt: DateTime!
   email: String!
-  employees: [UserEntity!]!
+  employees(args: UserQueryOptionsInput): UserConnection!
   id: String!
   name: String!
   rating: Int!
@@ -344,7 +351,7 @@ type Query {
   timeOffs: TimeOffConnection!
   timeOffsByUserId(employeeId: String!, forYear: Float!): TimeOffConnection!
   userById(id: String!): UserEntity!
-  users(args: QueryOptionsInput): UserConnection!
+  users(args: UserQueryOptionsInput): UserConnection!
 }
 
 input QueryOptionsInput {
@@ -567,13 +574,16 @@ type UserEntity {
   id: String!
   lastName: String!
   middleName: String
+  providerCassesIds: [String!]
   providerCompanyId: String
   userRole: UserRoles!
 }
 
 input UserQueryOptionsInput {
+  providerCompanyId: String
   userId: String
-  where: UserWhereInput!
+  userRoles: [UserRoles!]
+  where: UserWhereInput
 }
 
 enum UserRoles {

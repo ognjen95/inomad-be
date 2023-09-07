@@ -5,6 +5,7 @@ import { CaseQueryOptionsInput } from 'src/domain/case/dtos/query-options.input'
 import { ICaseRequestRepository } from 'src/application/common/interfaces/case/case-repository.interface';
 import { CaseRequest } from 'src/domain/case-request/case-request';
 import { CaseRequestStatus } from '.prisma/client';
+import { Case } from 'src/domain/case/case';
 
 @Injectable()
 export class CaseRequestRepository implements ICaseRequestRepository {
@@ -60,10 +61,27 @@ export class CaseRequestRepository implements ICaseRequestRepository {
       : undefined;
 
     const cases = await this.db.caseRequest.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
       where: {
         ...where,
         providerCompanyId,
         caseId,
+      },
+      include: {
+        case: {
+          include: {
+            applicants: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+              },
+            },
+          },
+        },
       },
     });
 

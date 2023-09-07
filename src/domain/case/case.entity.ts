@@ -1,6 +1,7 @@
 import { AggregateRoot } from '@nestjs/cqrs';
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { CaseStatus } from './enums';
+import { UserEntity } from '../user/user.entity';
 // import { CaseRequest } from '../case-request/case-request';
 
 @ObjectType()
@@ -40,6 +41,15 @@ export class CaseEntity extends AggregateRoot {
 
   @Field(() => Date, { defaultValue: new Date() })
   protected updatedAt: Date;
+
+  @Field(() => [UserEntity], { nullable: true })
+  protected applicants: UserEntity[];
+
+  @Field(() => [UserEntity], { nullable: true })
+  protected providers: UserEntity[];
+
+  @Field(() => [UserEntity], { nullable: true })
+  protected employees: UserEntity[];
 }
 
 registerEnumType(CaseStatus, {

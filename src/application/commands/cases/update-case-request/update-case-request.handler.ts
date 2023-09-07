@@ -55,10 +55,13 @@ class UpdateCaseRequestHandler
         throw new NotFoundException('Case not found');
       }
 
-      caseForThisRequest.setProviderCompanyId =
-        caseRequest.getProviderCompanyId;
+      if (!caseForThisRequest.getProviderCompanyId) {
+        caseForThisRequest.setProviderCompanyId =
+          caseRequest.getProviderCompanyId;
+      }
 
-      caseForThisRequest.setStatus = CaseStatus.PENDING;
+      // TODO: Update case status to pending if employee is assigned at this point
+      // caseForThisRequest.setStatus = CaseStatus.PENDING;
 
       await this.caseRepository.update(caseForThisRequest);
     }

@@ -152,4 +152,17 @@ export class User extends UserEntity {
 
     this.providerCompanyId = providerCompanyId;
   }
+
+  get getProviderCasesIds() {
+    return this.providerCassesIds;
+  }
+
+  set setProviderCasesIds(providerCasesIds: string[]) {
+    if (!providerCasesIds) return;
+    providerCasesIds.forEach((providerCaseId) => {
+      if (this.providerCassesIds.includes(providerCaseId)) return;
+
+      this.providerCassesIds.push(providerCaseId);
+    });
+  }
 }

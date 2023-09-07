@@ -43,8 +43,17 @@ export class CaseRepository implements ICaseRepository {
         isPrivate: dto.getIsPrivate,
         employeesIds: dto.getEmployeesIds,
         providersIds: dto.getProvidersIds,
+        providers: {
+          connect: dto.getProvidersIds.map((id) => ({ id })),
+        },
+        employees: {
+          connect: dto.getEmployeesIds.map((id) => ({ id })),
+        },
+        applicants: {
+          connect: dto.getApplicantsIds.map((id) => ({ id })),
+        },
         applicantsIds: dto.getApplicantsIds,
-        status: dto.getStatus as CaseStatus,
+        status: CaseStatus[dto.getStatus],
         providerCompanyId: dto.getProviderCompanyId,
         employerCompanyId: dto.getEmployerCompanyId,
         updatedAt: new Date(),
@@ -60,7 +69,6 @@ export class CaseRepository implements ICaseRepository {
         id,
       },
     });
-    console.log({ foundCase });
     return plainToInstance(Case, foundCase);
   }
 
@@ -84,8 +92,31 @@ export class CaseRepository implements ICaseRepository {
         applicantsIds,
         providerCompanyId,
       },
+      include: {
+        applicants: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
+        },
+        providers: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
+        },
+      },
     });
 
-    return plainToInstance(Case, cases);
+    // console.log(cases[0].applicants);
+
+    const mapped = plainToInstance(Case, cases);
+
+    console.log(mapped[0].getApplicants);
+    return mapped;
   }
 }

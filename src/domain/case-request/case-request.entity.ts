@@ -1,5 +1,7 @@
 import { ObjectType, Field, registerEnumType } from '@nestjs/graphql';
 import { CaseRequestStatus } from './enums';
+import { CaseEntity } from '../case/case.entity';
+import { Case } from '../case/case';
 
 @ObjectType()
 export class CaseRequestEntity {
@@ -23,6 +25,9 @@ export class CaseRequestEntity {
 
   @Field(() => Date, { defaultValue: new Date() })
   updatedAt: Date;
+
+  @Field(() => CaseEntity, { nullable: true })
+  case: Case;
 }
 
 registerEnumType(CaseRequestStatus, {

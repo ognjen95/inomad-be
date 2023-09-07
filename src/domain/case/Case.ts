@@ -2,6 +2,7 @@ import { CaseStatus } from './enums';
 import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
 import { UpdateCaseInput } from './dtos/update-case.input';
 import { CaseEntity } from './case.entity';
+import { User } from '../user/user';
 
 export class Case extends CaseEntity {
   constructor(
@@ -104,6 +105,14 @@ export class Case extends CaseEntity {
     this.employeesIds = employeesIds;
   }
 
+  get getEmployees() {
+    return this.employees;
+  }
+
+  set setEmployees(employees: User[]) {
+    if (!employees) return;
+  }
+
   get getProvidersIds() {
     return this.providersIds;
   }
@@ -111,7 +120,11 @@ export class Case extends CaseEntity {
   set setProvidersIds(providersIds: string[]) {
     if (!providersIds) return;
 
-    this.providersIds = providersIds;
+    providersIds.forEach((providerId) => {
+      if (this.providersIds.includes(providerId)) return;
+
+      this.providersIds.push(providerId);
+    });
   }
 
   get getApplicantsIds() {
@@ -122,6 +135,14 @@ export class Case extends CaseEntity {
     if (!applicantsIds) return;
 
     this.applicantsIds = applicantsIds;
+  }
+
+  get getApplicants() {
+    return this.applicants;
+  }
+
+  set setApplicants(applicants: User[]) {
+    if (!applicants) return;
   }
 
   get getProviderCompanyId() {
@@ -148,5 +169,19 @@ export class Case extends CaseEntity {
     if (!employerCompanyId) return;
 
     this.employerCompanyId = employerCompanyId;
+  }
+
+  get getProviders() {
+    return this.providers;
+  }
+
+  set setProviders(providers: User[]) {
+    if (!providers) return;
+
+    providers.forEach((provider) => {
+      if (this.providers.includes(provider)) return;
+
+      this.providers.push(provider);
+    });
   }
 }

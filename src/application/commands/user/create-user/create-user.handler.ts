@@ -1,6 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateUserCommand } from './create-user.command';
-import { User } from 'src/domain/user/user';
 
 import { UserRoles } from 'src/domain/user/enums';
 
@@ -11,17 +10,27 @@ import { MutationReturn } from 'src/application/common/return-dtos/mutation-retu
 class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
   constructor(private readonly onboardingService: UserOnboardingService) {}
 
-  async execute({ dto }: CreateUserCommand): Promise<MutationReturn> {
+  async execute({
+    dto,
+    currentUser,
+  }: CreateUserCommand): Promise<MutationReturn> {
+    console.log({ dto, currentUser });
     if (dto.userRole === UserRoles.CUSTOMER) {
-      return await this.onboardingService.onboardCustomer(dto);
+      await this.onboardingService.onboardCustomer(dto);
     }
 
     if (
-      dto.userRole === UserRoles.PROVIDER_SUPERVISOR ||
-      dto.userRole === UserRoles.PROVIDER_EMPLOYEE
+      (dto.userRole === UserRoles.PROVIDER_SUPERVISOR ||
+        dto.userRole === UserRoles.PROVIDER_EMPLOYEE) &&
+      currentUser.userRole === UserRoles.PROVIDER_SUPERVISOR
     ) {
-      return await this.onboardingService.onboardProvider(dto);
+      dto.companyId = currentUser.tenantId;
+      await this.onboardingService.onboardProvider(dto);
     }
+
+    return {
+      isCompleted: true,
+    };
   }
 }
 

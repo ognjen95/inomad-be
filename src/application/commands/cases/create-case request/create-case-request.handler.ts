@@ -58,12 +58,6 @@ class CreateCaseRequestHandler
       throw new BadRequestException("Can't create a case requests");
     }
 
-    if (caseExist.getApplicantsIds.includes(userId)) {
-      throw new BadRequestException(
-        'You already have a case request for this case',
-      );
-    }
-
     const caseRequest = new CaseRequest(userId, providerCompanyId, caseId);
 
     await this.caseRequestRepository.create(caseRequest);

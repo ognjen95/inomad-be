@@ -1,5 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsOptional } from 'class-validator';
+import { UserRoles } from '../user/enums';
 
 @InputType()
 export class EmployeeStatusFilterInput {
@@ -33,4 +34,12 @@ export class FilterInput {
   @IsOptional()
   @Field(() => EmployeeStatusFilterInput, { nullable: true })
   employeeStatus?: EmployeeStatusFilterInput;
+
+  @IsOptional()
+  @Field({ nullable: true })
+  providerCompanyId?: string;
+
+  @IsOptional()
+  @Field(() => [UserRoles], { nullable: true })
+  userRoles: UserRoles;
 }

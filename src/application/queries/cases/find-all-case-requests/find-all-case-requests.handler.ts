@@ -6,6 +6,7 @@ import { connectionFromArray } from 'graphql-relay/connection/arrayConnection';
 import { Connection } from 'graphql-relay';
 import { ICaseRequestRepository } from 'src/application/common/interfaces/case/case-repository.interface';
 import { CaseRequest } from 'src/domain/case-request/case-request';
+import { UserRoles } from 'src/domain/user/enums';
 
 @QueryHandler(FindAllCaseRequestsQuery)
 class FindAllCaseRequestsHandler
@@ -18,7 +19,12 @@ class FindAllCaseRequestsHandler
 
   async execute({
     options,
+    currentUser,
   }: FindAllCaseRequestsQuery): Promise<Connection<CaseRequest>> {
+    if (currentUser.userRole === UserRoles.PROVIDER_SUPERVISOR) {
+      options.providerCompanyId = currentUser.tenantId;
+    }
+
     const cases = await this.caseRequestRepository.findAll(options);
 
     return connectionFromArray(cases, {});

@@ -1,9 +1,9 @@
 import { User } from 'src/domain/user/user';
-import { QueryOptions } from '../../../../domain/question/dtos/query-options.dto';
+import { UserQueryOptionsInput } from 'src/domain/user/dtos/query-options.input';
 
 export interface IUserRepository {
   create(dto: User): Promise<User>;
-  findAll(queryOptions?: QueryOptions): Promise<User[]>;
+  findAll(queryOptions?: UserQueryOptionsInput): Promise<User[]>;
   findOneById(id: string): Promise<User>;
   findOneByExternalId(id: string): Promise<User>;
   findOneByEmail(email: string): Promise<User>;

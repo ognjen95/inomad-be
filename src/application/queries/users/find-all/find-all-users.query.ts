@@ -1,5 +1,5 @@
-import { QueryOptions } from 'src/domain/question/dtos/query-options.dto';
+import { UserQueryOptionsInput } from 'src/domain/user/dtos/query-options.input';
 
 export class FindAllUsersQuery {
-  constructor(public readonly queryOptions: QueryOptions) {}
+  constructor(public readonly queryOptions: UserQueryOptionsInput) {}
 }

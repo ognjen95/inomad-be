@@ -1,3 +1,5 @@
+import { UserRoles } from 'src/domain/user/enums';
+
 export class Pagination {
   take?: number;
 
@@ -23,6 +25,7 @@ export class Filters {
 
 export class QueryOptions {
   filters?: Filters;
-
+  userRoles?: UserRoles[];
+  providerCompanyId?: string;
   pagination?: Pagination;
 }

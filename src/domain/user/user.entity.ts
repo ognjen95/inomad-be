@@ -40,6 +40,9 @@ export class UserEntity extends AggregateRoot {
   @Field(() => [String], { nullable: true })
   protected applicationIds: string[];
 
+  @Field(() => [String], { nullable: true })
+  protected providerCassesIds: string[];
+
   @Field(() => Date, { nullable: true })
   protected birthday: Date;
 

@@ -13,7 +13,6 @@ import { FindAllUsersQuery } from 'src/application/queries/users/find-all/find-a
 import { FindUserByIdQuery } from 'src/application/queries/users/find-user-by-id/find-user-by-id.query';
 import { UpdateUserCommand } from 'src/application/commands/user/update-user/update-user.command';
 import { RemoveUserCommand } from 'src/application/commands/user/remove-user/remove-user.command';
-import { QueryOptionsInput } from 'src/domain/common/query-options.dto';
 import { MutationReturn } from 'src/application/common/return-dtos/mutation-return-dt0';
 import { FindAllCasesQuery } from 'src/application/queries/cases/find-all-cases/find-all-cases.query';
 
@@ -28,6 +27,7 @@ import { UserEntity } from 'src/domain/user/user.entity';
 import { User } from 'src/domain/user/user';
 import { IsPublic } from 'src/presentation/decorators/is-public';
 import { CurrentUser } from 'src/presentation/decorators/current-user';
+import { CurrentUserInfo } from '../auth/types';
 
 @Resolver(() => UserEntity)
 export class UsersResolver {
@@ -36,11 +36,14 @@ export class UsersResolver {
     private readonly queryBus: QueryBus,
   ) {}
 
-  @IsPublic()
   @Mutation(() => MutationReturn)
-  async createUser(@Args('args') args: CreateUserInput) {
+  async createUser(
+    @Args('args') args: CreateUserInput,
+    @CurrentUser() currentUser: CurrentUserInfo,
+  ) {
+    console.log({ currentUser });
     return await this.commandBus.execute<CreateUserCommand, UserEntity>(
-      new CreateUserCommand(args),
+      new CreateUserCommand(args, currentUser),
     );
   }
 
@@ -61,7 +64,7 @@ export class UsersResolver {
   @Query(() => UserConnection, { name: 'users' })
   async findAll(
     @Args('args', { nullable: true })
-    args: QueryOptionsInput,
+    args: UserQueryOptionsInput,
     @CurrentUser() user: User,
   ) {
     // console.log({ user });

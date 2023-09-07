@@ -4,6 +4,7 @@ import { User } from 'src/domain/user/user';
 import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
 import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';
+import { UserQueryOptionsInput } from 'src/domain/user/dtos/query-options.input';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -21,7 +22,12 @@ export class UserRepository implements IUserRepository {
         lastName: dto.getLastName,
         employmentStatus: dto.getEmploymentStatus,
         userRole: dto.getUserRole,
-        providerCompanyId: dto.getProviderCompanyId,
+        // providerCompanyId: dto.getProviderCompanyId,
+        providerCompany: {
+          connect: {
+            id: dto.getProviderCompanyId,
+          },
+        },
         externalId: dto.getExternalId,
       },
     });
@@ -29,8 +35,25 @@ export class UserRepository implements IUserRepository {
     return plainToInstance(User, user);
   }
 
-  async findAll(): Promise<User[]> {
-    const users = await this.prismaService.user.findMany({});
+  async findAll(options: UserQueryOptionsInput): Promise<User[]> {
+    const userRole = options.userRoles
+      ? {
+          in: options.userRoles,
+        }
+      : undefined;
+
+    const users = await this.prismaService.user.findMany({
+      where: {
+        userRole,
+      },
+      include: {
+        providerCases: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
 
     return plainToInstance(User, users);
   }

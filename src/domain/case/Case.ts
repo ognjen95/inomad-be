@@ -1,8 +1,18 @@
 import { CaseStatus } from './enums';
 import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
 import { UpdateCaseInput } from './dtos/update-case.input';
-import { CaseEntity } from './case.entity';
+import {
+  CaseEntity,
+  EducationInfo,
+  FamilyInfo,
+  GeneralInfo,
+  WorkInfo,
+} from './case.entity';
 import { User } from '../user/user';
+import { Document } from '../documents/document';
+import { UpdateCaseGeneralInfoInput } from './dtos/update-case-general-info';
+import { UpdateCaseEducationInfoInput } from './dtos/update-case-education-info';
+import { instanceToPlain, plainToInstance } from 'class-transformer';
 
 export class Case extends CaseEntity {
   constructor(
@@ -19,6 +29,22 @@ export class Case extends CaseEntity {
     this.isPrivate = isPrivate;
     this.employeesIds = employeesIds;
     this.providersIds = providersIds;
+  }
+
+  updateGeneralInfo(dto: UpdateCaseGeneralInfoInput) {
+    this.generalInfo = dto;
+  }
+
+  updateEducationInfo(dto: UpdateCaseEducationInfoInput) {
+    this.education = dto;
+  }
+
+  updateWorkInfo(dto: WorkInfo) {
+    this.workInfo = dto;
+  }
+
+  updateFamilyInfo(dto: FamilyInfo) {
+    this.familyInfo = dto;
   }
 
   update(dto: UpdateCaseInput) {
@@ -61,15 +87,65 @@ export class Case extends CaseEntity {
     this.status = status;
   }
 
-  // get getCaseRequestId() {
-  //   return this.caseRequestId;
-  // }
+  get getGeneralInfo(): GeneralInfo {
+    return this.generalInfo;
+  }
 
-  // set setCaseRequestId(caseRequestId: string) {
-  //   if (!caseRequestId) return;
+  set setGeneralInfo(generalInfo: GeneralInfo) {
+    if (!generalInfo) return;
 
-  //   this.caseRequestId = caseRequestId;
-  // }
+    this.generalInfo = generalInfo;
+  }
+
+  get getEducationInfo(): EducationInfo {
+    return this.education;
+  }
+
+  set setEducationInfo(educationInfo: EducationInfo) {
+    if (!educationInfo) return;
+
+    this.education = educationInfo;
+  }
+
+  get getWorkInfo(): WorkInfo {
+    return this.workInfo;
+  }
+
+  set setWorkInfo(workInfo: WorkInfo) {
+    if (!workInfo) return;
+
+    this.workInfo = workInfo;
+  }
+
+  get getFamilyInfo() {
+    return this.familyInfo;
+  }
+
+  set setFamilyInfo(familyInfo: FamilyInfo) {
+    if (!familyInfo) return;
+
+    this.familyInfo = familyInfo;
+  }
+
+  get getDocumentsIds() {
+    return this.documentsIds;
+  }
+
+  set setDocumentsIds(documentsIds: string[]) {
+    if (!documentsIds) return;
+
+    this.documentsIds = documentsIds;
+  }
+
+  get getDocuments() {
+    return plainToInstance(Document, this.documents);
+  }
+
+  set setDocuments(documents: Document[]) {
+    if (!documents) return;
+
+    this.documents = documents;
+  }
 
   get getCreatedAt() {
     return this.createdAt;

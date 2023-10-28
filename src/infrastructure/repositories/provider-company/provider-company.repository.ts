@@ -3,7 +3,7 @@ import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
 import { IProviderCompanyRepository } from 'src/application/common/interfaces/provider-company/provider-company-repository.interface';
 import { ProviderCompany } from 'src/domain/provider-company/provider-company';
 import { plainToInstance } from 'class-transformer';
-import { UserQueryOptionsInput } from 'src/domain/user/dtos/query-options.input';
+import { ConnectionArguments } from 'graphql-relay';
 
 @Injectable()
 export class ProviderCompanyRepository implements IProviderCompanyRepository {
@@ -38,7 +38,9 @@ export class ProviderCompanyRepository implements IProviderCompanyRepository {
     return plainToInstance(ProviderCompany, providerCompany);
   }
 
-  findAll(options: UserQueryOptionsInput): Promise<ProviderCompany[]> {
-    throw new Error('Method not implemented.');
+  async findAll(options: ConnectionArguments): Promise<ProviderCompany[]> {
+    const providerCompanies = await this.db.providerCompany.findMany({});
+
+    return plainToInstance(ProviderCompany, providerCompanies);
   }
 }

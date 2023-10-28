@@ -40,6 +40,18 @@ class CreateCaseRequestHandler
   }: CreateCaseRequestCommand): Promise<MutationReturn> {
     const applicant = await this.useRepository.findOneById(userId);
 
+    const caseRequests = await this.caseRequestRepository.findManyByApplicantId(
+      userId,
+    );
+
+    const alreadyApplied = caseRequests.some(
+      (request) => request.getProviderCompanyId === providerCompanyId,
+    );
+
+    if (alreadyApplied) {
+      throw new BadRequestException('You already applied for this case');
+    }
+
     if (!applicant || applicant.getUserRole !== UserRoles.CUSTOMER) {
       throw new BadRequestException('You cannot create a case request');
     }

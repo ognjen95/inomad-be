@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import {
   AuthenticationDetails,
   CognitoAccessToken,
@@ -10,6 +10,9 @@ import {
   CognitoUserSession,
 } from 'amazon-cognito-identity-js';
 import { IAuthService } from 'src/application/common/interfaces/auth/auth.interface';
+import { decode, sign } from 'jsonwebtoken';
+import { USER_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
+import { UserRepository } from 'src/infrastructure/repositories/user/user.repository';
 
 @Injectable()
 export class AuthService implements IAuthService {
@@ -17,6 +20,11 @@ export class AuthService implements IAuthService {
     UserPoolId: process.env.AWS_COGNITO_USER_POOL_ID,
     ClientId: process.env.AWS_COGNITO_CLIENT_ID,
   });
+
+  constructor(
+    @Inject(USER_REPOSITORY_TOKEN)
+    private readonly userRepository: UserRepository,
+  ) {}
 
   async registerUser(
     email: string,
@@ -65,13 +73,13 @@ export class AuthService implements IAuthService {
   ): Promise<{
     accessToken: string;
     refreshToken: string;
+    idToken: string;
   }> {
     const userData = {
       Username: email,
       Pool: this.userPool,
     };
 
-    console.log({ email, password });
     const authenticationDetails = new AuthenticationDetails({
       Username: email,
       Password: password,
@@ -81,10 +89,29 @@ export class AuthService implements IAuthService {
 
     return new Promise((resolve) => {
       userCognito.authenticateUser(authenticationDetails, {
-        onSuccess: (result) => {
+        onSuccess: async (result) => {
+          const idToken = result.getIdToken().decodePayload();
+          const accessToken = result.getAccessToken().getJwtToken();
+          const decodedAccessToken = decode(accessToken, {
+            json: true,
+          });
+
+          if (!decodedAccessToken) {
+            throw new UnauthorizedException('Unable to login');
+          }
+
+          const user = await this.userRepository.findOneByExternalId(
+            decodedAccessToken.sub,
+          );
+
+          idToken.userRole = user.getUserRole;
+
+          const newIdToken = sign(idToken, process.env.JWT_SECRET);
+
           resolve({
             accessToken: result.getAccessToken().getJwtToken(),
             refreshToken: result.getRefreshToken().getToken(),
+            idToken: newIdToken,
           });
         },
         onFailure: (error) => {
@@ -107,6 +134,7 @@ export class AuthService implements IAuthService {
     const AccessToken = new CognitoAccessToken({
       AccessToken: accessToken,
     });
+
     const IdToken = new CognitoIdToken({ IdToken: idToken });
     const RefreshToken = new CognitoRefreshToken({
       RefreshToken: refreshToken,
@@ -128,7 +156,8 @@ export class AuthService implements IAuthService {
     const cognitoUser = new CognitoUser(userData);
     cognitoUser.setSignInUserSession(userSession);
 
-    cognitoUser.getSession(function (err, session) { // You must run this to verify that session (internally)
+    cognitoUser.getSession(function (err, session) {
+      // You must run this to verify that session (internally)
       if (session.isValid()) {
         // Update attributes or whatever else you want to do
       } else {

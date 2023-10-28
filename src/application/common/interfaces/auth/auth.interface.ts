@@ -11,5 +11,6 @@ export interface IAuthService {
   ): Promise<{
     accessToken: string;
     refreshToken: string;
+    idToken: string;
   }>;
 }

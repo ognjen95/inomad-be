@@ -35,16 +35,20 @@ export class FileService implements IFileServiceInterface {
     return Key;
   }
 
-  async getPresignedUrl(fileName: string): Promise<PresignedUrlReturnModel> {
+  async getPresignedUrl(
+    fileName: string,
+  ): Promise<PresignedUrlReturnModel> | null {
     const Key = this.generateFileName(fileName);
 
-    const command = new GetObjectCommand({
+    const command = new PutObjectCommand({
       Bucket: this.bucketName,
       Key,
     });
 
+    if (!fileName) return null;
+
     const presignedUrl = await getSignedUrl(this.client, command, {
-      expiresIn: 3600,
+      expiresIn: 50000,
     });
 
     return {
@@ -68,7 +72,7 @@ export class FileService implements IFileServiceInterface {
 
   async getPresignedUrls(
     fileNames: Array<string>,
-  ): Promise<Array<PresignedUrlReturnModel>> {
+  ): Promise<Array<PresignedUrlReturnModel | null>> {
     const presignedUrls = await Promise.all(
       fileNames.map(async (fileName) => {
         return this.getPresignedUrl(fileName);

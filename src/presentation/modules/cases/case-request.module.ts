@@ -6,6 +6,7 @@ import CreateCaseRequestHandler from 'src/application/commands/cases/create-case
 import {
   CASE_REPOSITORY_TOKEN,
   CASE_REQUEST_REPOSITORY_TOKEN,
+  CHAT_SERVICE_TOKEN,
   PROVIDER_REPOSITORY_TOKEN,
   USER_REPOSITORY_TOKEN,
 } from 'src/application/common/constants/tokens';
@@ -14,6 +15,7 @@ import { ProviderCompanyRepository } from 'src/infrastructure/repositories/provi
 import { UserRepository } from 'src/infrastructure/repositories/user/user.repository';
 import UpdateCaseRequestHandler from 'src/application/commands/cases/update-case-request/update-case-request.handler';
 import { CaseRepository } from 'src/infrastructure/repositories/case/case.repository';
+import { ChatService } from 'src/application/services/chat/chat-service';
 
 @Module({
   imports: [CqrsModule],
@@ -35,6 +37,10 @@ import { CaseRepository } from 'src/infrastructure/repositories/case/case.reposi
     {
       provide: PROVIDER_REPOSITORY_TOKEN,
       useClass: ProviderCompanyRepository,
+    },
+    {
+      provide: CHAT_SERVICE_TOKEN,
+      useClass: ChatService,
     },
     CreateCaseRequestHandler,
     UpdateCaseRequestHandler,

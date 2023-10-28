@@ -28,6 +28,7 @@ import { User } from 'src/domain/user/user';
 import { IsPublic } from 'src/presentation/decorators/is-public';
 import { CurrentUser } from 'src/presentation/decorators/current-user';
 import { CurrentUserInfo } from '../auth/types';
+import { CreateCustomerCommand } from 'src/application/commands/user/create-customer/create-user.command';
 
 @Resolver(() => UserEntity)
 export class UsersResolver {
@@ -41,9 +42,16 @@ export class UsersResolver {
     @Args('args') args: CreateUserInput,
     @CurrentUser() currentUser: CurrentUserInfo,
   ) {
-    console.log({ currentUser });
     return await this.commandBus.execute<CreateUserCommand, UserEntity>(
       new CreateUserCommand(args, currentUser),
+    );
+  }
+
+  @IsPublic()
+  @Mutation(() => MutationReturn, { name: 'registerCustomer' })
+  async createCustomer(@Args('args') args: CreateUserInput) {
+    return await this.commandBus.execute<CreateCustomerCommand, UserEntity>(
+      new CreateCustomerCommand(args),
     );
   }
 

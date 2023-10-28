@@ -7,6 +7,7 @@ export interface IDocumentRepository {
     options?: DocumentQueryOptionsInput,
   ): Promise<Document>;
   findMany(options?: DocumentQueryOptionsInput): Promise<Array<Document>>;
+  findOneByFileId(id: string): Promise<Document>;
   create(dto: Document): Promise<Document>;
   update(dto: Document): Promise<Document>;
 }

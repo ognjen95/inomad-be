@@ -15,7 +15,9 @@ class GetPresignedUrHandler implements IQueryHandler<GetPresignedUrlQuery> {
   async execute({
     fileNames,
   }: GetPresignedUrlQuery): Promise<Array<PresignedUrlReturn>> {
-    return this.fileService.getPresignedUrls(fileNames);
+    const LinkAndUrls = await this.fileService.getPresignedUrls(fileNames);
+
+    return LinkAndUrls;
   }
 }
 

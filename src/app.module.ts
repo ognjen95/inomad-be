@@ -19,6 +19,8 @@ import { AuthModule } from './presentation/modules/auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthorizationGuard } from './presentation/decorators/authorization-guard';
 import { DocumentsModule } from './presentation/modules/documents/documents.module';
+import { ChatModule } from './presentation/modules/chat/chat.module';
+import { TasksModule } from './presentation/modules/tasks/tasks.module';
 
 @Module({
   imports: [
@@ -46,6 +48,8 @@ import { DocumentsModule } from './presentation/modules/documents/documents.modu
     CaseRequestModule,
     AuthModule,
     DocumentsModule,
+    ChatModule,
+    TasksModule,
   ],
   controllers: [],
   providers: [

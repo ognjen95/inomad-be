@@ -31,10 +31,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const user = await this.userRepository.findOneByExternalId(payload.sub);
 
     if (!user) {
-      throw new Error('This user is unauthorized.');
+      throw new Error('User not found');
     }
 
     const userInfo: CurrentUserInfo = {
+      firstName: user.getFirstName,
+      lastName: user.getLastName,
       userId: user.getId,
       userRole: user.getUserRole,
       tenantId: user?.getProviderCompanyId,

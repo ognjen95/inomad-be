@@ -6,4 +6,5 @@ export interface ICaseRequestRepository {
   update(dto: CaseRequest): Promise<void>;
   findOneById(id: string): Promise<CaseRequest>;
   findAll(options: CaseQueryOptionsInput): Promise<Array<CaseRequest>>;
+  findManyByApplicantId(id: string): Promise<CaseRequest[]>;
 }

@@ -3,6 +3,7 @@ import { User } from 'src/domain/user/user';
 import {
   AUTH_SERVICE_TOKEN,
   CASE_REPOSITORY_TOKEN,
+  CHAT_SERVICE_TOKEN,
   PROVIDER_REPOSITORY_TOKEN,
   USER_REPOSITORY_TOKEN,
 } from 'src/application/common/constants/tokens';
@@ -13,6 +14,7 @@ import { Case } from 'src/domain/case/case';
 import { MutationReturn } from 'src/application/common/return-dtos/mutation-return-dt0';
 import { IAuthService } from 'src/application/common/interfaces/auth/auth.interface';
 import { CreateUserInput } from 'src/domain/user/dtos/create-user.input';
+import { IChatServiceInterface } from 'src/application/common/interfaces/chat/chat-service.interface';
 
 @Injectable()
 export class UserOnboardingService {
@@ -28,6 +30,9 @@ export class UserOnboardingService {
 
     @Inject(AUTH_SERVICE_TOKEN)
     private readonly authService: IAuthService,
+
+    @Inject(CHAT_SERVICE_TOKEN)
+    private readonly chatService: IChatServiceInterface,
   ) {}
 
   async onboardCustomer(dto: CreateUserInput): Promise<MutationReturn> {
@@ -57,15 +62,35 @@ export class UserOnboardingService {
 
     const newUser = await this.userRepository.create(user);
 
-    const caseName = generateCaseName(newUser.getLastName);
+    const caseName = generateCaseName(
+      newUser.getFirstName,
+      newUser.getLastName,
+    );
 
     const newCase = new Case(caseName, [newUser.getId], false, [], []);
+
+    newCase.setGeneralInfo = {
+      firstName: newUser.getFirstName,
+      lastName: newUser.getLastName,
+      middleName: newUser.getMiddleName,
+      birthday: newUser.getBirthday,
+      email: newUser.getEmail,
+      phone: '',
+      nationality: '',
+      passportFileId: '',
+    };
 
     const createdCase = await this.caseRepository.create(newCase);
 
     newUser.setApplicationIds = [createdCase.getId];
 
-    await this.userRepository.update(newUser.getId, user);
+    const createdUser = await this.userRepository.update(newUser.getId, user);
+
+    await this.createChatUser(
+      createdUser.getId,
+      createdUser.getFirstName,
+      createdUser.getLastName,
+    );
 
     return {
       isCompleted: true,
@@ -111,10 +136,27 @@ export class UserOnboardingService {
 
     user.setExternalId = externalUserId as string;
 
-    await this.userRepository.create(user);
+    const createdUser = await this.userRepository.create(user);
+
+    await this.createChatUser(
+      createdUser.getId,
+      createdUser.getFirstName,
+      createdUser.getLastName,
+    );
 
     return {
       isCompleted: true,
     };
+  }
+
+  private async createChatUser(
+    userId: string,
+    firstName: string,
+    lastName: string,
+    imageUrl?: string,
+  ) {
+    const nickname = `${firstName} ${lastName}`;
+
+    return await this.chatService.createChatUser(userId, nickname, imageUrl);
   }
 }

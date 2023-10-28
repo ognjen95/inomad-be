@@ -13,7 +13,7 @@ datasource db {
 model Documents {
   id                String           @id @default(auto()) @map("_id") @db.ObjectId
   name              String
-  fileId            String?          
+  fileId            String?
   documentType      DocumentType     @default(OTHER)
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
@@ -36,6 +36,62 @@ model CaseRequest {
   caseId            String            @db.ObjectId
 }
 
+type GeneralInfo {
+  firstName      String?
+  middleName     String?
+  lastName       String?
+  nationality    String?
+  email          String?
+  phone          String?
+  passportFileId String?
+  birthday       DateTime?
+}
+
+type EducationInfo {
+  degree                   String?
+  university               String?
+  diplomaFileId            String?
+  confirmationLetterFileId String?
+}
+
+type WorkInfo {
+  contractType      String?
+  contractFileId    String?
+  jobTitle          String?
+  yearsOfExperience String?
+  monthlyIncome     Int?
+  cvFileId          String?
+  invoicesFilesIds  String[]
+}
+
+enum ApplicantFamilyMembers {
+  SPOUSE
+  CHILD
+  PARTNER
+  SPOUSE_AND_CHILD
+  PARTNER_AND_CHILD
+}
+
+type Partner {
+  name       String?
+  middleName String?
+  lastName   String?
+  birthday   DateTime?
+}
+
+type Child {
+  name       String?
+  middleName String?
+  lastName   String?
+  birthday   DateTime?
+}
+
+type FamilyInfo {
+  familyMembers ApplicantFamilyMembers?
+  spouse        Partner?
+  children      Child[]
+}
+
 model Case {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
   name      String
@@ -43,6 +99,11 @@ model Case {
   updatedAt DateTime   @updatedAt
   status    CaseStatus @default(UNASSIGNED)
   isPrivate Boolean    @default(false)
+
+  generalInfo GeneralInfo?
+  education   EducationInfo?
+  workInfo    WorkInfo?
+  familyInfo  FamilyInfo?
 
   documents Documents[]
 
@@ -121,6 +182,65 @@ model User {
 
   employerCompany   EmployerCompany? @relation(fields: [employerCompanyId], references: [id])
   employerCompanyId String?          @db.ObjectId
+
+  Task    Task[]   @relation(fields: [taskIds], references: [id])
+  taskIds String[] @db.ObjectId
+}
+
+model TaskComment {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  text        String
+  created     DateTime @default(now())
+  authorId    String
+  authorName  String
+  authorImage String
+  Task        Task?    @relation(fields: [taskId], references: [id])
+  taskId      String?  @db.ObjectId
+}
+
+enum TaskType {
+  TASK
+  REMINDER
+  EVENT
+  CASE
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum TaskStatus {
+  TO_DO
+  IN_PROGRESS
+  BLOCKED
+  IN_REVIEW
+  COMPLETED
+}
+
+model Task {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  startDate   DateTime
+  endDate     DateTime
+  taskStatus  TaskStatus @default(TO_DO)
+  taskType    TaskType   @default(REMINDER)
+  priority    TaskPriority @default(LOW)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  createdById   String
+  createdByName String
+
+  caseId   String?
+  caseName String?
+
+  assignees    User[]   @relation(fields: [assigneesIds], references: [id])
+  assigneesIds String[] @db.ObjectId
+
+  comments TaskComment[]
 }
 
 model WorkExperience {
@@ -237,7 +357,7 @@ enum DocumentType {
   IDENTITY_CARD
   DRIVING_LICENSE
   PASSPORT
-  PROOF_OF_ACCOMODATION
+  PROOF_OF_ACCOMMODATION
   TRAVEL_TICKET
   VISA
   MEDICAL_INSURANCE
@@ -245,8 +365,8 @@ enum DocumentType {
   INVOICES
   EMPLOYMENT_CONTRACT
   CRIMINAL_RECORD
-  MARIGE_CERTIFICATE
-  BIRTTH_CERTIFICATE
+  MARRIAGE_CERTIFICATE
+  BIRTH_CERTIFICATE
   EDUCATION_DIPLOMA
   EMPLOYMENT_CONFIRMATION_LETTER
   TAX_RECEIPT

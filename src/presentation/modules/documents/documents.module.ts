@@ -4,6 +4,7 @@ import { FileService } from 'src/application/services/files/file-upload.service'
 import { CqrsModule } from '@nestjs/cqrs';
 import GetPresignedUrHandler from 'src/application/queries/documents/get-presigned-url/get-presigned-url.handler';
 import {
+  CASE_REPOSITORY_TOKEN,
   DOCUMENTS_REPOSITORY_TOKEN,
   FILE_SERVICE_TOKEN,
 } from 'src/application/common/constants/tokens';
@@ -13,6 +14,8 @@ import CreateDocumentHandler from 'src/application/commands/documents/create-doc
 import FindAllDocumentsHandler from 'src/application/queries/documents/find-all-documents/find-all-documents.handler';
 import FindDocumentByIdHandler from 'src/application/queries/documents/find-document-by-id/find-document-by-id.handler';
 import UpdateDocumentHandler from 'src/application/commands/documents/update-document/update-document.handler';
+import UpdateCaseAdditionalDocumentHandler from 'src/application/commands/cases/update-additional-documents/update-additional-documents.handler';
+import { CaseRepository } from 'src/infrastructure/repositories/case/case.repository';
 
 @Module({
   imports: [CqrsModule],
@@ -27,12 +30,17 @@ import UpdateDocumentHandler from 'src/application/commands/documents/update-doc
       provide: DOCUMENTS_REPOSITORY_TOKEN,
       useClass: DocumentRepository,
     },
+    {
+      provide: CASE_REPOSITORY_TOKEN,
+      useClass: CaseRepository,
+    },
     GetPresignedUrHandler,
     GetDownloadUrlHandler,
     CreateDocumentHandler,
     FindAllDocumentsHandler,
     FindDocumentByIdHandler,
     UpdateDocumentHandler,
+    UpdateCaseAdditionalDocumentHandler,
   ],
 })
 export class DocumentsModule {}

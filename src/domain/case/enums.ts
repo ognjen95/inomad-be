@@ -7,3 +7,12 @@ export enum CaseStatus {
   REJECTED = 'REJECTED',
   CANCELLED = 'CANCELLED',
 }
+
+export enum ApplicantFamilyMembers {
+  ALONE = 'ALONE',
+  SPOUSE = 'SPOUSE',
+  CHILD = 'CHILD',
+  PARTNER = 'PARTNER',
+  SPOUSE_AND_CHILD = 'SPOUSE_AND_CHILD',
+  PARTNER_AND_CHILD = 'PARTNER_AND_CHILD',
+}

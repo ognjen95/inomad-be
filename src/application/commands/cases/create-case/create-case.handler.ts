@@ -22,6 +22,7 @@ class CreateCaseHandler implements ICommandHandler<CreateCaseCommand> {
     );
 
     this.caseRepository.create(newCase);
+
     return {
       isCompleted: true,
     };

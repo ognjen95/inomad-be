@@ -18,6 +18,9 @@ export class CreateUserInput {
   @Field(() => UserRoles)
   userRole: UserRoles;
 
+  @Field(() => Date)
+  birthday?: Date;
+
   @Field()
   password: string;
 

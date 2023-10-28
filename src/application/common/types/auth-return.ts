@@ -7,4 +7,7 @@ export class AuthReturn {
 
   @Field()
   refreshToken: string;
+
+  @Field()
+  idToken: string;
 }

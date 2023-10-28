@@ -3,6 +3,7 @@ import { Inject, NotFoundException } from '@nestjs/common';
 import {
   CASE_REPOSITORY_TOKEN,
   CASE_REQUEST_REPOSITORY_TOKEN,
+  CHAT_SERVICE_TOKEN,
   USER_REPOSITORY_TOKEN,
 } from 'src/application/common/constants/tokens';
 import { UpdateCaseRequestCommand } from './update-case-request.command';
@@ -12,6 +13,7 @@ import { IUserRepository } from 'src/application/common/interfaces/user/user-rep
 import { ICaseRepository } from 'src/application/common/interfaces/case/case-request-repository.interface';
 import { CaseStatus } from 'src/domain/case/enums';
 import { CaseRequestStatus } from 'src/domain/case-request/enums';
+import { IChatServiceInterface } from 'src/application/common/interfaces/chat/chat-service.interface';
 
 @CommandHandler(UpdateCaseRequestCommand)
 class UpdateCaseRequestHandler
@@ -26,6 +28,9 @@ class UpdateCaseRequestHandler
 
     @Inject(CASE_REPOSITORY_TOKEN)
     private readonly caseRepository: ICaseRepository,
+
+    @Inject(CHAT_SERVICE_TOKEN)
+    private readonly chatService: IChatServiceInterface,
   ) {}
 
   async execute({
@@ -62,6 +67,16 @@ class UpdateCaseRequestHandler
 
       // TODO: Update case status to pending if employee is assigned at this point
       // caseForThisRequest.setStatus = CaseStatus.PENDING;
+
+      await this.chatService.createChat(
+        caseForThisRequest.getName,
+        [
+          userId,
+          ...caseForThisRequest.getApplicantsIds,
+          ...caseForThisRequest.getProvidersIds,
+        ],
+        caseForThisRequest.getId,
+      );
 
       await this.caseRepository.update(caseForThisRequest);
     }

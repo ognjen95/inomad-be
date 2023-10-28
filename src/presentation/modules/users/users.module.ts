@@ -8,6 +8,7 @@ import FindAllUsersHandler from 'src/application/queries/users/find-all/find-all
 import {
   AUTH_SERVICE_TOKEN,
   CASE_REPOSITORY_TOKEN,
+  CHAT_SERVICE_TOKEN,
   PROVIDER_REPOSITORY_TOKEN,
   TIME_OFF_TOKEN,
   USER_REPOSITORY_TOKEN,
@@ -20,6 +21,8 @@ import { CaseRepository } from 'src/infrastructure/repositories/case/case.reposi
 import { UserOnboardingService } from 'src/application/services/onboarding/user-onboarding.service';
 import { ProviderCompanyRepository } from 'src/infrastructure/repositories/provider-company/provider-company.repository';
 import { AuthService } from 'src/application/services/auth/auth-service';
+import CreateCustomerHandler from 'src/application/commands/user/create-customer/create-user.handler';
+import { ChatService } from 'src/application/services/chat/chat-service';
 
 @Module({
   imports: [CqrsModule],
@@ -46,6 +49,10 @@ import { AuthService } from 'src/application/services/auth/auth-service';
       provide: AUTH_SERVICE_TOKEN,
       useClass: AuthService,
     },
+    {
+      provide: CHAT_SERVICE_TOKEN,
+      useClass: ChatService,
+    },
     UserOnboardingService,
     AuthService,
     CreateUserHandler,
@@ -53,6 +60,7 @@ import { AuthService } from 'src/application/services/auth/auth-service';
     FindAllUsersHandler,
     RemoveUserHandler,
     FindUserByIdQueryHandler,
+    CreateCustomerHandler,
   ],
 })
 export class UsersModule {}

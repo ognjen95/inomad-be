@@ -9,6 +9,18 @@ export class Document extends DocumentEntity {
     this.documentType = documentType;
   }
 
+  setDocumentMetadata(
+    fileId: string,
+    caseId: string,
+    customerId: string,
+    providerCompanyId: string,
+  ): void {
+    this.fileId = fileId;
+    this.caseId = caseId;
+    this.customerId = customerId;
+    this.providerCompanyId = providerCompanyId;
+  }
+
   get getId(): string {
     return this.id;
   }
@@ -25,7 +37,6 @@ export class Document extends DocumentEntity {
   set setFileId(fileId: string) {
     if (!fileId) return;
 
-    if (this.fileId) return;
     this.fileId = fileId;
   }
 

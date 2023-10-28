@@ -2,7 +2,12 @@ import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
 import { ICaseRepository } from 'src/application/common/interfaces/case/case-request-repository.interface';
 import { Case } from 'src/domain/case/case';
-import { CaseStatus } from '@prisma/client';
+import {
+  ApplicantFamilyMembers,
+  Case as CasePrisma,
+  CaseStatus,
+  Prisma,
+} from '@prisma/client';
 import { plainToInstance } from 'class-transformer';
 import { CaseQueryOptionsInput } from 'src/domain/case/dtos/query-options.input';
 
@@ -18,6 +23,16 @@ export class CaseRepository implements ICaseRepository {
       data: {
         name: dto.getName,
         isPrivate: dto.getIsPrivate,
+        // generalInfo: {
+        //   firstName: dto.getGeneralInfo?.firstName,
+        //   middleName: dto.getGeneralInfo?.middleName,
+        //   lastName: dto.getGeneralInfo?.lastName,
+        //   birthday: dto.getGeneralInfo?.birthday,
+        //   email: dto.getGeneralInfo?.email,
+        //   passportFileId: dto.getGeneralInfo?.passportFileId,
+        //   nationality: dto.getGeneralInfo?.nationality,
+        //   phone: dto.getGeneralInfo?.phone,
+        // },
         applicants: {
           connect: dto.getApplicantsIds.map((id) => ({ id })),
         },
@@ -41,8 +56,6 @@ export class CaseRepository implements ICaseRepository {
       data: {
         name: dto.getName,
         isPrivate: dto.getIsPrivate,
-        employeesIds: dto.getEmployeesIds,
-        providersIds: dto.getProvidersIds,
         providers: {
           connect: dto.getProvidersIds.map((id) => ({ id })),
         },
@@ -52,8 +65,40 @@ export class CaseRepository implements ICaseRepository {
         applicants: {
           connect: dto.getApplicantsIds.map((id) => ({ id })),
         },
+        generalInfo: {
+          firstName: dto.getGeneralInfo?.firstName,
+          middleName: dto.getGeneralInfo?.middleName,
+          lastName: dto.getGeneralInfo?.lastName,
+          birthday: dto.getGeneralInfo?.birthday,
+          email: dto.getGeneralInfo?.email,
+          passportFileId: dto.getGeneralInfo?.passportFileId,
+          nationality: dto.getGeneralInfo?.nationality,
+          phone: dto.getGeneralInfo?.phone,
+        },
+        education: {
+          degree: dto.getEducationInfo?.degree,
+          university: dto.getEducationInfo?.university,
+          diplomaFileId: dto.getEducationInfo?.diplomaFileId,
+          confirmationLetterFileId:
+            dto.getEducationInfo?.confirmationLetterFileId,
+        },
+        workInfo: {
+          contractType: dto.getWorkInfo?.contractType,
+          contractFileId: dto.getWorkInfo?.contractFileId,
+          jobTitle: dto.getWorkInfo?.jobTitle,
+          yearsOfExperience: dto.getWorkInfo?.yearsOfExperience,
+          monthlyIncome: dto.getWorkInfo?.monthlyIncome,
+          cvFileId: dto.getWorkInfo?.cvFileId,
+          invoicesFilesIds: dto.getWorkInfo?.invoicesFilesIds ?? [],
+        },
+        familyInfo: {
+          familyMembers: dto.getFamilyInfo
+            ?.familyMembers as ApplicantFamilyMembers,
+          children: dto.getFamilyInfo?.children ?? [],
+          spouse: dto.getFamilyInfo?.spouse,
+        },
         applicantsIds: dto.getApplicantsIds,
-        status: CaseStatus[dto.getStatus],
+        status: dto.getStatus,
         providerCompanyId: dto.getProviderCompanyId,
         employerCompanyId: dto.getEmployerCompanyId,
         updatedAt: new Date(),
@@ -68,7 +113,11 @@ export class CaseRepository implements ICaseRepository {
       where: {
         id,
       },
+      include: {
+        documents: true,
+      },
     });
+
     return plainToInstance(Case, foundCase);
   }
 
@@ -86,13 +135,26 @@ export class CaseRepository implements ICaseRepository {
         }
       : undefined;
 
+    const applicants = options.userId
+      ? {
+          some: {
+            id: options.userId,
+          },
+        }
+      : undefined;
+
     const cases = await this.db.case.findMany({
       where: {
         ...where,
         applicantsIds,
         providerCompanyId,
+        applicants,
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
       include: {
+        documents: true,
         applicants: {
           select: {
             id: true,
@@ -112,11 +174,6 @@ export class CaseRepository implements ICaseRepository {
       },
     });
 
-    // console.log(cases[0].applicants);
-
-    const mapped = plainToInstance(Case, cases);
-
-    console.log(mapped[0].getApplicants);
-    return mapped;
+    return plainToInstance(Case, cases);
   }
 }

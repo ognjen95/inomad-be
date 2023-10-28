@@ -45,6 +45,16 @@ export class CaseRequestRepository implements ICaseRequestRepository {
     return plainToInstance(CaseRequest, caseRequest);
   }
 
+  async findManyByApplicantId(id: string): Promise<CaseRequest[]> {
+    const requests = await this.db.caseRequest.findMany({
+      where: {
+        applicantId: id,
+      },
+    });
+
+    return plainToInstance(CaseRequest, requests);
+  }
+
   async findAll(options: CaseQueryOptionsInput): Promise<CaseRequest[]> {
     const where = options.where ?? {};
 

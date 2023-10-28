@@ -71,6 +71,16 @@ export class DocumentRepository implements IDocumentRepository {
     return plainToInstance(Document, foundDocument);
   }
 
+  async findOneByFileId(id: string): Promise<Document> {
+    const foundDocument = await this.db.documents.findFirst({
+      where: {
+        fileId: id,
+      },
+    });
+
+    return plainToInstance(Document, foundDocument);
+  }
+
   async findMany(options: DocumentQueryOptionsInput): Promise<Array<Document>> {
     const foundDocuments = await this.db.documents.findMany({
       where: {

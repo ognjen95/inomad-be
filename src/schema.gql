@@ -16,12 +16,22 @@ input AnswerInput {
   text: String!
 }
 
+enum ApplicantFamilyMembers {
+  ALONE
+  CHILD
+  PARTNER
+  PARTNER_AND_CHILD
+  SPOUSE
+  SPOUSE_AND_CHILD
+}
+
 input ApplicantsIdsInput {
   hasSome: String!
 }
 
 type AuthReturn {
   accessToken: String!
+  idToken: String!
   refreshToken: String!
 }
 
@@ -40,9 +50,14 @@ type CaseEntity {
   applicants: [UserEntity!]
   applicantsIds: [String!]!
   createdAt: DateTime!
+  documents: [DocumentEntity!]
+  documentsIds: [String!]
+  education: EducationInfo
   employees: [UserEntity!]
   employeesIds: [String!]
   employerCompanyId: String
+  familyInfo: FamilyInfo
+  generalInfo: GeneralInfo
   id: String!
   isPrivate: Boolean
   name: String!
@@ -51,6 +66,7 @@ type CaseEntity {
   providersIds: [String!]
   status: CaseStatus!
   updatedAt: DateTime!
+  workInfo: WorkInfo
 }
 
 input CaseQueryOptionsInput {
@@ -101,6 +117,27 @@ enum CaseStatus {
 
 input CaseWhereInput {
   applicationId: ApplicantsIdsInput!
+}
+
+type Chat {
+  token: String!
+  userId: String!
+}
+
+type Child {
+  birthday: DateTime
+  lastName: String
+  married: Boolean
+  middleName: String
+  name: String
+}
+
+input ChildInput {
+  birthday: DateTime
+  lastName: String
+  married: Boolean
+  middleName: String
+  name: String
 }
 
 type Compensation {
@@ -164,6 +201,19 @@ input CreateQuestionInput {
   text: String!
 }
 
+input CreateTaskInput {
+  assigneeIds: [String!]
+  caseId: String
+  description: String
+  endDate: DateTime!
+  id: String
+  name: String!
+  priority: TaskPriority!
+  startDate: DateTime!
+  status: TaskStatus!
+  type: TaskType!
+}
+
 input CreateTestInput {
   employeeId: String
   endsAt: DateTime
@@ -189,6 +239,7 @@ input CreateTimeOffRequestInput {
 }
 
 input CreateUserInput {
+  birthday: DateTime!
   companyId: String
   email: String!
   firstName: String!
@@ -247,6 +298,13 @@ enum DocumentType {
   VISA
 }
 
+type EducationInfo {
+  confirmationLetterFileId: String
+  degree: String
+  diplomaFileId: String
+  university: String
+}
+
 input EmployeeStatusFilterInput {
   contains: String
   eq: String
@@ -261,6 +319,12 @@ enum EmploymentStatus {
   TERMINATED
 }
 
+type FamilyInfo {
+  children: [Child!]
+  familyMembers: ApplicantFamilyMembers
+  spouse: Partner
+}
+
 input FilterInput {
   contains: String
   employeeStatus: EmployeeStatusFilterInput
@@ -269,24 +333,44 @@ input FilterInput {
   userRoles: [UserRoles!]
 }
 
+type GeneralInfo {
+  birthday: DateTime
+  email: String
+  firstName: String
+  lastName: String
+  middleName: String
+  nationality: String
+  passportFileId: String
+  phone: String
+}
+
 type Mutation {
+  assignEmployeeToCase(args: UpdateCaseInput!): MutationReturn!
   createCase(args: CreateCaseInput!): MutationReturn!
   createCaseRequest(providerCompanyId: String!): MutationReturn!
+  createChat(chatName: String!, userIds: [String!]!): String!
   createCompensation(createCompensationInput: CreateCompensationInput!): Compensation!
   createDocument(args: CreateDocumentInput!): MutationReturn!
   createProviderCompany(args: CreateProviderCompanyInput!): MutationReturn!
   createQuestion(createQuestionInput: CreateQuestionInput!): QuestionEntity!
   createQuestionGroup(createQuestionGroupInput: CreateQuestionGroupInput!): QuestionGroupEntity!
+  createTask(createTaskInput: CreateTaskInput!): TaskEntity!
   createTest(createTestInput: CreateTestInput!): TestEntity!
   createTimeOff(createTimeOffInput: CreateTimeOffInput!): TimeOffEntity!
   createTimeOffRequest(createTimeOffRequestInput: CreateTimeOffRequestInput!): TimeOffRequestEntity!
   createUser(args: CreateUserInput!): MutationReturn!
   login(email: String!, password: String!): AuthReturn!
+  registerCustomer(args: CreateUserInput!): MutationReturn!
   removeCaseRequest(id: Int!): CaseRequestEntity!
   removeCompensation(id: Int!): Compensation!
   removeUser(id: String!): UserEntity!
   updateCase(args: UpdateCaseInput!): MutationReturn!
+  updateCaseAdditionalDocuments(args: UpdateCaseAdditionalDocumentsInput!): MutationReturn!
+  updateCaseEducationInfo(args: UpdateCaseEducationInfoInput!): MutationReturn!
+  updateCaseFamilyInfo(args: UpdateCaseFamilyInfoInput!): MutationReturn!
+  updateCaseGeneralInfo(args: UpdateCaseGeneralInfoInput!): MutationReturn!
   updateCaseRequest(args: UpdateCaseRequestInput!): MutationReturn!
+  updateCaseWorkInfo(args: UpdateCaseWorkInfoInput!): MutationReturn!
   updateDocument(args: UpdateDocumentInput!): MutationReturn!
   updateQuestion(updateQuestionInput: UpdateQuestionInput!): QuestionEntity!
   updateTest(updateTestInput: UpdateTestInput!): TestEntity!
@@ -315,12 +399,40 @@ input PaginationInput {
   take: Int
 }
 
+type Partner {
+  birthday: DateTime
+  lastName: String
+  married: Boolean
+  middleName: String
+  name: String
+}
+
+input PartnerInput {
+  birthday: DateTime
+  lastName: String
+  married: Boolean
+  middleName: String
+  name: String
+}
+
 type PresignedUrlReturn {
   id: String!
   link: String!
 }
 
+type ProviderCompanyConnection {
+  edges: [ProviderCompanyEdges!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type ProviderCompanyEdges {
+  cursor: String!
+  node: ProviderCompanyEntity!
+}
+
 type ProviderCompanyEntity {
+  case(id: String!): CaseEntity!
   caseRequests(options: CaseQueryOptionsInput): CaseRequestConnection!
   cases: CaseConnection!
   createdAt: DateTime!
@@ -337,7 +449,8 @@ type Query {
   case(id: String!): CaseEntity!
   caseRequest(id: Int!): CaseRequestEntity!
   caseRequests(options: CaseQueryOptionsInput): CaseRequestConnection!
-  cases: CaseConnection!
+  cases(options: CaseQueryOptionsInput!): CaseConnection!
+  chatAccessToken: Chat!
   compensation(id: Int!): Compensation!
   document(id: String!): DocumentEntity!
   documents: DocumentConnection!
@@ -346,8 +459,10 @@ type Query {
   findAllQuestionGroups(QueryOptionsInput: QueryOptionsInput): QuestionGroupsEntityEdgesEntity!
   findAllTests(QueryOptionsInput: QueryOptionsInput): TestsEntityEdgesEntity!
   findTestById(id: String!): TestEntity!
-  presignedUrl(fileNames: [String!]!): [PresignedUrlReturn!]!
+  presignedUrl(fileNames: [String!]!): [PresignedUrlReturn]!
+  providerCompanies: ProviderCompanyConnection!
   providerCompany: ProviderCompanyEntity
+  tasks(options: TaskQueryOptionsInput): TaskConnection!
   timeOffs: TimeOffConnection!
   timeOffsByUserId(employeeId: String!, forYear: Float!): TimeOffConnection!
   userById(id: String!): UserEntity!
@@ -393,6 +508,71 @@ type QuestionGroupsEdges {
 type QuestionGroupsEntityEdgesEntity {
   edges: [QuestionGroupsEdges!]!
   totalCount: Int!
+}
+
+type TaskConnection {
+  edges: [TaskEdges!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type TaskEdges {
+  cursor: String!
+  node: TaskEntity!
+}
+
+type TaskEntity {
+  assignees: [UserEntity!]
+  assigneesIds: [String!]
+  caseId: String
+  caseName: String
+  createdById: String!
+  createdByName: String!
+  description: String
+  endDate: DateTime!
+  id: String!
+  name: String!
+  priority: TaskPriority!
+  startDate: DateTime!
+  taskStatus: TaskStatus!
+  taskType: TaskType!
+}
+
+"""Priority of the task"""
+enum TaskPriority {
+  HIGH
+  LOW
+  MEDIUM
+}
+
+input TaskQueryOptionsInput {
+  assigneeIds: [String!]
+  caseId: String
+  description: String
+  endDate: DateTime
+  id: String
+  name: String
+  priority: TaskPriority
+  startDate: DateTime
+  status: TaskStatus
+  type: TaskType
+}
+
+"""Status of the task"""
+enum TaskStatus {
+  BLOCKED
+  COMPLETED
+  IN_PROGRESS
+  IN_REVIEW
+  TO_DO
+}
+
+"""Type of the task"""
+enum TaskType {
+  CASE
+  EVENT
+  REMINDER
+  TASK
 }
 
 type TestEntity {
@@ -473,6 +653,38 @@ input TimeOffRequestQueryOptions {
   timeOffId: String
 }
 
+input UpdateCaseAdditionalDocumentsInput {
+  additionalDocuments: [CreateDocumentInput!]!
+  caseId: String!
+}
+
+input UpdateCaseEducationInfoInput {
+  confirmationLetterFileId: String!
+  degree: String!
+  diplomaFileId: String!
+  id: String!
+  university: String!
+}
+
+input UpdateCaseFamilyInfoInput {
+  children: [ChildInput!]
+  familyMembers: ApplicantFamilyMembers
+  id: String!
+  spouse: PartnerInput
+}
+
+input UpdateCaseGeneralInfoInput {
+  birthday: DateTime!
+  email: String!
+  firstName: String!
+  id: String!
+  lastName: String!
+  middleName: String!
+  nationality: String!
+  passportFileId: String!
+  phone: String!
+}
+
 input UpdateCaseInput {
   applicantsIds: [String!]
   employeesIds: [String!] = []
@@ -488,6 +700,17 @@ input UpdateCaseInput {
 input UpdateCaseRequestInput {
   id: String!
   status: CaseRequestStatus! = PENDING
+}
+
+input UpdateCaseWorkInfoInput {
+  contractFileId: String
+  contractType: String
+  cvFileId: String
+  id: String!
+  invoicesFilesIds: [String!]
+  jobTitle: String
+  monthlyIncome: Int
+  yearsOfExperience: String
 }
 
 input UpdateDocumentInput {
@@ -536,6 +759,7 @@ input UpdateTimeOffRequestInput {
 }
 
 input UpdateUserInput {
+  birthday: DateTime
   companyId: String
   email: String
   employmentStatus: EmploymentStatus
@@ -598,4 +822,14 @@ enum UserRoles {
 
 input UserWhereInput {
   applicationId: ApplicantsIdsInput!
+}
+
+type WorkInfo {
+  contractFileId: String
+  contractType: String
+  cvFileId: String
+  invoicesFilesIds: [String!]
+  jobTitle: String
+  monthlyIncome: Int
+  yearsOfExperience: String
 }

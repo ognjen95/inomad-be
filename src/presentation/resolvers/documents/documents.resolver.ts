@@ -24,7 +24,7 @@ export class DocumentsResolver {
     private readonly commandBus: CommandBus,
   ) {}
 
-  @Query(() => [PresignedUrlReturn])
+  @Query(() => [PresignedUrlReturn], { nullable: 'items' })
   async presignedUrl(
     @Args('fileNames', {
       type: () => [String],

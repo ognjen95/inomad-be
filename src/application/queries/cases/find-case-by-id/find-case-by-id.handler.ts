@@ -10,11 +10,11 @@ import { Case } from 'src/domain/case/case';
 class FindCaseByIdHandler implements IQueryHandler<FindCaseByIdQuery> {
   constructor(
     @Inject(CASE_REPOSITORY_TOKEN)
-    private readonly userRepository: ICaseRepository,
+    private readonly caseRepository: ICaseRepository,
   ) {}
 
   async execute({ id }: FindCaseByIdQuery): Promise<Case> {
-    return await this.userRepository.findOneById(id);
+    return await this.caseRepository.findOneById(id);
   }
 }
 

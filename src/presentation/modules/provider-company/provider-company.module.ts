@@ -6,6 +6,7 @@ import CreateProviderCompanyHandler from 'src/application/commands/provider-comp
 import {
   AUTH_SERVICE_TOKEN,
   CASE_REPOSITORY_TOKEN,
+  CHAT_SERVICE_TOKEN,
   PROVIDER_REPOSITORY_TOKEN,
   USER_REPOSITORY_TOKEN,
 } from 'src/application/common/constants/tokens';
@@ -15,6 +16,8 @@ import FindProviderCompanyByIdHandler from 'src/application/queries/provider-com
 import { UserOnboardingService } from 'src/application/services/onboarding/user-onboarding.service';
 import { CaseRepository } from 'src/infrastructure/repositories/case/case.repository';
 import { AuthService } from 'src/application/services/auth/auth-service';
+import FindAllProviderCompaniesHandler from 'src/application/queries/provider-company/find-all-provider-companies/find-all-provider-companies.handler';
+import { ChatService } from 'src/application/services/chat/chat-service';
 
 @Module({
   imports: [CqrsModule],
@@ -37,9 +40,14 @@ import { AuthService } from 'src/application/services/auth/auth-service';
       provide: AUTH_SERVICE_TOKEN,
       useClass: AuthService,
     },
+    {
+      provide: CHAT_SERVICE_TOKEN,
+      useClass: ChatService,
+    },
     CreateProviderCompanyHandler,
     FindProviderCompanyByIdHandler,
     UserOnboardingService,
+    FindAllProviderCompaniesHandler,
   ],
 })
 export class ProviderCompanyModule {}

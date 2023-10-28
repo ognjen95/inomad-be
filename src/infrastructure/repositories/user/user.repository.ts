@@ -14,20 +14,24 @@ export class UserRepository implements IUserRepository {
   protected readonly prismaService: PrismaService;
 
   async create(dto: User): Promise<User> {
+    const providerCompany = dto.getProviderCompanyId
+      ? {
+          connect: {
+            id: dto.getProviderCompanyId,
+          },
+        }
+      : undefined;
+
     const user = await this.prismaService.user.create({
       data: {
         email: dto.getEmail,
-        birthday: new Date('04.01.1995'),
+        birthday: dto.getBirthday,
         firstName: dto.getFirstName,
         lastName: dto.getLastName,
         employmentStatus: dto.getEmploymentStatus,
         userRole: dto.getUserRole,
         // providerCompanyId: dto.getProviderCompanyId,
-        providerCompany: {
-          connect: {
-            id: dto.getProviderCompanyId,
-          },
-        },
+        providerCompany,
         externalId: dto.getExternalId,
       },
     });
@@ -73,6 +77,8 @@ export class UserRepository implements IUserRepository {
         userRole: true,
         providerCompanyId: true,
         applicationIds: true,
+        firstName: true,
+        lastName: true,
       },
     });
     return plainToInstance(User, user);

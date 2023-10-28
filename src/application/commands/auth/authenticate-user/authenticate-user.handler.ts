@@ -18,12 +18,13 @@ class AuthenticateUserHandler
     email,
     password,
   }: AuthenticateUserCommand): Promise<AuthReturn> {
-    const { accessToken, refreshToken } =
+    const { accessToken, refreshToken, idToken } =
       await this.authService.authenticateUser(email, password);
 
     return {
       accessToken,
       refreshToken,
+      idToken,
     };
   }
 }

@@ -7,7 +7,7 @@ export class FindAllCasesQuery {
     public options?: CaseQueryOptionsInput,
     public currentUser?: CurrentUserInfo,
   ) {
-    if (currentUser.userRole === UserRoles.CUSTOMER) {
+    if (currentUser?.userRole === UserRoles.CUSTOMER) {
       this.options.userId = this.currentUser.userId;
     }
   }

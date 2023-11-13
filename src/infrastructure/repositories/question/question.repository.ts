@@ -2,10 +2,10 @@ import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
 import { EdgesResponse } from 'src/application/common/types/query-return.type';
-import { QueryOptions } from 'src/domain/question/dtos/query-options.dto';
 // import { QUERY_TAKE } from '../common/constants';
 import { IQuestionRepository } from 'src/application/common/interfaces/question/question-repository.interface';
-import { Question } from 'src/domain/question/Question';
+import { Question } from 'src/domain/question/question';
+import { Question as QuestionPrisma } from '@prisma/client';
 
 @Injectable()
 export class QuestionRepository implements IQuestionRepository {
@@ -14,54 +14,33 @@ export class QuestionRepository implements IQuestionRepository {
   @Inject()
   protected readonly prismaService: PrismaService;
 
-  async create(dto: Question): Promise<Question> {
-    const question = await this.prismaService.question.create({
-      data: {
-        text: dto.getText,
-        answers: dto.getAnswers,
-        points: dto.getPoints,
-        questionGroupId: dto.getQuestionGroup,
-        answerType: dto.getAnswerType,
-      },
-      include: {
-        questionGroup: true,
-      },
-    });
-    return plainToInstance(Question, question);
+  create(dto: Question): Promise<Question> {
+    throw new Error('Method not implemented.');
   }
 
-  async findAll(options?: QueryOptions): Promise<EdgesResponse<Question>> {
-    const { filters, pagination } = options || {};
+  async createMany(dto: Question[]): Promise<Question[]> {
+    const questions = await this.prismaService.question.createMany({
+      data: dto.map((item) => ({
+        text: item.getText,
+        options: item.getOptions,
+        points: item.getPoints,
+        testId: item.getTestId,
+        type: item.getType,
+        documentId: item.getDocument.getId,
+        hasErrors: item.getHasErrors ?? false,
+        providerCompanyId: item.getProviderCompanyId,
+        isExample: item.getIsExample,
+      })),
+    });
 
+    return plainToInstance(Question, questions as unknown as QuestionPrisma[]);
+  }
+
+  async findAll(): Promise<EdgesResponse<Question>> {
     const questions = await this.prismaService.question.findMany({
-      where: {
-        testId: {
-          isSet: false,
-        },
-        OR: [
-          {
-            text: {
-              contains: filters?.contains,
-              mode: this.caseSensitive,
-            },
-          },
-          {
-            questionGroup: {
-              name: {
-                contains: filters?.contains,
-                mode: this.caseSensitive,
-              },
-            },
-          },
-        ],
-      },
       include: {
-        questionGroup: true,
+        questionGroups: true,
       },
-      // orderBy: {
-      //   createdAt: 'desc',
-      // }
-      // take: pagination.take || QUERY_TAKE,
     });
 
     return this.edgesFactory(plainToInstance(Question, questions));
@@ -76,7 +55,7 @@ export class QuestionRepository implements IQuestionRepository {
         },
       },
       include: {
-        questionGroup: true,
+        questionGroups: true,
       },
     });
     return plainToInstance(Question, questions);
@@ -87,14 +66,9 @@ export class QuestionRepository implements IQuestionRepository {
       where: {
         id,
       },
-      data: {
-        answers: dto.getAnswers,
-        text: dto.getText,
-        points: dto.getPoints,
-        answerType: dto.getAnswerType,
-      },
+      data: {},
       include: {
-        questionGroup: true,
+        questionGroups: true,
       },
     });
     return plainToInstance(Question, questions);

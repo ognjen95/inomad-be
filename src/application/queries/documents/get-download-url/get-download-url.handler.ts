@@ -27,6 +27,9 @@ class GetDownloadUrlHandler implements IQueryHandler<GetDownloadUrlQuery> {
     id,
     user: currentUser,
   }: GetDownloadUrlQuery): Promise<string> {
+    return this.fileService.getDownloadLink(id);
+
+    return;
     const document = await this.documentRepository.findOneById(id);
 
     if (!document) {

@@ -5,11 +5,14 @@ export class CreateTestInput {
   @Field()
   name: string;
 
-  @Field(() => [String])
-  questionIds: string[];
+  @Field({ nullable: true })
+  caseId?: string;
 
-  @Field(() => Int)
-  percentageToPass: number;
+  @Field(() => [String])
+  questionGroupIds: string[];
+
+  @Field(() => Int, { nullable: true })
+  percentageToPass?: number;
 
   @Field(() => Int, { nullable: true })
   percentageScored?: number;
@@ -17,12 +20,12 @@ export class CreateTestInput {
   @Field(() => Int, { nullable: true })
   timeLimit?: number;
 
-  // @Field()
-  // startedAt?: Date;
-
   @Field({ nullable: true })
-  endsAt: Date;
+  endsAt?: Date;
 
   @Field({ nullable: true })
   employeeId?: string;
+
+  @Field({ nullable: true })
+  providerCompanyId?: string;
 }

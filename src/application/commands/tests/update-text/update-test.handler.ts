@@ -15,7 +15,7 @@ class UpdateTestHandler implements ICommandHandler<UpdateTestCommand> {
     const test = await this.testRepository.findOneById(dto.id);
     test.update(dto);
 
-    return await this.testRepository.update(test.getId, test);
+    return await this.testRepository.upsert(test);
   }
 }
 

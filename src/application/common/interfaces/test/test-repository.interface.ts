@@ -1,11 +1,9 @@
-import { EdgesResponse } from '../../types/query-return.type';
-import { QueryOptions } from '../../../../domain/question/dtos/query-options.dto';
 import { Test } from 'src/domain/test/Test';
+import { TestQueryOptionsInput } from 'src/domain/test/dtos/tests/test-query-options.input';
 
 export interface ITestRepository {
-  create(dto: Test): Promise<Test>;
-  findAll(queryOptions?: QueryOptions): Promise<EdgesResponse<Test>>;
+  upsert(dto: Test): Promise<Test>;
+  findAll(queryOptions?: TestQueryOptionsInput): Promise<Array<Test>>;
   findOneById(id: string): Promise<Test>;
-  update(id: string, test: Partial<Test>): Promise<Test>;
-  //   remove(id: string): Promise<Question>;
+  copayAndAssignTemplate(test: Test): Promise<Test>;
 }

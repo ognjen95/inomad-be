@@ -1,14 +1,27 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { QuestionEntity } from './question.entity';
+import { Question } from '../question';
 
 @ObjectType()
 export class QuestionGroupEntity {
   @Field()
-  id: string;
+  protected id: string;
 
   @Field()
-  name: string;
+  protected name: string;
+
+  @Field({ nullable: true })
+  protected testId?: string;
 
   @Field(() => [QuestionEntity], { nullable: true })
-  Question?: QuestionEntity[];
+  protected questions?: Question[];
+
+  @Field(() => [String], { nullable: true })
+  protected questionIds?: string[];
+
+  @Field({ nullable: true })
+  protected providerCompanyId?: string;
+
+  @Field({ nullable: true, defaultValue: true })
+  protected isExample?: boolean;
 }

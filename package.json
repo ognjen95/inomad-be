@@ -34,6 +34,7 @@
     "@nestjs/platform-express": "^9.0.0",
     "@prisma/client": "^4.12.0",
     "@types/passport-jwt": "^3.0.9",
+    "@types/uuid": "^9.0.6",
     "amazon-cognito-identity-js": "^6.3.5",
     "aws-sdk": "^2.1446.0",
     "axios": "^1.5.1",
@@ -48,7 +49,8 @@
     "passport-jwt": "^4.0.1",
     "prisma": "^5.2.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",

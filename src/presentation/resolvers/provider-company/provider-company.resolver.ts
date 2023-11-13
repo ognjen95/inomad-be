@@ -39,7 +39,7 @@ export class ProviderCompanyResolver {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-  ) {}
+  ) { }
 
   @Mutation(() => MutationReturn)
   createProviderCompany(@Args('args') args: CreateProviderCompanyInput) {
@@ -79,13 +79,14 @@ export class ProviderCompanyResolver {
 
   @ResolveField(() => CaseConnection, { name: 'cases' })
   findAll(
-    @Parent() providerCompany: ProviderCompany,
     @CurrentUser() user: CurrentUserInfo,
+    @Args('options', { nullable: true }) options?: CaseQueryOptionsInput,
   ) {
     return this.queryBus.execute<FindAllCasesQuery, CaseEntity>(
       new FindAllCasesQuery(
         {
-          providerCompanyId: providerCompany.getId,
+          providerCompanyId: user.tenantId,
+          ...(options ?? {}),
         },
         user,
       ),

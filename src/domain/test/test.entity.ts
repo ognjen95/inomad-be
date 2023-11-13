@@ -1,35 +1,45 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { QuestionEntity } from '../question/questions/question.entity';
+import { QuestionGroupEntity } from '../question/questions/question-group.entity';
+import { QuestionGroup } from '../question/question-group';
 
 @ObjectType()
 export class TestEntity {
   @Field()
-  id: string;
+  protected id: string;
 
   @Field()
-  name: string;
+  protected name: string;
 
-  @Field(() => [QuestionEntity])
-  questions: QuestionEntity[];
+  @Field(() => [QuestionGroupEntity], { nullable: true })
+  protected questionGroups?: QuestionGroup[];
 
-  @Field(() => Int)
-  percentageToPass: number;
-
-  @Field(() => Int, { nullable: true })
-  percentageScored?: number;
+  @Field(() => [String], { nullable: true })
+  protected questionGroupIds?: string[];
 
   @Field(() => Int, { nullable: true })
-  timeLimit?: number;
+  protected percentageToPass?: number;
+
+  @Field(() => Int, { nullable: true })
+  protected percentageScored?: number;
+
+  @Field(() => Int, { nullable: true })
+  protected timeLimit?: number;
 
   @Field(() => Date, { nullable: true })
-  startedAt?: Date;
+  protected startedAt?: Date;
 
   @Field(() => Date, { nullable: true })
-  endsAt?: Date;
+  protected endsAt?: Date;
 
   @Field(() => Date, { nullable: true })
-  createdAt: Date;
+  protected createdAt: Date;
 
   @Field({ nullable: true })
-  employeeId?: string;
+  protected employeeId?: string;
+
+  @Field({ nullable: true })
+  protected caseId?: string;
+
+  @Field({ nullable: true })
+  protected providerCompanyId?: string;
 }

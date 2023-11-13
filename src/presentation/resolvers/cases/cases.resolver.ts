@@ -34,7 +34,7 @@ export class CasesResolver {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-  ) {}
+  ) { }
 
   @Mutation(() => MutationReturn)
   createCase(@Args('args') args: CreateCaseInput) {
@@ -50,6 +50,13 @@ export class CasesResolver {
   ) {
     return this.queryBus.execute<FindAllCasesQuery, CaseEntity>(
       new FindAllCasesQuery(options ?? {}, currentUser),
+    );
+  }
+
+  @Query(() => CaseConnection, { name: 'availableCases' })
+  findAllAvailable() {
+    return this.queryBus.execute<FindAllCasesQuery, CaseEntity>(
+      new FindAllCasesQuery({ isAvailable: true }),
     );
   }
 

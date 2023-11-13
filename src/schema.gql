@@ -3,17 +3,17 @@
 # ------------------------------------------------------
 
 type AnswerEntity {
-  answered: Boolean!
-  id: String!
-  isCorrect: Boolean!
-  text: String!
+  answered: Boolean
+  id: String
+  isCorrect: Boolean
+  text: String
 }
 
 input AnswerInput {
-  answered: Boolean!
-  id: String!
-  isCorrect: Boolean!
-  text: String!
+  answer: Boolean
+  id: String
+  isCorrect: Boolean
+  text: String
 }
 
 enum ApplicantFamilyMembers {
@@ -71,6 +71,7 @@ type CaseEntity {
 
 input CaseQueryOptionsInput {
   caseId: String
+  isAvailable: Boolean
   providerCompanyId: String
   userId: String
   where: CaseWhereInput
@@ -92,9 +93,12 @@ type CaseRequestEntity {
   case: CaseEntity
   caseId: String!
   createdAt: DateTime!
+  deadline: DateTime!
   id: String!
+  isProposal: Boolean
   providerCompanyId: String!
   status: CaseRequestStatus!
+  totalCost: Float
   updatedAt: DateTime!
 }
 
@@ -192,13 +196,22 @@ input CreateProviderCompanyInput {
 
 input CreateQuestionGroupInput {
   name: String!
+  questions: [CreateQuestionInput!]!
+  templateId: String
 }
 
 input CreateQuestionInput {
-  answers: [AnswerInput!]
-  points: Float!
-  questionGroup: String
+  comments: [String!]
+  documentId: String
+  documentName: String
+  documentType: DocumentType
+  hasErrors: Boolean
+  options: [String!]!
+  points: Float
+  questions: [UpdateQuestionInput!]
+  testId: String
   text: String!
+  type: QuestionType!
 }
 
 input CreateTaskInput {
@@ -215,12 +228,14 @@ input CreateTaskInput {
 }
 
 input CreateTestInput {
+  caseId: String
   employeeId: String
   endsAt: DateTime
   name: String!
   percentageScored: Int
-  percentageToPass: Int!
-  questionIds: [String!]!
+  percentageToPass: Int
+  providerCompanyId: String
+  questionGroupIds: [String!]!
   timeLimit: Int
 }
 
@@ -346,7 +361,9 @@ type GeneralInfo {
 
 type Mutation {
   assignEmployeeToCase(args: UpdateCaseInput!): MutationReturn!
+  assignTemplate(caseId: String!, templateId: String!): TestEntity!
   createCase(args: CreateCaseInput!): MutationReturn!
+  createCaseProposal(caseId: String!, deadline: DateTime!, price: Float!): MutationReturn!
   createCaseRequest(providerCompanyId: String!): MutationReturn!
   createChat(chatName: String!, userIds: [String!]!): String!
   createCompensation(createCompensationInput: CreateCompensationInput!): Compensation!
@@ -355,7 +372,7 @@ type Mutation {
   createQuestion(createQuestionInput: CreateQuestionInput!): QuestionEntity!
   createQuestionGroup(createQuestionGroupInput: CreateQuestionGroupInput!): QuestionGroupEntity!
   createTask(createTaskInput: CreateTaskInput!): TaskEntity!
-  createTest(createTestInput: CreateTestInput!): TestEntity!
+  createTemplate(args: CreateTestInput!): TestEntity!
   createTimeOff(createTimeOffInput: CreateTimeOffInput!): TimeOffEntity!
   createTimeOffRequest(createTimeOffRequestInput: CreateTimeOffRequestInput!): TimeOffRequestEntity!
   createUser(args: CreateUserInput!): MutationReturn!
@@ -373,7 +390,8 @@ type Mutation {
   updateCaseWorkInfo(args: UpdateCaseWorkInfoInput!): MutationReturn!
   updateDocument(args: UpdateDocumentInput!): MutationReturn!
   updateQuestion(updateQuestionInput: UpdateQuestionInput!): QuestionEntity!
-  updateTest(updateTestInput: UpdateTestInput!): TestEntity!
+  updateQuestionGroup(args: UpdateQuestionGroupInput!): QuestionGroupEntity!
+  updateTest(args: UpdateTestInput!): TestEntity!
   updateTimeOff(updateTimeOffInput: UpdateTimeOffInput!): TimeOffEntity!
   updateTimeOffRequest(updateTimeOffRequestInput: UpdateTimeOffRequestInput!): TimeOffRequestEdgesEntity!
   updateUser(args: UpdateUserInput!): UserEntity!
@@ -434,7 +452,7 @@ type ProviderCompanyEdges {
 type ProviderCompanyEntity {
   case(id: String!): CaseEntity!
   caseRequests(options: CaseQueryOptionsInput): CaseRequestConnection!
-  cases: CaseConnection!
+  cases(options: CaseQueryOptionsInput): CaseConnection!
   createdAt: DateTime!
   email: String!
   employees(args: UserQueryOptionsInput): UserConnection!
@@ -446,6 +464,7 @@ type ProviderCompanyEntity {
 }
 
 type Query {
+  availableCases: CaseConnection!
   case(id: String!): CaseEntity!
   caseRequest(id: Int!): CaseRequestEntity!
   caseRequests(options: CaseQueryOptionsInput): CaseRequestConnection!
@@ -456,13 +475,13 @@ type Query {
   documents: DocumentConnection!
   downloadLink(id: String!): String!
   findAllQuestion(QueryOptionsInput: QueryOptionsInput): QuestionEntityEdgesEntity!
-  findAllQuestionGroups(QueryOptionsInput: QueryOptionsInput): QuestionGroupsEntityEdgesEntity!
-  findAllTests(QueryOptionsInput: QueryOptionsInput): TestsEntityEdgesEntity!
   findTestById(id: String!): TestEntity!
   presignedUrl(fileNames: [String!]!): [PresignedUrlReturn]!
   providerCompanies: ProviderCompanyConnection!
   providerCompany: ProviderCompanyEntity
+  questionGroups(args: QuestionGroupOptionsInput): QuestionGroupConnection!
   tasks(options: TaskQueryOptionsInput): TaskConnection!
+  templates(QueryOptionsInput: TestQueryOptionsInput): TemplateConnection!
   timeOffs: TimeOffConnection!
   timeOffsByUserId(employeeId: String!, forYear: Float!): TimeOffConnection!
   userById(id: String!): UserEntity!
@@ -481,12 +500,24 @@ type QuestionEdges {
 
 type QuestionEntity {
   answerType: String
-  answers: [AnswerEntity!]
+  answers: [AnswerEntity]
+  comments: [String!]
+  document: DocumentEntity
+  documentFileId: String
+  documentId: String
+  documentName: String
+  documentType: DocumentType
+  hasErrors: Boolean
   id: String!
-  points: Float!
-  questionGroup: QuestionGroupEntity
+  isExample: Boolean
+  options: [String!]!
+  points: Float
+  providerCompanyId: String
+  questionGroupId: String
+  questionGroups: [QuestionGroupEntity!]
   testId: String
   text: String!
+  type: QuestionType!
 }
 
 type QuestionEntityEdgesEntity {
@@ -494,10 +525,35 @@ type QuestionEntityEdgesEntity {
   totalCount: Int!
 }
 
+type QuestionGroupConnection {
+  edges: [QuestionGroupsEdges!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
 type QuestionGroupEntity {
-  Question: [QuestionEntity!]
   id: String!
+  isExample: Boolean
   name: String!
+  providerCompanyId: String
+  questionIds: [String!]
+  questions: [QuestionEntity!]
+  testId: String
+}
+
+input QuestionGroupIdInput {
+  equals: String
+  in: [String!]
+}
+
+input QuestionGroupOptionsInput {
+  where: QuestionGroupWhere
+}
+
+input QuestionGroupWhere {
+  id: QuestionGroupIdInput
+  isExample: Boolean = true
+  providerCompanyId: String
 }
 
 type QuestionGroupsEdges {
@@ -505,9 +561,13 @@ type QuestionGroupsEdges {
   node: QuestionGroupEntity!
 }
 
-type QuestionGroupsEntityEdgesEntity {
-  edges: [QuestionGroupsEdges!]!
-  totalCount: Int!
+enum QuestionType {
+  CHECKBOX
+  FILE
+  MULTISELECT
+  RADIO
+  SELECT
+  TEXT
 }
 
 type TaskConnection {
@@ -575,27 +635,45 @@ enum TaskType {
   TASK
 }
 
+type TemplateConnection {
+  edges: [TemplateEdges!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type TemplateEdges {
+  cursor: String!
+  node: TestEntity!
+}
+
 type TestEntity {
+  caseId: String
   createdAt: DateTime
   employeeId: String
   endsAt: DateTime
   id: String!
   name: String!
   percentageScored: Int
-  percentageToPass: Int!
-  questions: [QuestionEntity!]!
+  percentageToPass: Int
+  providerCompanyId: String
+  questionGroupIds: [String!]
+  questionGroups: [QuestionGroupEntity!]
   startedAt: DateTime
   timeLimit: Int
 }
 
-type TestsEdges {
-  cursor: String!
-  node: TestEntity!
-}
-
-type TestsEntityEdgesEntity {
-  edges: [TestsEdges!]!
-  totalCount: Int!
+input TestQueryOptionsInput {
+  caseId: String
+  employeeId: String
+  endsAt: DateTime
+  id: String
+  name: String
+  percentageScored: Int
+  percentageToPass: Int
+  providerCompanyId: String
+  questionGroupIds: [String!]
+  startedAt: DateTime
+  timeLimit: Int
 }
 
 type TimeOffConnection {
@@ -723,19 +801,35 @@ input UpdateDocumentInput {
   providerCompanyId: String
 }
 
-input UpdateQuestionInput {
-  answeredIds: [String!]!
+input UpdateQuestionGroupInput {
   id: String!
+  questions: [UpdateQuestionInput]
+}
+
+input UpdateQuestionInput {
+  """List of ids of the questions that have been answered"""
+  answeredIds: [String!]
+  answers: [AnswerInput!]!
+  comments: [String!]
+  document: UpdateDocumentInput
+  documentId: String
+  hasErrors: Boolean
+  id: String!
+  options: [String!]
+  points: Float
+  text: String!
 }
 
 input UpdateTestInput {
+  caseId: String
   employeeId: String
   endsAt: DateTime
   id: String!
   name: String
   percentageScored: Int
   percentageToPass: Int
-  questionIds: [String!]
+  providerCompanyId: String
+  questionGroupIds: [String!]
   startedAt: DateTime!
   timeLimit: Int
 }

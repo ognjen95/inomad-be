@@ -1,29 +1,25 @@
-import { AggregateRoot } from '@nestjs/cqrs';
-import { Question } from '../question/Question';
+import { QuestionGroup } from '../question/question-group';
+import { TestEntity } from './test.entity';
 
-export class Test extends AggregateRoot {
-  private id: string;
-
-  private percentageScored?: number;
-
-  private startedAt?: Date;
-
-  private endsAt?: Date;
-
-  private createdAt?: Date;
-
-  private employeeId?: string;
-
-  private questions: Question[] = [];
-
+export class Test extends TestEntity {
   constructor(
-    private name: string,
+    name: string,
 
-    private percentageToPass: number,
+    questionGroupIds: string[],
 
-    private timeLimit?: number,
+    percentageToPass?: number,
+
+    timeLimit?: number,
   ) {
     super();
+
+    this.name = name;
+
+    this.questionGroupIds = questionGroupIds;
+
+    this.percentageToPass = percentageToPass;
+
+    this.timeLimit = timeLimit;
   }
 
   public update(dto: {
@@ -48,10 +44,6 @@ export class Test extends AggregateRoot {
 
   public get getName(): string {
     return this.name;
-  }
-
-  public get getQuestions(): Question[] {
-    return this.questions;
   }
 
   public get getPercentageToPass(): number {
@@ -90,15 +82,6 @@ export class Test extends AggregateRoot {
     this.name = name;
   }
 
-  public set setQuestions(questions: Question[]) {
-    const newQuestions = questions.map((question) => {
-      question.setAnswers = question.getAnswers;
-      return question;
-    });
-
-    this.questions = newQuestions;
-  }
-
   public set setPercentageToPass(percentageToPass: number) {
     this.percentageToPass = percentageToPass;
   }
@@ -121,5 +104,41 @@ export class Test extends AggregateRoot {
 
   public set setEmployeeId(employeeId: string) {
     this.employeeId = employeeId;
+  }
+
+  public set setCreatedAt(createdAt: Date) {
+    this.createdAt = createdAt;
+  }
+
+  public get getProviderCompanyId(): string {
+    return this.providerCompanyId;
+  }
+
+  public set setProviderCompanyId(providerCompanyId: string) {
+    this.providerCompanyId = providerCompanyId;
+  }
+
+  public get getCaseId(): string {
+    return this.caseId;
+  }
+
+  public set setCaseId(caseId: string) {
+    this.caseId = caseId;
+  }
+
+  public get getQuestionGroupIds(): string[] {
+    return this.questionGroupIds;
+  }
+
+  public set setQuestionGroupIds(questionGroupIds: string[]) {
+    this.questionGroupIds = questionGroupIds;
+  }
+
+  public get getQuestionGroups(): QuestionGroup[] {
+    return this.questionGroups;
+  }
+
+  public set setQuestionGroups(questionGroups: QuestionGroup[]) {
+    this.questionGroups = questionGroups;
   }
 }

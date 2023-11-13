@@ -13,6 +13,9 @@ export class CaseQueryOptionsInput {
   providerCompanyId?: string;
 
   @Field({ nullable: true })
+  isAvailable?: boolean;
+
+  @Field({ nullable: true })
   caseId?: string;
 
   @Field({ nullable: true })

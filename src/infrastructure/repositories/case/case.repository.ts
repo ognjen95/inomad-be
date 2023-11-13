@@ -123,17 +123,24 @@ export class CaseRepository implements ICaseRepository {
 
   async findAll(options: CaseQueryOptionsInput): Promise<Case[]> {
     const where = options.where ?? {};
+
     const applicantsIds = options.userId
       ? {
           has: options.userId,
         }
       : undefined;
 
-    const providerCompanyId = options.providerCompanyId
-      ? {
-          equals: options.providerCompanyId,
-        }
-      : undefined;
+    const providerCompanyId =
+      options.providerCompanyId || options.isAvailable
+        ? {
+            ...(options.providerCompanyId && {
+              equals: options.providerCompanyId,
+            }),
+            ...(options.isAvailable && {
+              isSet: false,
+            }),
+          }
+        : undefined;
 
     const applicants = options.userId
       ? {

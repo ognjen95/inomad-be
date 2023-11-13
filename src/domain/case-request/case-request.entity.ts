@@ -1,4 +1,4 @@
-import { ObjectType, Field, registerEnumType } from '@nestjs/graphql';
+import { ObjectType, Field, registerEnumType, Float } from '@nestjs/graphql';
 import { CaseRequestStatus } from './enums';
 import { CaseEntity } from '../case/case.entity';
 import { Case } from '../case/case';
@@ -17,17 +17,26 @@ export class CaseRequestEntity {
   @Field()
   caseId: string;
 
+  @Field(() => Boolean, { nullable: true, defaultValue: false })
+  isProposal?: boolean;
+
   @Field(() => CaseRequestStatus, { defaultValue: CaseRequestStatus.PENDING })
   status: CaseRequestStatus;
 
   @Field(() => Date, { defaultValue: new Date() })
   createdAt: Date;
 
+  @Field(() => Date)
+  deadline: Date;
+
   @Field(() => Date, { defaultValue: new Date() })
   updatedAt: Date;
 
   @Field(() => CaseEntity, { nullable: true })
-  case: Case;
+  case?: Case;
+
+  @Field(() => Float, { nullable: true })
+  totalCost?: number;
 }
 
 registerEnumType(CaseRequestStatus, {

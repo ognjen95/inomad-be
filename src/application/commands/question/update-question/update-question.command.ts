@@ -1,5 +1,5 @@
-import { UpdateQuestionDto } from 'src/domain/question/dtos/update-question.dto';
+import { UpdateQuestionInput } from 'src/domain/question/dtos/questions/update-question.input';
 
 export class UpdateQuestionCommand {
-  constructor(public readonly dto: UpdateQuestionDto) {}
+  constructor(public readonly dto: UpdateQuestionInput) {}
 }

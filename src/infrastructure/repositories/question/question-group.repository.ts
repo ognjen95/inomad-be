@@ -1,11 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
-import { EdgesResponse } from 'src/application/common/types/query-return.type';
-import { QueryOptions } from 'src/domain/question/dtos/query-options.dto';
-import { QUERY_TAKE } from '../common/constants';
-import { QuestionGroup } from 'src/domain/question/QuestionGroup';
+import { QuestionGroup } from 'src/domain/question/question-group';
 import { IQuestionGroupRepository } from 'src/application/common/interfaces/question/question-group-repository.interface';
+import { QuestionGroupOptionsInput } from 'src/domain/question/dtos/question-group-query-options.input';
 
 @Injectable()
 export class QuestionGroupRepository implements IQuestionGroupRepository {
@@ -18,56 +16,88 @@ export class QuestionGroupRepository implements IQuestionGroupRepository {
     const question = await this.prismaService.questionGroup.create({
       data: {
         name: dto.getName,
+        isExample: dto.getIsExample,
+        providerCompanyId: dto.getProviderCompanyId,
+        questions: {
+          create: dto.getQuestions.map((item) => ({
+            text: item.getText,
+            options: item.getOptions,
+            points: item.getPoints,
+            testId: item.getTestId,
+            type: item.getType,
+            documentName: item.getDocumentName,
+            documentType: item.getDocumentType,
+            hasErrors: item.getHasErrors ?? false,
+            providerCompanyId: item.getProviderCompanyId,
+            isExample: item.getIsExample,
+          })),
+        },
       },
     });
+
     return plainToInstance(QuestionGroup, question);
   }
 
-  async findAll(options: QueryOptions): Promise<EdgesResponse<QuestionGroup>> {
-    // const { filters, pagination } = options || {};
-    const question = await this.prismaService.questionGroup.findMany({});
-    return this.edgesFactory(plainToInstance(QuestionGroup, question));
+  async update(dto: QuestionGroup): Promise<QuestionGroup> {
+    const question = await this.prismaService.questionGroup.update({
+      where: {
+        id: dto.getId,
+      },
+      include: {
+        questions: true,
+      },
+      data: {
+        name: dto.getName,
+        providerCompanyId: dto.getProviderCompanyId,
+        isExample: dto.getIsExample,
+        questions: {
+          update: dto.getQuestions.map((item) => ({
+            where: {
+              id: item.getId,
+            },
+            data: {
+              text: item.getText,
+              options: item.getOptions,
+              points: item.getPoints,
+              testId: item.getTestId ?? undefined,
+              type: item.getType,
+              documentId: item.getDocumentId,
+              documentFileId: item.getDocumentFileId,
+              documentName: item.getDocumentName,
+              documentType: item.getDocumentType,
+              isExample: item.getIsExample,
+              hasErrors: item.getHasErrors ?? false,
+              providerCompanyId: item.getProviderCompanyId,
+              answers: item?.getAnswers?.map((answer) => ({
+                text: answer.text,
+                isCorrect: answer.isCorrect,
+                id: answer.id,
+                answered: answer.answered,
+              })),
+            },
+          })),
+        },
+      },
+    });
+
+    return plainToInstance(QuestionGroup, question);
   }
 
-  // async findOneById(id: string): Promise<Question> {
-  //   const Question = await this.prismaService.Question.findUnique({ where: { id } });
-  //   return plainToInstance(Question, Question);
-  // }
-
-  // async update(id: string, dto: Question): Promise<Question> {
-  //   const Question = await this.prismaService.Question.update({
-  //     where: { id },
-  //     data: {
-  //       password: dto.getPassword,
-  //       employmentStatus: dto.getEmploymentStatus,
-  //     },
-  //   });
-
-  //   return plainToInstance(Question, Question);
-  // }
-
-  // async remove(id: string): Promise<Question> {
-  //   const removedQuestion = await this.prismaService.Question.delete({ where: { id } });
-  //   return plainToInstance(Question, removedQuestion);
-  // }
-
-  edgesFactory = async (
-    questions: QuestionGroup[],
-  ): Promise<EdgesResponse<QuestionGroup>> => {
-    const totalCount = await this.prismaService.question.count();
-
-    return {
-      totalCount,
-      edges: questions.map((item) => {
-        return {
-          cursor: item.getId,
-          node: plainToInstance(QuestionGroup, item),
-        };
-      }),
-      pageInfo: {
-        startCursor: questions[0]?.getId,
-        endCursor: questions[questions.length - 1]?.getId,
+  async findAll(
+    queryOptions: QuestionGroupOptionsInput,
+  ): Promise<Array<QuestionGroup>> {
+    console.log('queryOptions', queryOptions);
+    const question = await this.prismaService.questionGroup.findMany({
+      where: queryOptions?.where,
+      include: {
+        questions: {
+          include: {
+            document: true,
+          },
+        },
       },
-    };
-  };
+    });
+
+    return plainToInstance(QuestionGroup, question);
+  }
 }

@@ -20,6 +20,9 @@ export class CaseRequestRepository implements ICaseRequestRepository {
         applicantId: dto.getApplicantId,
         providerCompanyId: dto.getProviderCompanyId,
         caseId: dto.getCaseId,
+        isProposal: dto.getIsProposal,
+        deadline: dto.getDeadline,
+        totalCost: dto.getTotalCost,
       },
     });
   }

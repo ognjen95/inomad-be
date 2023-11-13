@@ -1,145 +1,176 @@
-import { BadRequestException } from '@nestjs/common';
-import { AggregateRoot } from '@nestjs/cqrs';
+import { Document } from '../documents/document';
+import { DocumentType } from '../documents/enums';
+import { QuestionGroup } from './question-group';
+import {
+  AnswerEntity,
+  QuestionEntity,
+  QuestionType,
+} from './questions/question.entity';
 import { v4 as uuidv4 } from 'uuid';
 
-export type Answer = {
-  id: string;
-  text: string;
-  isCorrect: boolean;
-  answered: boolean;
-};
-
-export class Question extends AggregateRoot {
-  private id: string;
-
-  private answerType: 'multiple' | 'single' | 'text' = 'single';
-
-  private questionGroupId?: string;
-
+export class Question extends QuestionEntity {
   constructor(
-    private text: string,
-
-    private points: number,
-
-    private answers: Answer[],
-
-    private questionGroup?: string,
+    text: string,
+    options: string[],
+    points: number,
+    testId: string,
+    type: QuestionType,
+    document: Document,
+    hasErrors: boolean,
+    comments: string[],
   ) {
     super();
-    this.questionGroupId = questionGroup;
+    this.text = text;
+    this.options = options;
+    this.points = points;
+    this.testId = testId;
+    this.type = type;
+    this.document = document;
+    this.hasErrors = hasErrors;
+    this.comments = comments;
+    this.isExample = true;
   }
 
-  validateQuestions() {
-    if (this.answers.length) {
-      if (this.answers.length < 2) {
-        throw new BadRequestException(
-          'Question must have at least two answers',
-        );
-      }
-
-      const correctAnswers = this.answers.filter((answer) => answer.isCorrect);
-      const numberOfCorrectAnswers = correctAnswers.length;
-
-      if (!numberOfCorrectAnswers) {
-        throw new BadRequestException(
-          'Question must have at least one correct answer',
-        );
-      }
-
-      if (numberOfCorrectAnswers > 1) this.answerType = 'multiple';
-      if (numberOfCorrectAnswers === 1) this.answerType = 'single';
-
-      return;
-    }
-    this.answerType = 'text';
-  }
-
-  public update(dto: { id: string; answeredIds: string[] }) {
-    this.answers = this.answers.map((answer, index) => {
-      const isSelectedAnswer = dto.answeredIds.includes(answer.id);
-      const alreadyAnswered = answer.answered && isSelectedAnswer;
-      const singleAnswer = this.answerType === 'single';
-      if (singleAnswer) {
-        if (isSelectedAnswer) {
-          return {
-            ...answer,
-            answered: true,
-          };
-        } else {
-          return {
-            ...answer,
-            answered: false,
-          };
-        }
-      }
-
-      if (alreadyAnswered) {
-        return {
-          ...answer,
-          answered: false,
-        };
-      }
-      if (isSelectedAnswer) {
-        return {
-          ...answer,
-          answered: true,
-        };
-      }
-      return answer;
-    });
-  }
-
-  public get getId(): string {
-    return this.id;
-  }
-
-  public get getText(): string {
-    return this.text;
-  }
-
-  public get getPoints(): number {
-    return this.points;
-  }
-
-  public get getAnswers(): Answer[] {
-    return this.answers;
-  }
-
-  public get getQuestionGroup(): string {
-    return this.questionGroup;
-  }
-  get getQuestionGroupId(): string {
-    return this.questionGroupId;
-  }
-  public get getAnswerType(): 'multiple' | 'single' | 'text' {
-    return this.answerType;
-  }
-
-  public set setId(id: string) {
+  set setId(id: string) {
     this.id = id;
   }
 
-  public set setText(text: string) {
+  get getId(): string {
+    return this.id;
+  }
+
+  set setText(text: string) {
     this.text = text;
   }
 
-  public set setPoints(points: number) {
+  get getText(): string {
+    return this.text;
+  }
+
+  set setOptions(options: string[]) {
+    this.options = options;
+  }
+
+  get getOptions(): string[] {
+    return this.options;
+  }
+
+  set setPoints(points: number) {
     this.points = points;
   }
 
-  public set setAnswers(answers: Answer[]) {
-    this.answers = answers.map((answer) => ({
-      ...answer,
-      answered: false,
+  get getPoints(): number {
+    return this.points;
+  }
+
+  set setTestId(testId: string) {
+    this.testId = testId;
+  }
+
+  get getTestId(): string {
+    return this.testId;
+  }
+
+  set setAnswers(answers: Partial<AnswerEntity>[]) {
+    const mappedAnswers = answers.map((answer) => ({
       id: uuidv4(),
+      text: answer?.text,
+      isCorrect: answer?.isCorrect,
+      answered: answer?.answered,
     }));
+
+    this.answers = mappedAnswers;
   }
 
-  public set setQuestionGroup(questionGroup: string) {
-    this.questionGroup = questionGroup;
+  get getAnswers(): AnswerEntity[] {
+    return this.answers;
   }
 
-  public set setAnswerType(answerType: 'multiple' | 'single' | 'text') {
-    this.answerType = answerType;
+  set setType(type: QuestionType) {
+    this.type = type;
+  }
+
+  get getType(): QuestionType {
+    return this.type;
+  }
+
+  set setQuestionGroup(questionGroup: QuestionGroup[]) {
+    this.questionGroups = questionGroup;
+  }
+
+  get getQuestionGroup(): QuestionGroup[] {
+    return this.questionGroups;
+  }
+
+  get getQuestionGroupId(): string {
+    return this.questionGroupId;
+  }
+
+  set setQuestionGroupId(questionGroupId: string) {
+    this.questionGroupId = questionGroupId;
+  }
+
+  set setDocument(document: Document) {
+    this.document = document;
+  }
+
+  get getDocument(): Document {
+    return this.document;
+  }
+
+  set setHasErrors(hasErrors: boolean) {
+    this.hasErrors = hasErrors ?? false;
+  }
+
+  get getHasErrors(): boolean {
+    return this.hasErrors;
+  }
+
+  get getProviderCompanyId(): string {
+    return this.providerCompanyId;
+  }
+
+  set setProviderCompanyId(providerCompanyId: string) {
+    this.providerCompanyId = providerCompanyId;
+  }
+
+  get getDocumentId(): string {
+    return this.documentId;
+  }
+
+  set setDocumentId(documentId: string) {
+    this.documentId = documentId;
+  }
+
+  get getDocumentName(): string {
+    return this.documentName;
+  }
+
+  set setDocumentName(documentName: string) {
+    this.documentName = documentName;
+  }
+
+  get getDocumentFileId(): string {
+    return this.documentFileId;
+  }
+
+  set setDocumentFileId(documentFileId: string) {
+    this.documentFileId = documentFileId;
+  }
+
+  get getDocumentType(): DocumentType {
+    return this.documentType;
+  }
+
+  set setDocumentType(documentType: DocumentType) {
+    this.documentType = documentType;
+  }
+
+  get getIsExample(): boolean {
+    return this.isExample;
+  }
+
+  set setIsExample(isExample: boolean) {
+    this.isExample = isExample;
   }
 }

@@ -20,41 +20,48 @@ export class TaskRepository implements ITaskRepository {
       img?: string;
     },
   ): Promise<Task> {
-    const createdTask = await this.db.task.upsert({
-      where: {
-        id: dto.getId,
-      },
-      create: {
-        name: dto.getName,
-        description: dto.getDescription,
-        startDate: dto.getStartDate,
-        endDate: dto.getEndDate,
-        taskStatus: dto.getStatus,
-        priority: dto.getPriority,
-        taskType: dto.getType,
-        caseId: dto.getCaseId,
-        assigneesIds: dto.getAssigneeIds,
-        caseName: dto.getCaseName,
-        createdById: author.id,
-        createdByName: author.name,
-      },
-      update: {
-        name: dto.getName,
-        description: dto.getDescription,
-        startDate: dto.getStartDate,
-        endDate: dto.getEndDate,
-        taskStatus: dto.getStatus,
-        priority: dto.getPriority,
-        taskType: dto.getType,
-        caseId: dto.getCaseId,
-        assigneesIds: dto.getAssigneeIds,
-        caseName: dto.getCaseName,
-        createdById: author.id,
-        createdByName: author.name,
-      },
-    });
+    if (dto.getId) {
+      const updatedTask = await this.db.task.update({
+        where: {
+          id: dto.getId,
+        },
+        data: {
+          name: dto.getName,
+          description: dto.getDescription,
+          startDate: dto.getStartDate,
+          endDate: dto.getEndDate,
+          taskStatus: dto.getStatus,
+          priority: dto.getPriority,
+          taskType: dto.getType,
+          caseId: dto.getCaseId,
+          assigneesIds: dto.getAssigneeIds,
+          caseName: dto.getCaseName,
+        },
+      });
 
-    return plainToInstance(Task, createdTask);
+      return plainToInstance(Task, updatedTask);
+    } else {
+      const createdTask = await this.db.task.create({
+        data: {
+          name: dto.getName,
+          description: dto.getDescription,
+          startDate: dto.getStartDate,
+          endDate: dto.getEndDate,
+          taskStatus: dto.getStatus,
+          priority: dto.getPriority,
+          taskType: dto.getType,
+          caseId: dto.getCaseId,
+          caseName: dto.getCaseName,
+          createdByName: author.name,
+          createdById: author.id,
+          assignees: {
+            connect: dto.getAssigneeIds?.map((id) => ({ id })),
+          },
+        },
+      });
+
+      return plainToInstance(Task, createdTask);
+    }
   }
 
   async findOneById(id: string): Promise<Task> {
@@ -73,7 +80,7 @@ export class TaskRepository implements ITaskRepository {
   ): Promise<Task[]> {
     const tasks = await this.db.task.findMany({
       where: {
-        id: options?.id,
+        ...(options?.id && { id: options.id }),
         OR: [
           {
             createdById: userId,

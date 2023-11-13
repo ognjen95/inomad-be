@@ -63,11 +63,9 @@ export class FileService implements IFileServiceInterface {
       Key: fileId,
     });
 
-    const presignedUrl = await getSignedUrl(this.client, command, {
-      expiresIn: 3600,
-    });
-
-    return presignedUrl;
+    const signedDownoadLink = await getSignedUrl(this.client, command);
+    console.log({ signedDownoadLink });
+    return signedDownoadLink;
   }
 
   async getPresignedUrls(
@@ -83,6 +81,6 @@ export class FileService implements IFileServiceInterface {
   }
 
   private generateFileName(fileName: string): string {
-    return `${randomUUID()}-${fileName}`;
+    return `${randomUUID()}-${fileName.toLowerCase()}`;
   }
 }

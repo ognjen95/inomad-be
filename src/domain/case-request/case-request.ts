@@ -93,4 +93,31 @@ export class CaseRequest extends CaseRequestEntity {
   get getCaseRequest(): CaseRequestEntity {
     return this;
   }
+
+  get getDeadline(): Date {
+    return this.deadline;
+  }
+
+  set setDeadline(deadline: Date) {
+    if (!deadline) return;
+    this.deadline = deadline;
+  }
+
+  get getIsProposal(): boolean {
+    return this.isProposal;
+  }
+
+  set setIsProposal(isProposal: boolean) {
+    if (!isProposal) return;
+    this.isProposal = isProposal;
+  }
+
+  get getTotalCost(): number {
+    return this.totalCost;
+  }
+
+  set setTotalCost(totalCost: number) {
+    if (!totalCost) return;
+    this.totalCost = totalCost;
+  }
 }

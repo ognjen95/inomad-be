@@ -5,24 +5,22 @@ import {
   Edge as RelayEdge,
   PageInfo as RelayPageInfo,
 } from 'graphql-relay';
-import { QuestionGroupEntity } from './question-group.entity';
 import { PageInfo } from 'src/domain/common/page-info.entity';
+import { TestEntity } from './test.entity';
 
 @ObjectType()
-class QuestionGroupsEdges implements RelayEdge<QuestionGroupEntity> {
-  @Field(() => QuestionGroupEntity, { nullable: false })
-  node: QuestionGroupEntity;
+class TemplateEdges implements RelayEdge<TestEntity> {
+  @Field(() => TestEntity, { nullable: false })
+  node: TestEntity;
 
   @Field(() => String, { nullable: false })
   cursor: string;
 }
 
 @ObjectType()
-export class QuestionGroupConnection
-  implements RelayConnection<QuestionGroupEntity>
-{
-  @Field(() => [QuestionGroupsEdges], { nullable: false })
-  edges: Array<RelayEdge<QuestionGroupEntity>>;
+export class TemplateConnection implements RelayConnection<TestEntity> {
+  @Field(() => [TemplateEdges], { nullable: false })
+  edges: Array<RelayEdge<TestEntity>>;
 
   @Field(() => PageInfo, { nullable: false })
   pageInfo: RelayPageInfo;

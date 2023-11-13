@@ -23,6 +23,7 @@ model Documents {
   caseId            String?          @db.ObjectId
   providerCompany   ProviderCompany? @relation(fields: [providerCompanyId], references: [id])
   providerCompanyId String?          @db.ObjectId
+  Question          Question[]
 }
 
 model CaseRequest {
@@ -34,6 +35,9 @@ model CaseRequest {
   updatedAt         DateTime          @updatedAt
   case              Case?             @relation(fields: [caseId], references: [id])
   caseId            String            @db.ObjectId
+  deadline          DateTime?
+  totalCost         Float?
+  isProposal        Boolean?           @default(false)
 }
 
 type GeneralInfo {
@@ -123,6 +127,8 @@ model Case {
   employerCompanyId String?          @db.ObjectId
 
   caseRequest CaseRequest[]
+
+  test Test[]
 }
 
 model ProviderCompany {
@@ -220,16 +226,16 @@ enum TaskStatus {
 }
 
 model Task {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
   startDate   DateTime
   endDate     DateTime
-  taskStatus  TaskStatus @default(TO_DO)
-  taskType    TaskType   @default(REMINDER)
+  taskStatus  TaskStatus   @default(TO_DO)
+  taskType    TaskType     @default(REMINDER)
   priority    TaskPriority @default(LOW)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 
   createdById   String
   createdByName String
@@ -314,43 +320,85 @@ model TimeOffRequest {
 }
 
 model Question {
-  id              String         @id @default(auto()) @map("_id") @db.ObjectId
-  text            String
-  questionGroup   QuestionGroup? @relation(fields: [questionGroupId], references: [id])
-  points          Int
-  answers         AnswerType[]
-  answerType      String?
-  Test            Test?          @relation(fields: [testId], references: [id])
-  testId          String?        @db.ObjectId
-  questionGroupId String?        @db.ObjectId
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  text String
+
+  questionGroups   QuestionGroup[] @relation(fields: [questionGroupIds], references: [id])
+  questionGroupIds String[]        @db.ObjectId
+
+  points  Int?
+  options String[]
+  answers AnswerType[]
+  type    QuestionType
+
+  document       Documents?    @relation(fields: [documentId], references: [id])
+  documentId     String?       @db.ObjectId
+  documentName   String?
+  documentType   DocumentType?
+  documentFileId String?
+
+  hasErrors Boolean  @default(false)
+  comments  String[]
+
+  isExample Boolean?
+
+  providerCompanyId String
 }
 
 model Test {
-  id               String     @id @default(auto()) @map("_id") @db.ObjectId
-  name             String
-  questions        Question[]
-  percentageToPass Int        @default(70)
-  percentageScored Int        @default(0)
-  timeLimit        Int
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+
+  questionGroups   QuestionGroup[] @relation(fields: [questionGroupIds], references: [id])
+  questionGroupIds String[]        @db.ObjectId
+
+  percentageToPass Int?      @default(70)
+  percentageScored Int?      @default(0)
+  timeLimit        Int?
   startedAt        DateTime?
   endsAt           DateTime?
-  createdAt        DateTime?  @default(now())
+  createdAt        DateTime? @default(now())
 
   employee   User?   @relation(fields: [employeeId], references: [id])
   employeeId String? @db.ObjectId
+
+  providerCompanyId String?
+
+  case   Case?   @relation(fields: [caseId], references: [id])
+  caseId String? @db.ObjectId
 }
 
 model QuestionGroup {
-  id       String     @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  Question Question[]
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+
+  questions   Question[] @relation(fields: [questionIds], references: [id])
+  questionIds String[]   @db.ObjectId
+
+  tests    Test[]   @relation(fields: [testsIds], references: [id])
+  testsIds String[] @db.ObjectId
+
+  providerCompanyId String
+
+  isExample Boolean?
+
+  createdAt DateTime? @default(now())
 }
 
 type AnswerType {
   id        String
   text      String
-  isCorrect Boolean
-  answered  Boolean
+  isCorrect Boolean?
+  answered  Boolean  @default(false)
+}
+
+enum QuestionType {
+  TEXT
+  SELECT
+  MULTISELECT
+  RADIO
+  CHECKBOX
+  FILE
 }
 
 enum DocumentType {

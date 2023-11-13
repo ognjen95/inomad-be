@@ -6,6 +6,7 @@ export class Document extends DocumentEntity {
     super();
 
     this.name = name;
+
     this.documentType = documentType;
   }
 

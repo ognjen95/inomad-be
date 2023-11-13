@@ -1,11 +1,11 @@
-import { Question } from 'src/domain/question/Question';
+import { Question } from 'src/domain/question/question';
 import { EdgesResponse } from '../../types/query-return.type';
-import { QueryOptions } from '../../../../domain/question/dtos/query-options.dto';
 
 export interface IQuestionRepository {
   create(dto: Question): Promise<Question>;
-  findAll(queryOptions?: QueryOptions): Promise<EdgesResponse<Question>>;
-  findAllByIds(ids: string[], queryOptions?: QueryOptions): Promise<Question[]>;
+  createMany(dtos: Question[]): Promise<Question[]>;
+  findAll(queryOptions?: any): Promise<EdgesResponse<Question>>;
+  findAllByIds(ids: string[], queryOptions?: any): Promise<Question[]>;
   findOneById(id: string): Promise<Question>;
   update(id: string, dto: Question): Promise<Question>;
   //   remove(id: string): Promise<Question>;

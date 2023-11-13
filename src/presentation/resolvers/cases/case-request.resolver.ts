@@ -8,13 +8,14 @@ import { MutationReturn } from 'src/application/common/return-dtos/mutation-retu
 import { UpdateCaseRequestCommand } from 'src/application/commands/cases/update-case-request/update-case-request.command';
 import { CurrentUser } from 'src/presentation/decorators/current-user';
 import { CurrentUserInfo } from '../auth/types';
+import { CreateCaseProposalCommand } from 'src/application/commands/cases/create-case-proposal/create-case-proposal.command';
 
 @Resolver(() => CaseRequestEntity)
 export class CaseRequestResolver {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-  ) {}
+  ) { }
 
   @Mutation(() => MutationReturn)
   createCaseRequest(
@@ -31,14 +32,17 @@ export class CaseRequestResolver {
     );
   }
 
-  @Query(() => [CaseRequestEntity], { name: 'caseRequest' })
-  findAll() {
-    // return this.caseRequestService.findAll();
-  }
-
-  @Query(() => CaseRequestEntity, { name: 'caseRequest' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    // return this.caseRequestService.findOne(id);
+  @Mutation(() => MutationReturn)
+  createCaseProposal(
+    @CurrentUser() user: CurrentUserInfo,
+    @Args('caseId') caseId: string,
+    @Args('price') price: number,
+    @Args('deadline') deadline: Date,
+  ) {
+    return this.commandBus.execute<
+      CreateCaseProposalCommand,
+      CaseRequestEntity
+    >(new CreateCaseProposalCommand(user, caseId, price, deadline));
   }
 
   @Mutation(() => MutationReturn)
@@ -54,5 +58,15 @@ export class CaseRequestResolver {
   @Mutation(() => CaseRequestEntity)
   removeCaseRequest(@Args('id', { type: () => Int }) id: number) {
     // return this.caseRequestService.remove(id);
+  }
+
+  @Query(() => [CaseRequestEntity], { name: 'caseRequest' })
+  findAll() {
+    // return this.caseRequestService.findAll();
+  }
+
+  @Query(() => CaseRequestEntity, { name: 'caseRequest' })
+  findOne(@Args('id', { type: () => Int }) id: number) {
+    // return this.caseRequestService.findOne(id);
   }
 }

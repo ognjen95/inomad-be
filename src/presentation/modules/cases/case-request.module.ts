@@ -16,6 +16,7 @@ import { UserRepository } from 'src/infrastructure/repositories/user/user.reposi
 import UpdateCaseRequestHandler from 'src/application/commands/cases/update-case-request/update-case-request.handler';
 import { CaseRepository } from 'src/infrastructure/repositories/case/case.repository';
 import { ChatService } from 'src/application/services/chat/chat-service';
+import CreateCaseProposalHandler from 'src/application/commands/cases/create-case-proposal/create-case-proposal.handler';
 
 @Module({
   imports: [CqrsModule],
@@ -44,6 +45,7 @@ import { ChatService } from 'src/application/services/chat/chat-service';
     },
     CreateCaseRequestHandler,
     UpdateCaseRequestHandler,
+    CreateCaseProposalHandler,
   ],
 })
 export class CaseRequestModule {}

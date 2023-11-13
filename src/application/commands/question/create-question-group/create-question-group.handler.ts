@@ -2,8 +2,9 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateQuestionGroupCommand } from './create-question-group.command';
 import { Inject } from '@nestjs/common';
 import { QUESTION_GROUP_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
-import { QuestionGroup } from 'src/domain/question/QuestionGroup';
 import { IQuestionGroupRepository } from 'src/application/common/interfaces/question/question-group-repository.interface';
+import { Question } from 'src/domain/question/question';
+import { QuestionGroup } from 'src/domain/question/question-group';
 
 @CommandHandler(CreateQuestionGroupCommand)
 class CreateQuestionGroupHandler
@@ -14,9 +15,43 @@ class CreateQuestionGroupHandler
     private readonly questionGroupRepository: IQuestionGroupRepository,
   ) {}
 
-  async execute({ dto }: CreateQuestionGroupCommand): Promise<QuestionGroup> {
-    const question = new QuestionGroup(dto.name);
-    return await this.questionGroupRepository.create(question);
+  async execute({
+    dto,
+    currentUser,
+  }: CreateQuestionGroupCommand): Promise<QuestionGroup> {
+    const questions = dto.questions.map<Promise<Question>>(async (q) => {
+      const question = new Question(
+        q.text,
+        q.options,
+        q.points,
+        q.testId,
+        q.type,
+        null,
+        q.hasErrors,
+        q.comments,
+      );
+
+      question.setIsExample = true;
+
+      if (q.documentName && q.documentType) {
+        question.setDocumentName = q.documentName;
+        question.setDocumentType = q.documentType;
+      }
+
+      question.setProviderCompanyId = currentUser.tenantId;
+
+      return question;
+    });
+
+    const awaitedQuestions = await Promise.all(questions);
+
+    const newQuestionGroup = new QuestionGroup(dto.name);
+
+    newQuestionGroup.setQuestions = awaitedQuestions;
+
+    newQuestionGroup.setProviderCompanyId = currentUser.tenantId;
+
+    return await this.questionGroupRepository.create(newQuestionGroup);
   }
 }
 

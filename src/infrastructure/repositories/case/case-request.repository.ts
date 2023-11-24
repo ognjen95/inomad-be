@@ -5,7 +5,6 @@ import { CaseQueryOptionsInput } from 'src/domain/case/dtos/query-options.input'
 import { ICaseRequestRepository } from 'src/application/common/interfaces/case/case-repository.interface';
 import { CaseRequest } from 'src/domain/case-request/case-request';
 import { CaseRequestStatus } from '.prisma/client';
-import { Case } from 'src/domain/case/case';
 
 @Injectable()
 export class CaseRequestRepository implements ICaseRequestRepository {

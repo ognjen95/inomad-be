@@ -1,7 +1,6 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { CreateDocumentInput } from '../../../domain/documents/dto/create-document.input';
 import { UpdateDocumentInput } from '../../../domain/documents/dto/update-document.input';
-import { IsPublic } from 'src/presentation/decorators/is-public';
 import { PresignedUrlReturn } from '../../../domain/documents/entities/presigned-url-return.entity';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetPresignedUrlQuery } from 'src/application/queries/documents/get-presigned-url/get-presigned-url.query';

@@ -120,7 +120,8 @@ enum CaseStatus {
 }
 
 input CaseWhereInput {
-  applicationId: ApplicantsIdsInput!
+  applicationId: ApplicantsIdsInput
+  isProposal: Boolean
 }
 
 type Chat {

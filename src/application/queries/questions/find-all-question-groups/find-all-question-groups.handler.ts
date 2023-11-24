@@ -12,7 +12,7 @@ class FindAllQuestionGroupsHandler
   constructor(
     @Inject(QUESTION_GROUP_REPOSITORY_TOKEN)
     private readonly questionGroupRepository: IQuestionGroupRepository,
-  ) { }
+  ) {}
 
   async execute({
     queryOptions,
@@ -23,7 +23,7 @@ class FindAllQuestionGroupsHandler
       currentUser,
     );
 
-    console.log({ questionGroups })
+    console.log({ questionGroups });
 
     return questionGroups;
   }

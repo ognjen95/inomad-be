@@ -115,7 +115,8 @@ export class TestRepository implements ITestRepository {
       },
       where: {
         caseId: {
-          isSet: Boolean(options?.caseId),
+          isSet: options?.caseId ? undefined : false,
+          equals: options?.caseId ?? undefined,
         },
         providerCompanyId: options?.providerCompanyId ?? undefined,
         id: options.id ?? undefined,

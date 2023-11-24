@@ -34,7 +34,7 @@ export class CasesResolver {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-  ) { }
+  ) {}
 
   @Mutation(() => MutationReturn)
   createCase(@Args('args') args: CreateCaseInput) {

@@ -1,7 +1,6 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { CaseRequestEntity } from '../../../domain/case-request/case-request.entity';
 import { UpdateCaseRequestInput } from 'src/domain/case-request/dto/update-case-request.input';
-import { QueryBus } from '@nestjs/cqrs/dist/query-bus';
 import { CommandBus } from '@nestjs/cqrs/dist/command-bus';
 import { CreateCaseRequestCommand } from 'src/application/commands/cases/create-case request/create-case-request.command';
 import { MutationReturn } from 'src/application/common/return-dtos/mutation-return-dt0';
@@ -12,10 +11,7 @@ import { CreateCaseProposalCommand } from 'src/application/commands/cases/create
 
 @Resolver(() => CaseRequestEntity)
 export class CaseRequestResolver {
-  constructor(
-    private readonly commandBus: CommandBus,
-    private readonly queryBus: QueryBus,
-  ) { }
+  constructor(private readonly commandBus: CommandBus) {}
 
   @Mutation(() => MutationReturn)
   createCaseRequest(
@@ -55,18 +51,18 @@ export class CaseRequestResolver {
     );
   }
 
-  @Mutation(() => CaseRequestEntity)
-  removeCaseRequest(@Args('id', { type: () => Int }) id: number) {
-    // return this.caseRequestService.remove(id);
-  }
+  // @Mutation(() => CaseRequestEntity)
+  // removeCaseRequest(@Args('id', { type: () => Int }) id: number) {
+  //   // return this.caseRequestService.remove(id);
+  // }
 
   @Query(() => [CaseRequestEntity], { name: 'caseRequest' })
   findAll() {
     // return this.caseRequestService.findAll();
   }
 
-  @Query(() => CaseRequestEntity, { name: 'caseRequest' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    // return this.caseRequestService.findOne(id);
-  }
+  // @Query(() => CaseRequestEntity, { name: 'caseRequest' })
+  // findOne(@Args('id', { type: () => Int }) id: number) {
+  //   // return this.caseRequestService.findOne(id);
+  // }
 }

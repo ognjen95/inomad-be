@@ -3,12 +3,9 @@ import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
 import { IProviderCompanyRepository } from 'src/application/common/interfaces/provider-company/provider-company-repository.interface';
 import { ProviderCompany } from 'src/domain/provider-company/provider-company';
 import { plainToInstance } from 'class-transformer';
-import { ConnectionArguments } from 'graphql-relay';
 
 @Injectable()
 export class ProviderCompanyRepository implements IProviderCompanyRepository {
-  private readonly caseSensitive = 'insensitive';
-
   @Inject()
   protected readonly db: PrismaService;
 
@@ -24,7 +21,7 @@ export class ProviderCompanyRepository implements IProviderCompanyRepository {
     return plainToInstance(ProviderCompany, providerCompany);
   }
 
-  update(dto: ProviderCompany): Promise<void> {
+  update(): Promise<void> {
     throw new Error('Method not implemented.');
   }
 
@@ -38,7 +35,7 @@ export class ProviderCompanyRepository implements IProviderCompanyRepository {
     return plainToInstance(ProviderCompany, providerCompany);
   }
 
-  async findAll(options: ConnectionArguments): Promise<ProviderCompany[]> {
+  async findAll(): Promise<ProviderCompany[]> {
     const providerCompanies = await this.db.providerCompany.findMany({});
 
     return plainToInstance(ProviderCompany, providerCompanies);

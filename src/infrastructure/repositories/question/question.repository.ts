@@ -9,12 +9,10 @@ import { Question as QuestionPrisma } from '@prisma/client';
 
 @Injectable()
 export class QuestionRepository implements IQuestionRepository {
-  private readonly caseSensitive = 'insensitive';
-
   @Inject()
   protected readonly prismaService: PrismaService;
 
-  create(dto: Question): Promise<Question> {
+  create(): Promise<Question> {
     throw new Error('Method not implemented.');
   }
 
@@ -61,7 +59,7 @@ export class QuestionRepository implements IQuestionRepository {
     return plainToInstance(Question, questions);
   }
 
-  async update(id: string, dto: Question): Promise<Question> {
+  async update(id: string): Promise<Question> {
     const questions = await this.prismaService.question.update({
       where: {
         id,

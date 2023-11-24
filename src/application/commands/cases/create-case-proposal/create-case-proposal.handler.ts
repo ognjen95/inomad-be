@@ -12,7 +12,6 @@ import { CaseRequest } from 'src/domain/case-request/case-request';
 import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';
 import { ICaseRepository } from 'src/application/common/interfaces/case/case-request-repository.interface';
 import { MutationReturn } from 'src/application/common/return-dtos/mutation-return-dt0';
-import { UserRoles } from 'src/domain/user/enums';
 import { IProviderCompanyRepository } from 'src/application/common/interfaces/provider-company/provider-company-repository.interface';
 
 @CommandHandler(CreateCaseProposalCommand)

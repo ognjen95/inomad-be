@@ -73,7 +73,6 @@ export class UsersResolver {
   async findAll(
     @Args('args', { nullable: true })
     args: UserQueryOptionsInput,
-    @CurrentUser() user: User,
   ) {
     // console.log({ user });
     return await this.queryBus.execute<FindAllUsersQuery, UserEntity>(

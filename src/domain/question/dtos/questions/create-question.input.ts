@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { QuestionEntity, QuestionType } from '../../questions/question.entity';
+import { QuestionType } from '../../questions/question.entity';
 import { DocumentType } from 'src/domain/documents/enums';
 import { Question } from '../../question';
 import { UpdateQuestionInput } from './update-question.input';

@@ -1,7 +1,5 @@
-import { InputType, Field, PartialType } from '@nestjs/graphql';
-import { CreateQuestionInput } from './create-question.input';
+import { InputType, Field } from '@nestjs/graphql';
 import { UpdateDocumentInput } from 'src/domain/documents/dto/update-document.input';
-import { AggregateRoot } from '@nestjs/cqrs';
 import { Document } from 'src/domain/documents/document';
 
 @InputType()

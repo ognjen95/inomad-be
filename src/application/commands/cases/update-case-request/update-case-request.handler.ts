@@ -11,7 +11,6 @@ import { ICaseRequestRepository } from 'src/application/common/interfaces/case/c
 import { MutationReturn } from 'src/application/common/return-dtos/mutation-return-dt0';
 import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';
 import { ICaseRepository } from 'src/application/common/interfaces/case/case-request-repository.interface';
-import { CaseStatus } from 'src/domain/case/enums';
 import { CaseRequestStatus } from 'src/domain/case-request/enums';
 import { IChatServiceInterface } from 'src/application/common/interfaces/chat/chat-service.interface';
 

@@ -3,8 +3,11 @@ import { ApplicantsIdsInput } from 'src/domain/user/dtos/query-options.input';
 
 @InputType()
 export class CaseWhereInput {
-  @Field(() => ApplicantsIdsInput)
+  @Field(() => ApplicantsIdsInput, { nullable: true })
   applicationId?: ApplicantsIdsInput;
+
+  @Field({ nullable: true })
+  isProposal?: boolean;
 }
 
 @InputType()

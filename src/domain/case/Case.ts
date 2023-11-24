@@ -12,7 +12,7 @@ import { User } from '../user/user';
 import { Document } from '../documents/document';
 import { UpdateCaseGeneralInfoInput } from './dtos/update-case-general-info';
 import { UpdateCaseEducationInfoInput } from './dtos/update-case-education-info';
-import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 
 export class Case extends CaseEntity {
   constructor(

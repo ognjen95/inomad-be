@@ -8,7 +8,6 @@ import {
 } from 'src/application/common/constants/tokens';
 import { Inject } from '@nestjs/common';
 import { IQuestionGroupRepository } from 'src/application/common/interfaces/question/question-group-repository.interface';
-import { QuestionGroup } from 'src/domain/question/question-group';
 
 @CommandHandler(AssignTestToCaseCommand)
 class AssignTestToCaseHandler
@@ -46,17 +45,6 @@ class AssignTestToCaseHandler
       },
       currentUser,
     );
-
-    // const newQuestionGrops = questQRPS.map<Promise<QuestionGroup>>(
-    //   async (qg) => {
-    //     const newQg = new QuestionGroup(qg.getName);
-
-    //     newQg.setQuestions = qg.getQuestions;
-    //     newQg.setProviderCompanyId = currentUser.tenantId;
-
-    //     return await this.questionGroupRepository.create(newQg);
-    //   },
-    // );
 
     const awaitQuestionGroups = await Promise.all(questQRPS);
 

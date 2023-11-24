@@ -1,11 +1,4 @@
-import {
-  Resolver,
-  Mutation,
-  Args,
-  ResolveField,
-  Parent,
-  Query,
-} from '@nestjs/graphql';
+import { Resolver, Mutation, Args, ResolveField, Query } from '@nestjs/graphql';
 import { CreateProviderCompanyInput } from '../../../domain/provider-company/dtos/create-provider-company.input';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateProviderCompanyCommand } from 'src/application/commands/provider-company/create-provider-company/provider-company.command';
@@ -39,7 +32,7 @@ export class ProviderCompanyResolver {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-  ) { }
+  ) {}
 
   @Mutation(() => MutationReturn)
   createProviderCompany(@Args('args') args: CreateProviderCompanyInput) {

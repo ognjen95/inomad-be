@@ -6,5 +6,5 @@ export class CreateCaseProposalCommand {
     public readonly caseId: string,
     public readonly price: number,
     public readonly deadline: Date,
-  ) { }
+  ) {}
 }

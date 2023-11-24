@@ -22,7 +22,7 @@ class UpdateQuestionGroupHandler
     private readonly questionGroupRepository: IQuestionGroupRepository,
     @Inject(DOCUMENTS_REPOSITORY_TOKEN)
     private readonly documentRepostiory: IDocumentRepository,
-  ) { }
+  ) {}
 
   async execute({
     dto,

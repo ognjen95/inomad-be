@@ -1,40 +1,37 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { CompensationService } from './compensation.service';
-import { Compensation } from '../../../domain/compensation/compensation.entity';
-import { CreateCompensationInput } from '../../../domain/compensation/dtos/compensation/create-compensation.input';
+// import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+// import { Compensation } from '../../../domain/compensation/compensation.entity';
+// import { CreateCompensationInput } from '../../../domain/compensation/dtos/compensation/create-compensation.input';
 
-@Resolver(() => Compensation)
-export class CompensationResolver {
-  constructor(private readonly compensationService: CompensationService) {}
+// @Resolver(() => Compensation)
+// export class CompensationResolver {
+//   @Mutation(() => Compensation)
+//   createCompensation(
+//     @Args('createCompensationInput')
+//     // createCompensationInput: CreateCompensationInput,
+//   ) {
+//     // return this.compensationService.create(createCompensationInput);
+//   }
 
-  @Mutation(() => Compensation)
-  createCompensation(
-    @Args('createCompensationInput')
-    createCompensationInput: CreateCompensationInput,
-  ) {
-    return this.compensationService.create(createCompensationInput);
-  }
+//   @Query(() => [Compensation], { name: 'compensation' })
+//   findAll() {
+//     return this.compensationService.findAll();
+//   }
 
-  @Query(() => [Compensation], { name: 'compensation' })
-  findAll() {
-    return this.compensationService.findAll();
-  }
+//   @Query(() => Compensation, { name: 'compensation' })
+//   findOne(@Args('id', { type: () => Int }) id: number) {
+//     // return this.compensationService.findOne(id);
+//   }
 
-  @Query(() => Compensation, { name: 'compensation' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.compensationService.findOne(id);
-  }
+//   // @Mutation(() => Compensation)
+//   // updateCompensation(
+//   //   @Args('updateCompensationInput')
+//   //   updateCompensationInput: UpdateCompensationInput,
+//   // ) {
+//   //   // return this.compensationService.update(updateCompensationInput);
+//   // }
 
-  // @Mutation(() => Compensation)
-  // updateCompensation(
-  //   @Args('updateCompensationInput')
-  //   updateCompensationInput: UpdateCompensationInput,
-  // ) {
-  //   // return this.compensationService.update(updateCompensationInput);
-  // }
-
-  @Mutation(() => Compensation)
-  removeCompensation(@Args('id', { type: () => Int }) id: number) {
-    return this.compensationService.remove(id);
-  }
-}
+//   @Mutation(() => Compensation)
+//   removeCompensation(@Args('id', { type: () => Int }) id: number) {
+//     // return this.com/pensationService.remove(id);
+//   }
+// }

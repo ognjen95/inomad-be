@@ -1,20 +1,20 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { User } from 'src/domain/user/user';
+import { Injectable, Inject, BadRequestException } from '@nestjs/common';
+import { Case } from '../../../domain/case/case';
+import { generateCaseName } from '../../../domain/case/utils/generate-case-name';
+import { CreateUserInput } from '../../../domain/user/dtos/create-user.input';
+import { User } from '../../../domain/user/user';
 import {
-  AUTH_SERVICE_TOKEN,
-  CASE_REPOSITORY_TOKEN,
-  CHAT_SERVICE_TOKEN,
-  PROVIDER_REPOSITORY_TOKEN,
   USER_REPOSITORY_TOKEN,
-} from 'src/application/common/constants/tokens';
-import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';
-import { ICaseRepository } from 'src/application/common/interfaces/case/case-request-repository.interface';
-import { generateCaseName } from 'src/domain/case/utils/generate-case-name';
-import { Case } from 'src/domain/case/case';
-import { MutationReturn } from 'src/application/common/return-dtos/mutation-return-dt0';
-import { IAuthService } from 'src/application/common/interfaces/auth/auth.interface';
-import { CreateUserInput } from 'src/domain/user/dtos/create-user.input';
-import { IChatServiceInterface } from 'src/application/common/interfaces/chat/chat-service.interface';
+  CASE_REPOSITORY_TOKEN,
+  PROVIDER_REPOSITORY_TOKEN,
+  AUTH_SERVICE_TOKEN,
+  CHAT_SERVICE_TOKEN,
+} from '../../common/constants/tokens';
+import { IAuthService } from '../../common/interfaces/auth/auth.interface';
+import { ICaseRepository } from '../../common/interfaces/case/case-request-repository.interface';
+import { IChatServiceInterface } from '../../common/interfaces/chat/chat-service.interface';
+import { IUserRepository } from '../../common/interfaces/user/user-repository.interface';
+import { MutationReturn } from '../../common/return-dtos/mutation-return-dt0';
 
 @Injectable()
 export class UserOnboardingService {

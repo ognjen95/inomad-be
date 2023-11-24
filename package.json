@@ -8,7 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest node dist/main.js",
+    "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -24,7 +24,6 @@
     "@aws-sdk/client-s3": "^3.400.0",
     "@aws-sdk/s3-request-presigner": "^3.400.0",
     "@nestjs/apollo": "^11.0.4",
-    "@nestjs/cli": "^10.2.1",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.0.0",
@@ -51,7 +50,8 @@
     "prisma": "^5.2.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "@nestjs/cli": "^9.0.0"
   },
   "devDependencies": {
     "@nestjs/schematics": "^9.0.0",

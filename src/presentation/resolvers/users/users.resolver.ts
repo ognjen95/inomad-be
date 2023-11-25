@@ -21,14 +21,15 @@ import { CreateUserInput } from '@domain/user/dtos/create-user.input';
 import { UpdateUserInput } from '@domain/user/dtos/update-user.input';
 import { UserQueryOptionsInput } from '@domain/user/dtos/query-options.input';
 import { UserConnection } from '@domain/user/entity/user-connection';
-import { CaseConnection } from '@domain/case-connection';
-import { CaseEntity } from '@domain/case.entity';
+
 import { UserEntity } from '@domain/user/entity/user.entity';
 import { User } from '@domain/user/entity/user';
 import { IsPublic } from '@presentation/decorators/is-public';
 import { CurrentUser } from '@presentation/decorators/current-user';
 import { CurrentUserInfo } from '../auth/types';
 import { CreateCustomerCommand } from '@application/commands/user/create-customer/create-user.command';
+import { CaseConnection } from '@domain/case/entity/case-connection';
+import { CaseEntity } from '@domain/case/entity/case.entity';
 
 @Resolver(() => UserEntity)
 export class UsersResolver {

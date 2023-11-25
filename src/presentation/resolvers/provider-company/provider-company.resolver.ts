@@ -1,12 +1,10 @@
 import { Resolver, Mutation, Args, ResolveField, Query } from '@nestjs/graphql';
-import { CreateProviderCompanyInput } from '../../../domain/provider-company/dtos/create-provider-company.input';
+import { CreateProviderCompanyInput } from '@domain/provider-company/dtos/create-provider-company.input';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateProviderCompanyCommand } from '@application/commands/provider-company/create-provider-company/provider-company.command';
 import { MutationReturn } from '@application/common/return-dtos/mutation-return-dt0';
 import { ProviderCompany } from '@domain/provider-company/entity/provider-company';
-import { CaseConnection } from '@domain/case-connection';
 import { FindAllCasesQuery } from '@application/queries/cases/find-all-cases/find-all-cases.query';
-import { CaseEntity } from '@domain/case.entity';
 import { FindProviderCompanyByIdQuery } from '@application/queries/provider-company/find-provider-company-by-id/find-provider-company-by-id.query';
 import { ProviderCompanyEntity } from '@domain/provider-company/entity/provider-company.entity';
 import { CurrentUser } from '@presentation/decorators/current-user';
@@ -26,6 +24,8 @@ import { connectionFromArray } from 'graphql-relay';
 import { FindAllProviderCompaniesQuery } from '@application/queries/provider-company/find-all-provider-companies/find-all-provider-companies.query';
 import { ProviderCompanyConnection } from '@domain/provider-company/entity/provider-company.connection';
 import { IsPublic } from '@presentation/decorators/is-public';
+import { CaseConnection } from '@domain/case/entity/case-connection';
+import { CaseEntity } from '@domain/case/entity/case.entity';
 
 @Resolver(() => ProviderCompanyEntity)
 export class ProviderCompanyResolver {

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
-import { Test } from '@domain/test/entity/Test';
+import { Test } from '@domain/test/entities/Test';
 import { ITestRepository } from '@application/common/interfaces/test/test-repository.interface';
 import { TestQueryOptionsInput } from '@domain/test/dtos/tests/test-query-options.input';
 

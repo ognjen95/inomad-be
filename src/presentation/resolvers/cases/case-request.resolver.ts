@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { CaseRequestEntity } from '../../../domain/case-request/entity/case-request.entity';
+import { CaseRequestEntity } from '@domain/case-request/entity/case-request.entity';
 import { UpdateCaseRequestInput } from '@domain/case-request/dto/update-case-request.input';
 import { CommandBus } from '@nestjs/cqrs/dist/command-bus';
 import { CreateCaseRequestCommand } from '@application/commands/cases/create-case request/create-case-request.command';

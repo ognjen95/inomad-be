@@ -1,8 +1,8 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { TestEntity } from '../../../domain/test/entity/test.entity';
+import { TestEntity } from '../../../domain/test/entities/test.entity';
 import { CreateTestInput } from '../../../domain/test/dtos/tests/create-test.input';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { Test } from '@domain/test/entity/Test';
+import { Test } from '@domain/test/entities/Test';
 import { FindAllTestsQuery } from '@application/queries/tests/find-all-tests/find-all-tests.query';
 import { FindTestByIdQuery } from '@application/queries/tests/fid-one-by-id/find-one-by-id.query';
 import { UpdateTestInput } from '@domain/test/dtos/tests/update-test.input';
@@ -10,7 +10,7 @@ import { UpdateTestCommand } from '@application/commands/tests/update-text/updat
 import { CurrentUser } from '@presentation/decorators/current-user';
 import { CurrentUserInfo } from '../auth/types';
 import { TestQueryOptionsInput } from '@domain/test/dtos/tests/test-query-options.input';
-import { TemplateConnection } from '@domain/test/entity/test.connection';
+import { TemplateConnection } from '@domain/test/entities/test.connection';
 import { CreateTestCommand } from '@application/commands/tests/assign-test-to-case/create-test.command';
 import { AssignTestToCaseCommand } from '@application/commands/tests/create-test/assign-test-to-case.command';
 

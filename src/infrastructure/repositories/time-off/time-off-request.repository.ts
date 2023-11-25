@@ -3,7 +3,7 @@ import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
 import { EdgesResponse } from '@application/common/types/query-return.type';
 import { ITimeOffRequestRepository } from '@application/common/interfaces/time-off/time-off-request.interface';
-import { TimeOffRequest } from '@domain/time-off/TimeOffRequest';
+import { TimeOffRequest } from '@domain/time-off/entity/TimeOffRequest';
 import { TimeOffRequestQueryOptions } from '@domain/time-off/dtos/time-off-request-query-options';
 
 @Injectable()

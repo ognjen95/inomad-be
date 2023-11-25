@@ -1,4 +1,4 @@
-import { User } from '../user/user';
+import { User } from '../user/entity/user';
 import { TaskPriority, TaskStatus, TaskType } from './enums';
 import { TaskEntity } from './task.entity';
 

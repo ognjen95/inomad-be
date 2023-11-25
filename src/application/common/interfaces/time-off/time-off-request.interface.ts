@@ -1,4 +1,4 @@
-import { TimeOffRequest } from '@domain/time-off/TimeOffRequest';
+import { TimeOffRequest } from '@domain/time-off/entity/TimeOffRequest';
 import { EdgesResponse } from '../../types/query-return.type';
 import { TimeOffRequestQueryOptions } from '@domain/time-off/dtos/time-off-request-query-options';
 

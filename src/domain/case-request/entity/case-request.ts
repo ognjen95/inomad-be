@@ -1,8 +1,8 @@
 import { ForbiddenException } from '@nestjs/common/exceptions/forbidden.exception';
-import { UserRoles } from '../user/enums';
+import { UserRoles } from '../../user/enums';
 import { CaseRequestEntity } from './case-request.entity';
-import { CaseRequestStatus } from './enums';
-import { User } from '../user/user';
+import { CaseRequestStatus } from '../enums';
+import { User } from '../../user/entity/user';
 
 export class CaseRequest extends CaseRequestEntity {
   constructor(applicantId: string, providerCompanyId: string, caseId: string) {

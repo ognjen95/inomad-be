@@ -1,8 +1,8 @@
 import { ObjectType, Field, registerEnumType } from '@nestjs/graphql';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../user/entity/user.entity';
 import { TaskPriority, TaskStatus, TaskType } from './enums';
 import { AggregateRoot } from '@nestjs/cqrs';
-import { User } from '../user/user';
+import { User } from '../user/entity/user';
 
 @ObjectType()
 export class TaskEntity extends AggregateRoot {

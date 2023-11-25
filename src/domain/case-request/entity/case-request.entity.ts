@@ -1,7 +1,7 @@
 import { ObjectType, Field, registerEnumType, Float } from '@nestjs/graphql';
-import { CaseRequestStatus } from './enums';
-import { CaseEntity } from '../case/case.entity';
-import { Case } from '../case/case';
+import { CaseRequestStatus } from '../enums';
+import { CaseEntity } from '../../case/entity/case.entity';
+import { Case } from '../../case/entity/case';
 
 @ObjectType()
 export class CaseRequestEntity {

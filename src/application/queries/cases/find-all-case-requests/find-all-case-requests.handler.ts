@@ -5,7 +5,7 @@ import { CASE_REQUEST_REPOSITORY_TOKEN } from '@application/common/constants/tok
 import { connectionFromArray } from 'graphql-relay/connection/arrayConnection';
 import { Connection } from 'graphql-relay';
 import { ICaseRequestRepository } from '@application/common/interfaces/case/case-repository.interface';
-import { CaseRequest } from '@domain/case-request/case-request';
+import { CaseRequest } from '@domain/case-request/entity/case-request';
 import { UserRoles } from '@domain/user/enums';
 
 @QueryHandler(FindAllCaseRequestsQuery)

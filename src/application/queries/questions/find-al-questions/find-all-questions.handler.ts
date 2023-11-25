@@ -3,7 +3,7 @@ import { FindAllQuestionsQuery } from './find-all-questions.query';
 import { IQuestionRepository } from '@application/common/interfaces/question/question-repository.interface';
 import { Inject } from '@nestjs/common';
 import { QUESTION_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
-import { Question } from '@domain/question/question';
+import { Question } from '@domain/question/entity/question';
 import { EdgesResponse } from '@application/common/types/query-return.type';
 
 @QueryHandler(FindAllQuestionsQuery)

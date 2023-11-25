@@ -5,7 +5,7 @@ import {
   DOCUMENTS_REPOSITORY_TOKEN,
   QUESTION_GROUP_REPOSITORY_TOKEN,
 } from '@application/common/constants/tokens';
-import { QuestionGroup } from '@domain/question/question-group';
+import { QuestionGroup } from '@domain/question/entity/question-group';
 import { IQuestionGroupRepository } from '@application/common/interfaces/question/question-group-repository.interface';
 import { UserRoles } from '@domain/user/enums';
 import { IDocumentRepository } from '@application/common/interfaces/documents/documents-repository.interface';

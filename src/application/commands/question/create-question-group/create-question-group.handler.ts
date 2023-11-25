@@ -3,8 +3,8 @@ import { CreateQuestionGroupCommand } from './create-question-group.command';
 import { Inject } from '@nestjs/common';
 import { QUESTION_GROUP_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
 import { IQuestionGroupRepository } from '@application/common/interfaces/question/question-group-repository.interface';
-import { Question } from '@domain/question/question';
-import { QuestionGroup } from '@domain/question/question-group';
+import { Question } from '@domain/question/entity/question';
+import { QuestionGroup } from '@domain/question/entity/question-group';
 
 @CommandHandler(CreateQuestionGroupCommand)
 class CreateQuestionGroupHandler

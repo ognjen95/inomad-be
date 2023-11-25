@@ -9,17 +9,17 @@ import {
 import {
   TimeOffEntity,
   TimeOffConnection,
-} from '../../../domain/time-off/time-off.entity';
+} from '../../../domain/time-off/entity/time-off.entity';
 import { CreateTimeOffInput } from '../../../domain/time-off/dtos/time-off/create-time-off.input';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateTimeOffCommand } from '@application/commands/time-off/create-time-off/create-time-off.command';
-import { TimeOff } from '@domain/time-off/TimeOff';
+import { TimeOff } from '@domain/time-off/entity/TimeOff';
 import { FindAllTimeOffsQuery } from '@application/queries/time-off/find-all-time-offs/find-all-time-offs.query';
 import { FindByEmployeeIdQuery } from '@application/queries/time-off/find-by-employee-id/find-by-employee-id.query';
 import { UpdateTimeOffInput } from '@domain/time-off/dtos/time-off/update-time-off.input';
 import { UpdateTimeOffCommand } from '@application/commands/time-off/update-time-off/update-time-off.command';
 import { TimeOffRequest } from '@prisma/client';
-import { TimeOffRequestEdgesEntity } from '@domain/time-off/time-off-request-edges.entity';
+import { TimeOffRequestEdgesEntity } from '@domain/time-off/entity/time-off-request-edges.entity';
 import { FindTimeOffRequestsQuery } from '@application/queries/time-off/find-time-off-requests/find-time-off-requests.query';
 import { TimeOffRequestQueryOptions } from '@domain/time-off/dtos/time-off/time-off-request-query-options';
 

@@ -1,6 +1,6 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { QuestionGroupEntity } from '../question/questions/question-group.entity';
-import { QuestionGroup } from '../question/question-group';
+import { QuestionGroupEntity } from '../../question/questions/question-group.entity';
+import { QuestionGroup } from '../../question/entity/question-group';
 
 @ObjectType()
 export class TestEntity {

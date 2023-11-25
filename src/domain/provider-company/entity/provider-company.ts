@@ -1,5 +1,5 @@
-import { User } from '../user/user';
-import { Case } from '../case/case';
+import { User } from '../../user/entity/user';
+import { Case } from '../../case/entity/case';
 import { ProviderCompanyEntity } from './provider-company.entity';
 
 export class ProviderCompany extends ProviderCompanyEntity {

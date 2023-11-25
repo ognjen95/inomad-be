@@ -1,1 +1,1 @@
-export { Case } from './case';
+export { Case } from './entity/case';

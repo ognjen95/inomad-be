@@ -7,7 +7,7 @@ import {
   CHAT_SERVICE_TOKEN,
 } from '@application/common/constants/tokens';
 import { UserRoles } from '@domain/user/enums';
-import { CaseStatus } from '@domain/case/enums';
+import { CaseStatus } from '@domain/case/entity/enums';
 import { IChatServiceInterface } from '@application/common/interfaces/chat/chat-service.interface';
 
 @CommandHandler(AssignProviderCommand)

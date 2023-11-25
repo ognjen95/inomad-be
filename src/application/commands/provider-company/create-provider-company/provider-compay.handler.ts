@@ -6,7 +6,7 @@ import {
   PROVIDER_REPOSITORY_TOKEN,
   USER_REPOSITORY_TOKEN,
 } from '@application/common/constants/tokens';
-import { ProviderCompany } from '@domain/provider-company/provider-company';
+import { ProviderCompany } from '@domain/provider-company/entity/provider-company';
 import { IUserRepository } from '@application/common/interfaces/user/user-repository.interface';
 import { UserRoles } from '@domain/user/enums';
 import { UserOnboardingService } from '@application/services/onboarding/user-onboarding.service';

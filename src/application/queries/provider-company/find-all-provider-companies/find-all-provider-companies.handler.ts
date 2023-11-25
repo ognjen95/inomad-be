@@ -3,7 +3,7 @@ import { FindAllProviderCompaniesQuery } from './find-all-provider-companies.que
 import { IProviderCompanyRepository } from '@application/common/interfaces/provider-company/provider-company-repository.interface';
 import { PROVIDER_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
 import { Inject } from '@nestjs/common';
-import { ProviderCompany } from '@domain/provider-company/provider-company';
+import { ProviderCompany } from '@domain/provider-company/entity/provider-company';
 
 @QueryHandler(FindAllProviderCompaniesQuery)
 class FindAllProviderCompaniesHandler

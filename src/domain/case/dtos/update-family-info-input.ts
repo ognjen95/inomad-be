@@ -1,5 +1,5 @@
 import { Field, InputType, registerEnumType } from '@nestjs/graphql';
-import { ApplicantFamilyMembers } from '../enums';
+import { ApplicantFamilyMembers } from '../entity/enums';
 
 @InputType()
 export class PartnerInput {

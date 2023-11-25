@@ -1,7 +1,7 @@
 import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
-import { TimeOff } from '../time-off/TimeOff';
-import { EmploymentStatus, UserRoles } from './enums';
-import { UpdateUserInput } from './dtos/update-user.input';
+import { TimeOff } from '../../time-off/entity/TimeOff';
+import { EmploymentStatus, UserRoles } from '../enums';
+import { UpdateUserInput } from '../dtos/update-user.input';
 import { UserEntity } from './user.entity';
 
 export class User extends UserEntity {

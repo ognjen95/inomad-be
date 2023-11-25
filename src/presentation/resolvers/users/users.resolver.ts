@@ -20,11 +20,11 @@ import { FindCaseByIdQuery } from '@application/queries/cases/find-case-by-id/fi
 import { CreateUserInput } from '@domain/user/dtos/create-user.input';
 import { UpdateUserInput } from '@domain/user/dtos/update-user.input';
 import { UserQueryOptionsInput } from '@domain/user/dtos/query-options.input';
-import { UserConnection } from '@domain/user/user-connection';
+import { UserConnection } from '@domain/user/entity/user-connection';
 import { CaseConnection } from '@domain/case-connection';
 import { CaseEntity } from '@domain/case.entity';
-import { UserEntity } from '@domain/user/user.entity';
-import { User } from '@domain/user/user';
+import { UserEntity } from '@domain/user/entity/user.entity';
+import { User } from '@domain/user/entity/user';
 import { IsPublic } from '@presentation/decorators/is-public';
 import { CurrentUser } from '@presentation/decorators/current-user';
 import { CurrentUserInfo } from '../auth/types';

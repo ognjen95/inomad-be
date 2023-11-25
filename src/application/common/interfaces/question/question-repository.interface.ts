@@ -1,4 +1,4 @@
-import { Question } from '@domain/question/question';
+import { Question } from '@domain/question/entity/question';
 import { EdgesResponse } from '../../types/query-return.type';
 
 export interface IQuestionRepository {

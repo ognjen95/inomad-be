@@ -4,7 +4,7 @@ import { DocumentEntity } from '@domain/documents/document.entity';
 import { Document } from '@domain/documents/document';
 import { AggregateRoot } from '@nestjs/cqrs';
 import { DocumentType } from '@domain/documents/enums';
-import { QuestionGroup } from '../question-group';
+import { QuestionGroup } from '../entity/question-group';
 
 @ObjectType()
 export class AnswerEntity {

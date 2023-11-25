@@ -5,7 +5,7 @@ import {
   Edge as RelayEdge,
   PageInfo as RelayPageInfo,
 } from 'graphql-relay';
-import { PageInfo } from '../common/page-info.entity';
+import { PageInfo } from '../../common/page-info.entity';
 import { ProviderCompanyEntity } from './provider-company.entity';
 
 @ObjectType()

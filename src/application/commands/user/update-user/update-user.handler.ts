@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateUserCommand } from './update-user.command';
-import { User } from '@domain/user/user';
+import { User } from '@domain/user/entity/user';
 import { Inject, NotFoundException } from '@nestjs/common';
 import { USER_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
 import { IUserRepository } from '@application/common/interfaces/user/user-repository.interface';

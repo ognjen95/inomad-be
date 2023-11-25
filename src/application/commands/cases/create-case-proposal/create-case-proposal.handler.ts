@@ -8,7 +8,7 @@ import {
 } from '@application/common/constants/tokens';
 import { CreateCaseProposalCommand } from './create-case-proposal.command';
 import { ICaseRequestRepository } from '@application/common/interfaces/case/case-repository.interface';
-import { CaseRequest } from '@domain/case-request/case-request';
+import { CaseRequest } from '@domain/case-request/entity/case-request';
 import { IUserRepository } from '@application/common/interfaces/user/user-repository.interface';
 import { ICaseRepository } from '@application/common/interfaces/case/case-request-repository.interface';
 import { MutationReturn } from '@application/common/return-dtos/mutation-return-dt0';

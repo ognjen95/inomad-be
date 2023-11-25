@@ -4,7 +4,7 @@ import { plainToInstance } from 'class-transformer';
 import { EdgesResponse } from '@application/common/types/query-return.type';
 // import { QUERY_TAKE } from '../common/constants';
 import { IQuestionRepository } from '@application/common/interfaces/question/question-repository.interface';
-import { Question } from '@domain/question/question';
+import { Question } from '@domain/question/entity/question';
 import { Question as QuestionPrisma } from '@prisma/client';
 
 @Injectable()

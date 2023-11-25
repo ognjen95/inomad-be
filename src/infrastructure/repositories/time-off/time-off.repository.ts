@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
-import { TimeOff } from '@domain/time-off/TimeOff';
+import { TimeOff } from '@domain/time-off/entity/TimeOff';
 import { ITimeOffRepository } from '@application/common/interfaces/time-off/time-off-repository.interface';
 import { EdgesResponse } from '@application/common/types/query-return.type';
 

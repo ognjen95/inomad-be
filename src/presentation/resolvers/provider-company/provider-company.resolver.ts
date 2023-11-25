@@ -3,28 +3,28 @@ import { CreateProviderCompanyInput } from '../../../domain/provider-company/dto
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateProviderCompanyCommand } from '@application/commands/provider-company/create-provider-company/provider-company.command';
 import { MutationReturn } from '@application/common/return-dtos/mutation-return-dt0';
-import { ProviderCompany } from '@domain/provider-company/provider-company';
+import { ProviderCompany } from '@domain/provider-company/entity/provider-company';
 import { CaseConnection } from '@domain/case-connection';
 import { FindAllCasesQuery } from '@application/queries/cases/find-all-cases/find-all-cases.query';
 import { CaseEntity } from '@domain/case.entity';
 import { FindProviderCompanyByIdQuery } from '@application/queries/provider-company/find-provider-company-by-id/find-provider-company-by-id.query';
-import { ProviderCompanyEntity } from '@domain/provider-company/provider-company.entity';
+import { ProviderCompanyEntity } from '@domain/provider-company/entity/provider-company.entity';
 import { CurrentUser } from '@presentation/decorators/current-user';
 import { CurrentUserInfo } from '../auth/types';
 import { UserRoles } from '@domain/user/enums';
-import { CaseRequestConnection } from '@domain/case-request/case-request-connection';
+import { CaseRequestConnection } from '@domain/case-request/entity/case-request-connection';
 import { CaseQueryOptionsInput } from '@domain/case/dtos/query-options.input';
 import { FindAllCaseRequestsQuery } from '@application/queries/cases/find-all-case-requests/find-all-case-requests.query';
-import { CaseRequestEntity } from '@domain/case-request/case-request.entity';
-import { UserConnection } from '@domain/user/user-connection';
+import { CaseRequestEntity } from '@domain/case-request/entity/case-request.entity';
+import { UserConnection } from '@domain/user/entity/user-connection';
 import { FindAllUsersQuery } from '@application/queries/users/find-all/find-all-users.query';
-import { UserEntity } from '@domain/user/user.entity';
+import { UserEntity } from '@domain/user/entity/user.entity';
 import { UserQueryOptionsInput } from '@domain/user/dtos/query-options.input';
 import { FindCaseByIdQuery } from '@application/queries/cases/find-case-by-id/find-case-by-id.query';
 import { UnauthorizedException } from '@nestjs/common';
 import { connectionFromArray } from 'graphql-relay';
 import { FindAllProviderCompaniesQuery } from '@application/queries/provider-company/find-all-provider-companies/find-all-provider-companies.query';
-import { ProviderCompanyConnection } from '@domain/provider-company/provider-company.connection';
+import { ProviderCompanyConnection } from '@domain/provider-company/entity/provider-company.connection';
 import { IsPublic } from '@presentation/decorators/is-public';
 
 @Resolver(() => ProviderCompanyEntity)

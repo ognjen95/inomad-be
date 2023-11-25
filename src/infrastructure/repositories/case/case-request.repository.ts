@@ -3,7 +3,7 @@ import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
 import { CaseQueryOptionsInput } from '@domain/case/dtos/query-options.input';
 import { ICaseRequestRepository } from '@application/common/interfaces/case/case-repository.interface';
-import { CaseRequest } from '@domain/case-request/case-request';
+import { CaseRequest } from '@domain/case-request/entity/case-request';
 import { CaseRequestStatus } from '.prisma/client';
 
 @Injectable()

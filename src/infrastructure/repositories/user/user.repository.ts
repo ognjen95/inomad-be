@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-import { User } from '@domain/user/user';
+import { User } from '@domain/user/entity/user';
 import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
 import { IUserRepository } from '@application/common/interfaces/user/user-repository.interface';

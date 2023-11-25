@@ -5,8 +5,8 @@ import {
   PageInfo as RelayPageInfo,
 } from 'graphql-relay';
 import { PageInfo } from '@domain/common/page-info.entity';
-import { User } from '@domain/user/user';
-import { UserEntity } from '@domain/user/user.entity';
+import { User } from '@domain/user/entity/user';
+import { UserEntity } from '@domain/user/entity/user.entity';
 
 @ObjectType()
 export class TimeOffEntity {

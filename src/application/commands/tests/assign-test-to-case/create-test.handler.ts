@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { Test } from '@domain/test/Test';
+import { Test } from '@domain/test/entity/Test';
 import { ITestRepository } from '@application/common/interfaces/test/test-repository.interface';
 import {
   QUESTION_GROUP_REPOSITORY_TOKEN,

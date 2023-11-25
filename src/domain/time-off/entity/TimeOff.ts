@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { UpdateTimeOffDto } from './dtos/update-time-off.dto';
+import { UpdateTimeOffDto } from '../dtos/update-time-off.dto';
 
 export class TimeOff {
   private id: string;

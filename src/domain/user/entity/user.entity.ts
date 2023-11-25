@@ -1,8 +1,8 @@
 import { AggregateRoot } from '@nestjs/cqrs/dist/aggregate-root';
 import { Field } from '@nestjs/graphql/dist/decorators/field.decorator';
 import { ObjectType } from '@nestjs/graphql/dist/decorators/object-type.decorator';
-import { EmploymentStatus, UserRoles } from './enums';
-import { TimeOff } from '../time-off/TimeOff';
+import { EmploymentStatus, UserRoles } from '../enums';
+import { TimeOff } from '../../time-off/entity/TimeOff';
 import { registerEnumType } from '@nestjs/graphql/dist/type-factories/register-enum-type.factory';
 import { User } from './user';
 

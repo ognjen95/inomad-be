@@ -1,6 +1,6 @@
 import { Question } from './question';
 import { plainToInstance } from 'class-transformer';
-import { QuestionGroupEntity } from './questions/question-group.entity';
+import { QuestionGroupEntity } from '../questions/question-group.entity';
 
 export class QuestionGroup extends QuestionGroupEntity {
   constructor(name: string, questionIds?: string[]) {

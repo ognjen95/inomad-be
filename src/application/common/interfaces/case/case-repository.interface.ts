@@ -1,4 +1,4 @@
-import { CaseRequest } from '@domain/case-request/case-request';
+import { CaseRequest } from '@domain/case-request/entity/case-request';
 
 import { CaseQueryOptionsInput } from '@domain/case/dtos/query-options.input';
 export interface ICaseRequestRepository {

@@ -1,4 +1,4 @@
-import { User } from '@domain/user/user';
+import { User } from '@domain/user/entity/user';
 import { UserQueryOptionsInput } from '@domain/user/dtos/query-options.input';
 
 export interface IUserRepository {

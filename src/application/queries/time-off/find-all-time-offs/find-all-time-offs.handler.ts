@@ -4,7 +4,7 @@ import { TIME_OFF_TOKEN } from '@application/common/constants/tokens';
 import { ITimeOffRepository } from '@application/common/interfaces/time-off/time-off-repository.interface';
 import { Inject } from '@nestjs/common';
 import { EdgesResponse } from '@application/common/types/query-return.type';
-import { TimeOff } from '@domain/time-off/TimeOff';
+import { TimeOff } from '@domain/time-off/entity/TimeOff';
 
 @QueryHandler(FindAllTimeOffsQuery)
 class FindAllTimeOffsHandler implements IQueryHandler<FindAllTimeOffsQuery> {

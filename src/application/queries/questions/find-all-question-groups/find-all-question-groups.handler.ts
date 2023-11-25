@@ -3,7 +3,7 @@ import { FindAllQuestionGroupsQuery } from './find-all-question-groups.query';
 import { Inject } from '@nestjs/common';
 import { QUESTION_GROUP_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
 import { IQuestionGroupRepository } from '@application/common/interfaces/question/question-group-repository.interface';
-import { QuestionGroup } from '@domain/question/question-group';
+import { QuestionGroup } from '@domain/question/entity/question-group';
 
 @QueryHandler(FindAllQuestionGroupsQuery)
 class FindAllQuestionGroupsHandler

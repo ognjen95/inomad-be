@@ -1,4 +1,4 @@
-import { CaseStatus } from '@domain/case/enums';
+import { CaseStatus } from '@domain/case/entity/enums';
 import { CreateCaseInput } from './create-case.input';
 import {
   InputType,

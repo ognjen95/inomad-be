@@ -3,7 +3,7 @@ import { QuestionEntity } from '../../../domain/question/questions/question.enti
 import { CreateQuestionInput } from '@domain/question/dtos/questions/create-question.input';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateQuestionCommand } from '@application/commands/question/create-question/create-question.command';
-import { Question } from '@domain/question/question';
+import { Question } from '@domain/question/entity/question';
 import { FindAllQuestionsQuery } from '@application/queries/questions/find-al-questions/find-all-questions.query';
 import { QueryOptionsInput } from '@domain/common/query-options.dto';
 import { QuestionEntityEdgesEntity } from '@domain/question/questions/question-edges.entity';

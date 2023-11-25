@@ -1,4 +1,4 @@
-import { QuestionGroup } from '../question/question-group';
+import { QuestionGroup } from '../../question/entity/question-group';
 import { TestEntity } from './test.entity';
 
 export class Test extends TestEntity {

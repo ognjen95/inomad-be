@@ -1,9 +1,9 @@
 import { AggregateRoot } from '@nestjs/cqrs';
 import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { ApplicantFamilyMembers, CaseStatus } from './enums';
-import { UserEntity } from '../user/user.entity';
-import { Document } from '../documents/document';
-import { DocumentEntity } from '../documents/document.entity';
+import { UserEntity } from '../../user/entity/user.entity';
+import { Document } from '../../documents/document';
+import { DocumentEntity } from '../../documents/document.entity';
 // import { CaseRequest } from '../case-request/case-request';
 @ObjectType()
 export class GeneralInfo {

@@ -1,8 +1,8 @@
 import { Injectable, Inject, BadRequestException } from '@nestjs/common';
-import { Case } from '../../../domain/case/case';
+import { Case } from '../../../domain/case/entity/case';
 import { generateCaseName } from '../../../domain/case/utils/generate-case-name';
 import { CreateUserInput } from '../../../domain/user/dtos/create-user.input';
-import { User } from '../../../domain/user/user';
+import { User } from '../../../domain/user/entity/user';
 import {
   USER_REPOSITORY_TOKEN,
   CASE_REPOSITORY_TOKEN,

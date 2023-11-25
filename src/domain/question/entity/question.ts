@@ -1,11 +1,11 @@
-import { Document } from '../documents/document';
-import { DocumentType } from '../documents/enums';
+import { Document } from '../../documents/document';
+import { DocumentType } from '../../documents/enums';
 import { QuestionGroup } from './question-group';
 import {
   AnswerEntity,
   QuestionEntity,
   QuestionType,
-} from './questions/question.entity';
+} from '../questions/question.entity';
 import { v4 as uuidv4 } from 'uuid';
 
 export class Question extends QuestionEntity {

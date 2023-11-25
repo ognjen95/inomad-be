@@ -1,6 +1,6 @@
 import { CaseStatus } from './enums';
 import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
-import { UpdateCaseInput } from './dtos/update-case.input';
+import { UpdateCaseInput } from '../dtos/update-case.input';
 import {
   CaseEntity,
   EducationInfo,
@@ -8,10 +8,10 @@ import {
   GeneralInfo,
   WorkInfo,
 } from './case.entity';
-import { User } from '../user/user';
-import { Document } from '../documents/document';
-import { UpdateCaseGeneralInfoInput } from './dtos/update-case-general-info';
-import { UpdateCaseEducationInfoInput } from './dtos/update-case-education-info';
+import { User } from '../../user/entity/user';
+import { Document } from '../../documents/document';
+import { UpdateCaseGeneralInfoInput } from '../dtos/update-case-general-info';
+import { UpdateCaseEducationInfoInput } from '../dtos/update-case-education-info';
 import { plainToInstance } from 'class-transformer';
 
 export class Case extends CaseEntity {

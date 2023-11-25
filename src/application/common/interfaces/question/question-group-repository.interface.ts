@@ -1,5 +1,5 @@
 import { QuestionGroupOptionsInput } from '@domain/question/dtos/question-group-query-options.input';
-import { QuestionGroup } from '@domain/question/question-group';
+import { QuestionGroup } from '@domain/question/entity/question-group';
 import { CurrentUserInfo } from '@presentation/resolvers/auth/types';
 
 export interface IQuestionGroupRepository {

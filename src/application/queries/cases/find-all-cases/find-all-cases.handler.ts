@@ -5,7 +5,7 @@ import { Inject } from '@nestjs/common';
 import { CASE_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
 import { connectionFromArray } from 'graphql-relay/connection/arrayConnection';
 import { Connection } from 'graphql-relay';
-import { Case } from '@domain/case/case';
+import { Case } from '@domain/case';
 
 @QueryHandler(FindAllCasesQuery)
 class FindAllCasesHandler implements IQueryHandler<FindAllCasesQuery> {

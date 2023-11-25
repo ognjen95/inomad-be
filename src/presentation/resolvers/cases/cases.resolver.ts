@@ -7,9 +7,9 @@ import { UpdateCaseCommand } from '@application/commands/cases/update-case/updat
 import { FindAllCasesQuery } from '@application/queries/cases/find-all-cases/find-all-cases.query';
 import { FindCaseByIdQuery } from '@application/queries/cases/find-case-by-id/find-case-by-id.query';
 import { CreateCaseInput } from '@domain/case/dtos/create-case.input';
-import { CaseConnection } from '@domain/case/case-connection';
+import { CaseConnection } from '@domain/case-connection';
 import { UpdateCaseInput } from '@domain/case/dtos/update-case.input';
-import { CaseEntity } from '@domain/case/case.entity';
+import { CaseEntity } from '@domain/case.entity';
 import { FindAllCaseRequestsQuery } from '@application/queries/cases/find-all-case-requests/find-all-case-requests.query';
 import { CaseRequest } from '@domain/case-request/case-request';
 import { CaseRequestEntity } from '@domain/case-request/case-request.entity';

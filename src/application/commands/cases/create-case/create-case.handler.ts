@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateCaseCommand } from './create-case.command';
 import { Inject } from '@nestjs/common';
-import { Case } from '@domain/case/case';
+import { Case } from '@domain/case';
 import { ICaseRepository } from '@application/common/interfaces/case/case-request-repository.interface';
 import { CASE_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
 

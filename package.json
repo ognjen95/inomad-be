@@ -24,6 +24,7 @@
     "@aws-sdk/client-s3": "^3.400.0",
     "@aws-sdk/s3-request-presigner": "^3.400.0",
     "@nestjs/apollo": "^11.0.4",
+    "@nestjs/cli": "^9.0.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.0.0",
@@ -44,14 +45,12 @@
     "graphql-relay": "^0.10.0",
     "jsonwebtoken": "^9.0.2",
     "jwks-rsa": "^3.0.1",
-    "mongoose": "^7.0.3",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "prisma": "^5.2.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
-    "uuid": "^9.0.1",
-    "@nestjs/cli": "^9.0.0"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@nestjs/schematics": "^9.0.0",

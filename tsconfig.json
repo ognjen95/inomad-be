@@ -15,6 +15,7 @@
       "@domain/*": ["src/domain/*"],
       "@presentation/*": ["src/presentation/*"],
       "@infrastructure/*": ["src/infrastructure/*"],
+      "@common/*": ["src/common/*"],
     },
     "incremental": true,
     "skipLibCheck": true,

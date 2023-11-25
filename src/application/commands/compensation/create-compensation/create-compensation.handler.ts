@@ -6,7 +6,7 @@ class EXAMPLEHandler implements ICommandHandler<EXAMPLECommand> {
   // constructor(private readonly userRepository: IUserRepository) {}
 
   async execute({}: EXAMPLECommand): Promise<any> {
-    console.log('EXAMPLECommand');
+    // console.log('EXAMPLECommand');
   }
 }
 

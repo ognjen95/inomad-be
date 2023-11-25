@@ -18,7 +18,6 @@ export class CaseRequestResolver {
     @CurrentUser() user: CurrentUserInfo,
     @Args('providerCompanyId') providerCompanyId: string,
   ) {
-    console.log({ providerCompanyId });
     return this.commandBus.execute<CreateCaseRequestCommand, CaseRequestEntity>(
       new CreateCaseRequestCommand(
         user.userId,

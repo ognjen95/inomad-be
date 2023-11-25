@@ -6,7 +6,7 @@ class EXAMPLEHandler implements IQueryHandler<EXAMPLEQuery> {
   // constructor(private readonly userRepository: IUserRepository) {}
 
   async execute({}: EXAMPLEQuery): Promise<any> {
-    console.log('EXAMPLECommand');
+    // console.log('EXAMPLECommand');
   }
 }
 

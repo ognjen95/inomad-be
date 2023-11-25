@@ -86,7 +86,6 @@ export class QuestionGroupRepository implements IQuestionGroupRepository {
   async findAll(
     queryOptions: QuestionGroupOptionsInput,
   ): Promise<Array<QuestionGroup>> {
-    console.log('queryOptions', queryOptions);
     const question = await this.prismaService.questionGroup.findMany({
       where: queryOptions?.where,
       include: {

@@ -51,15 +51,6 @@ export class AuthService implements IAuthService {
           if (!result) {
             reject(err);
           } else {
-            console.log({
-              result,
-              atr: result.user.getUserAttributes((err, data) =>
-                console.log({ err, data }),
-              ),
-              client: result.user.getUserData((err, data) =>
-                console.log({ err, data }),
-              ),
-            });
             resolve(result.userSub);
           }
         },

@@ -35,8 +35,6 @@ class FindAllDocumentsHandler implements IQueryHandler<FindAllDocumentsQuery> {
         caseId: currentUser.applicationId,
       });
 
-      console.log({ documents, currentUser });
-
       return connectionFromArray(documents, {});
     }
 

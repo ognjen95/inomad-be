@@ -64,7 +64,6 @@ export class FileService implements IFileServiceInterface {
     });
 
     const signedDownoadLink = await getSignedUrl(this.client, command);
-    console.log({ signedDownoadLink });
     return signedDownoadLink;
   }
 

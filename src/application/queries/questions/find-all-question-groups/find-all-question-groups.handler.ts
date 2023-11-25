@@ -23,8 +23,6 @@ class FindAllQuestionGroupsHandler
       currentUser,
     );
 
-    console.log({ questionGroups });
-
     return questionGroups;
   }
 }

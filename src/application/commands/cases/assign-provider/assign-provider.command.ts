@@ -1,5 +1,5 @@
-import { UpdateCaseInput } from 'src/domain/case/dtos/update-case.input';
-import { CurrentUserInfo } from 'src/presentation/resolvers/auth/types';
+import { UpdateCaseInput } from '@domain/case/dtos/update-case.input';
+import { CurrentUserInfo } from '@presentation/resolvers/auth/types';
 
 export class AssignProviderCommand {
   constructor(

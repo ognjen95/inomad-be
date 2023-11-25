@@ -1,8 +1,8 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
-import { AuthReturn } from 'src/application/common/types/auth-return';
+import { AuthReturn } from '@application/common/types/auth-return';
 import { CommandBus } from '@nestjs/cqrs';
-import { AuthenticateUserCommand } from 'src/application/commands/auth/authenticate-user/authenticate-user.command';
-import { IsPublic } from 'src/presentation/decorators/is-public';
+import { AuthenticateUserCommand } from '@application/commands/auth/authenticate-user/authenticate-user.command';
+import { IsPublic } from '@presentation/decorators/is-public';
 
 @Resolver(() => AuthReturn)
 export class AuthResolver {

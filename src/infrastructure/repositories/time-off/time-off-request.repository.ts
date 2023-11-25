@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
+import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
-import { EdgesResponse } from 'src/application/common/types/query-return.type';
-import { ITimeOffRequestRepository } from 'src/application/common/interfaces/time-off/time-off-request.interface';
-import { TimeOffRequest } from 'src/domain/time-off/TimeOffRequest';
-import { TimeOffRequestQueryOptions } from 'src/domain/time-off/dtos/time-off-request-query-options';
+import { EdgesResponse } from '@application/common/types/query-return.type';
+import { ITimeOffRequestRepository } from '@application/common/interfaces/time-off/time-off-request.interface';
+import { TimeOffRequest } from '@domain/time-off/TimeOffRequest';
+import { TimeOffRequestQueryOptions } from '@domain/time-off/dtos/time-off-request-query-options';
 
 @Injectable()
 export class TimeOffRequestRepository implements ITimeOffRequestRepository {

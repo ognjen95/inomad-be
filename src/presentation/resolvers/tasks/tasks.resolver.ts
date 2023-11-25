@@ -2,13 +2,13 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { TaskEntity } from '../../../domain/tasks/task.entity';
 import { CreateTaskInput } from '../../../domain/tasks/dto/create-task.input';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { CreateTaskCommand } from 'src/application/commands/tasks/create-task/create-task.command';
-import { CurrentUser } from 'src/presentation/decorators/current-user';
+import { CreateTaskCommand } from '@application/commands/tasks/create-task/create-task.command';
+import { CurrentUser } from '@presentation/decorators/current-user';
 import { CurrentUserInfo } from '../auth/types';
-import { FindAllTasksQuery } from 'src/application/queries/tasks/get-all-tasks/get-all-tasks.query';
-import { TaskQueryOptionsInput } from 'src/domain/tasks/dto/task-query-options.input';
+import { FindAllTasksQuery } from '@application/queries/tasks/get-all-tasks/get-all-tasks.query';
+import { TaskQueryOptionsInput } from '@domain/tasks/dto/task-query-options.input';
 import { connectionFromArray } from 'graphql-relay';
-import { TaskConnection } from 'src/domain/tasks/tasks-connection';
+import { TaskConnection } from '@domain/tasks/tasks-connection';
 
 @Resolver(() => TaskEntity)
 export class TasksResolver {

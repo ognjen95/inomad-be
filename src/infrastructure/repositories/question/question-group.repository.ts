@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
+import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
-import { QuestionGroup } from 'src/domain/question/question-group';
-import { IQuestionGroupRepository } from 'src/application/common/interfaces/question/question-group-repository.interface';
-import { QuestionGroupOptionsInput } from 'src/domain/question/dtos/question-group-query-options.input';
+import { QuestionGroup } from '@domain/question/question-group';
+import { IQuestionGroupRepository } from '@application/common/interfaces/question/question-group-repository.interface';
+import { QuestionGroupOptionsInput } from '@domain/question/dtos/question-group-query-options.input';
 
 @Injectable()
 export class QuestionGroupRepository implements IQuestionGroupRepository {

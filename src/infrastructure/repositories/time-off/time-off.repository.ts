@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
+import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
-import { TimeOff } from 'src/domain/time-off/TimeOff';
-import { ITimeOffRepository } from 'src/application/common/interfaces/time-off/time-off-repository.interface';
-import { EdgesResponse } from 'src/application/common/types/query-return.type';
+import { TimeOff } from '@domain/time-off/TimeOff';
+import { ITimeOffRepository } from '@application/common/interfaces/time-off/time-off-repository.interface';
+import { EdgesResponse } from '@application/common/types/query-return.type';
 
 @Injectable()
 export class TimeOffRepository implements ITimeOffRepository {

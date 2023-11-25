@@ -1,5 +1,5 @@
-import { UpdateQuestionGroupInput } from 'src/domain/question/dtos/update-question-group.input';
-import { CurrentUserInfo } from 'src/presentation/resolvers/auth/types';
+import { UpdateQuestionGroupInput } from '@domain/question/dtos/update-question-group.input';
+import { CurrentUserInfo } from '@presentation/resolvers/auth/types';
 
 export class UpdateQuestionGroupCommand {
   constructor(

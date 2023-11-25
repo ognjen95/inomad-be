@@ -1,10 +1,10 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateDocumentCommand } from './update-document.command';
-import { IDocumentRepository } from 'src/application/common/interfaces/documents/documents-repository.interface';
-import { DOCUMENTS_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
+import { IDocumentRepository } from '@application/common/interfaces/documents/documents-repository.interface';
+import { DOCUMENTS_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
 import { Inject } from '@nestjs/common';
-import { UserRoles } from 'src/domain/user/enums';
-import { MutationReturn } from 'src/application/common/return-dtos/mutation-return-dt0';
+import { UserRoles } from '@domain/user/enums';
+import { MutationReturn } from '@application/common/return-dtos/mutation-return-dt0';
 
 @CommandHandler(UpdateDocumentCommand)
 class UpdateDocumentHandler implements ICommandHandler<UpdateDocumentCommand> {

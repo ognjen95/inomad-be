@@ -1,5 +1,5 @@
-import { CreateTaskInput } from 'src/domain/tasks/dto/create-task.input';
-import { CurrentUserInfo } from 'src/presentation/resolvers/auth/types';
+import { CreateTaskInput } from '@domain/tasks/dto/create-task.input';
+import { CurrentUserInfo } from '@presentation/resolvers/auth/types';
 
 export class CreateTaskCommand {
   readonly author: {

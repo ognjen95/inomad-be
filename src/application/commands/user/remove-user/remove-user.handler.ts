@@ -1,8 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { RemoveUserCommand } from './remove-user.command';
 import { Inject } from '@nestjs/common';
-import { USER_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
-import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';
+import { USER_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
+import { IUserRepository } from '@application/common/interfaces/user/user-repository.interface';
 
 @CommandHandler(RemoveUserCommand)
 class RemoveUserHandler implements ICommandHandler<RemoveUserCommand> {

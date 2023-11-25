@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import axios from 'axios';
-import { IChatServiceInterface } from 'src/application/common/interfaces/chat/chat-service.interface';
+import { IChatServiceInterface } from '@application/common/interfaces/chat/chat-service.interface';
 
 @Injectable()
 export class ChatService implements IChatServiceInterface {

@@ -1,17 +1,17 @@
 import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { CreateQuestionGroupInput } from 'src/domain/question/dtos/create-question-group.input';
-import { CreateQuestionGroupCommand } from 'src/application/commands/question/create-question-group/create-question-group.command';
-import { QuestionGroupEntity } from 'src/domain/question/questions/question-group.entity';
+import { CreateQuestionGroupInput } from '@domain/question/dtos/create-question-group.input';
+import { CreateQuestionGroupCommand } from '@application/commands/question/create-question-group/create-question-group.command';
+import { QuestionGroupEntity } from '@domain/question/questions/question-group.entity';
 import { QuestionGroup } from '@prisma/client';
-import { FindAllQuestionGroupsQuery } from 'src/application/queries/questions/find-all-question-groups/find-all-question-groups.query';
-import { CurrentUser } from 'src/presentation/decorators/current-user';
+import { FindAllQuestionGroupsQuery } from '@application/queries/questions/find-all-question-groups/find-all-question-groups.query';
+import { CurrentUser } from '@presentation/decorators/current-user';
 import { CurrentUserInfo } from '../auth/types';
-import { QuestionGroupOptionsInput } from 'src/domain/question/dtos/question-group-query-options.input';
+import { QuestionGroupOptionsInput } from '@domain/question/dtos/question-group-query-options.input';
 import { connectionFromArray } from 'graphql-relay';
-import { QuestionGroupConnection } from 'src/domain/question/questions/question-groups-edges.entity';
-import { UpdateQuestionGroupInput } from 'src/domain/question/dtos/update-question-group.input';
-import { UpdateQuestionGroupCommand } from 'src/application/commands/question/update-question-group/update-question-group.command';
+import { QuestionGroupConnection } from '@domain/question/questions/question-groups-edges.entity';
+import { UpdateQuestionGroupInput } from '@domain/question/dtos/update-question-group.input';
+import { UpdateQuestionGroupCommand } from '@application/commands/question/update-question-group/update-question-group.command';
 
 @Resolver(() => QuestionGroupEntity)
 export class QuestionGroupResolver {

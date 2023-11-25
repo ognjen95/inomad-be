@@ -5,14 +5,14 @@ import {
   CASE_REQUEST_REPOSITORY_TOKEN,
   CHAT_SERVICE_TOKEN,
   USER_REPOSITORY_TOKEN,
-} from 'src/application/common/constants/tokens';
+} from '@application/common/constants/tokens';
 import { UpdateCaseRequestCommand } from './update-case-request.command';
-import { ICaseRequestRepository } from 'src/application/common/interfaces/case/case-repository.interface';
-import { MutationReturn } from 'src/application/common/return-dtos/mutation-return-dt0';
-import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';
-import { ICaseRepository } from 'src/application/common/interfaces/case/case-request-repository.interface';
-import { CaseRequestStatus } from 'src/domain/case-request/enums';
-import { IChatServiceInterface } from 'src/application/common/interfaces/chat/chat-service.interface';
+import { ICaseRequestRepository } from '@application/common/interfaces/case/case-repository.interface';
+import { MutationReturn } from '@application/common/return-dtos/mutation-return-dt0';
+import { IUserRepository } from '@application/common/interfaces/user/user-repository.interface';
+import { ICaseRepository } from '@application/common/interfaces/case/case-request-repository.interface';
+import { CaseRequestStatus } from '@domain/case-request/enums';
+import { IChatServiceInterface } from '@application/common/interfaces/chat/chat-service.interface';
 
 @CommandHandler(UpdateCaseRequestCommand)
 class UpdateCaseRequestHandler

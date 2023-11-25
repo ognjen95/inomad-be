@@ -145,35 +145,12 @@ input ChildInput {
   name: String
 }
 
-type Compensation {
-  currency: String
-  employeeId: String!
-  gross: Int!
-  id: String!
-  net: Int
-  paymentType: String!
-  paymentsPerMonth: Int
-  startDate: DateTime!
-  totalCost: Int!
-}
-
 input CreateCaseInput {
   applicantsIds: [String!]!
   employeesIds: [String!] = []
   isPrivate: Boolean = false
   name: String!
   providersIds: [String!] = []
-}
-
-input CreateCompensationInput {
-  currency: String
-  employeeId: String!
-  gross: Int!
-  net: Int
-  paymentType: String!
-  paymentsPerMonth: Int
-  startDate: DateTime!
-  totalCost: Int!
 }
 
 input CreateDocumentInput {
@@ -367,7 +344,6 @@ type Mutation {
   createCaseProposal(caseId: String!, deadline: DateTime!, price: Float!): MutationReturn!
   createCaseRequest(providerCompanyId: String!): MutationReturn!
   createChat(chatName: String!, userIds: [String!]!): String!
-  createCompensation(createCompensationInput: CreateCompensationInput!): Compensation!
   createDocument(args: CreateDocumentInput!): MutationReturn!
   createProviderCompany(args: CreateProviderCompanyInput!): MutationReturn!
   createQuestion(createQuestionInput: CreateQuestionInput!): QuestionEntity!
@@ -379,8 +355,6 @@ type Mutation {
   createUser(args: CreateUserInput!): MutationReturn!
   login(email: String!, password: String!): AuthReturn!
   registerCustomer(args: CreateUserInput!): MutationReturn!
-  removeCaseRequest(id: Int!): CaseRequestEntity!
-  removeCompensation(id: Int!): Compensation!
   removeUser(id: String!): UserEntity!
   updateCase(args: UpdateCaseInput!): MutationReturn!
   updateCaseAdditionalDocuments(args: UpdateCaseAdditionalDocumentsInput!): MutationReturn!
@@ -467,11 +441,10 @@ type ProviderCompanyEntity {
 type Query {
   availableCases: CaseConnection!
   case(id: String!): CaseEntity!
-  caseRequest(id: Int!): CaseRequestEntity!
+  caseRequest: [CaseRequestEntity!]!
   caseRequests(options: CaseQueryOptionsInput): CaseRequestConnection!
   cases(options: CaseQueryOptionsInput!): CaseConnection!
   chatAccessToken: Chat!
-  compensation(id: Int!): Compensation!
   document(id: String!): DocumentEntity!
   documents: DocumentConnection!
   downloadLink(id: String!): String!

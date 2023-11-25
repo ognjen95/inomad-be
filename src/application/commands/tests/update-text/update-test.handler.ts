@@ -1,8 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateTestCommand } from './update-test.command';
-import { ITestRepository } from 'src/application/common/interfaces/test/test-repository.interface';
+import { ITestRepository } from '@application/common/interfaces/test/test-repository.interface';
 import { Inject } from '@nestjs/common';
-import { TEST_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
+import { TEST_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
 
 @CommandHandler(UpdateTestCommand)
 class UpdateTestHandler implements ICommandHandler<UpdateTestCommand> {

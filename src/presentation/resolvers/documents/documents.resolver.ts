@@ -3,18 +3,18 @@ import { CreateDocumentInput } from '../../../domain/documents/dto/create-docume
 import { UpdateDocumentInput } from '../../../domain/documents/dto/update-document.input';
 import { PresignedUrlReturn } from '../../../domain/documents/entities/presigned-url-return.entity';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { GetPresignedUrlQuery } from 'src/application/queries/documents/get-presigned-url/get-presigned-url.query';
-import { GetDownloadUrlQuery } from 'src/application/queries/documents/get-download-url/get-download-url.query';
-import { CurrentUser } from 'src/presentation/decorators/current-user';
+import { GetPresignedUrlQuery } from '@application/queries/documents/get-presigned-url/get-presigned-url.query';
+import { GetDownloadUrlQuery } from '@application/queries/documents/get-download-url/get-download-url.query';
+import { CurrentUser } from '@presentation/decorators/current-user';
 import { CurrentUserInfo } from '../auth/types';
-import { DocumentEntity } from 'src/domain/documents/document.entity';
-import { CreateDocumentCommand } from 'src/application/commands/documents/create-document/create-document.command';
-import { MutationReturn } from 'src/application/common/return-dtos/mutation-return-dt0';
-import { DocumentConnection } from 'src/domain/documents/documents.connection';
-import { FindAllDocumentsQuery } from 'src/application/queries/documents/find-all-documents/find-all-documents.query';
-import { Document } from 'src/domain/documents/document';
-import { FindDocumentByIdQuery } from 'src/application/queries/documents/find-document-by-id/find-document-by-id.query';
-import { UpdateDocumentCommand } from 'src/application/commands/documents/update-document/update-document.command';
+import { DocumentEntity } from '@domain/documents/document.entity';
+import { CreateDocumentCommand } from '@application/commands/documents/create-document/create-document.command';
+import { MutationReturn } from '@application/common/return-dtos/mutation-return-dt0';
+import { DocumentConnection } from '@domain/documents/documents.connection';
+import { FindAllDocumentsQuery } from '@application/queries/documents/find-all-documents/find-all-documents.query';
+import { Document } from '@domain/documents/document';
+import { FindDocumentByIdQuery } from '@application/queries/documents/find-document-by-id/find-document-by-id.query';
+import { UpdateDocumentCommand } from '@application/commands/documents/update-document/update-document.command';
 
 @Resolver(() => DocumentEntity)
 export class DocumentsResolver {

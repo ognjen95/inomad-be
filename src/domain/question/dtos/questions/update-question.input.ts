@@ -1,6 +1,6 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { UpdateDocumentInput } from 'src/domain/documents/dto/update-document.input';
-import { Document } from 'src/domain/documents/document';
+import { UpdateDocumentInput } from '@domain/documents/dto/update-document.input';
+import { Document } from '@domain/documents/document';
 
 @InputType()
 export class AnswerInput {

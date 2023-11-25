@@ -5,14 +5,14 @@ import {
   CASE_REQUEST_REPOSITORY_TOKEN,
   PROVIDER_REPOSITORY_TOKEN,
   USER_REPOSITORY_TOKEN,
-} from 'src/application/common/constants/tokens';
+} from '@application/common/constants/tokens';
 import { CreateCaseProposalCommand } from './create-case-proposal.command';
-import { ICaseRequestRepository } from 'src/application/common/interfaces/case/case-repository.interface';
-import { CaseRequest } from 'src/domain/case-request/case-request';
-import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';
-import { ICaseRepository } from 'src/application/common/interfaces/case/case-request-repository.interface';
-import { MutationReturn } from 'src/application/common/return-dtos/mutation-return-dt0';
-import { IProviderCompanyRepository } from 'src/application/common/interfaces/provider-company/provider-company-repository.interface';
+import { ICaseRequestRepository } from '@application/common/interfaces/case/case-repository.interface';
+import { CaseRequest } from '@domain/case-request/case-request';
+import { IUserRepository } from '@application/common/interfaces/user/user-repository.interface';
+import { ICaseRepository } from '@application/common/interfaces/case/case-request-repository.interface';
+import { MutationReturn } from '@application/common/return-dtos/mutation-return-dt0';
+import { IProviderCompanyRepository } from '@application/common/interfaces/provider-company/provider-company-repository.interface';
 
 @CommandHandler(CreateCaseProposalCommand)
 class CreateCaseProposalHandler

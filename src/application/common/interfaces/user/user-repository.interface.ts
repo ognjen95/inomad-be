@@ -1,5 +1,5 @@
-import { User } from 'src/domain/user/user';
-import { UserQueryOptionsInput } from 'src/domain/user/dtos/query-options.input';
+import { User } from '@domain/user/user';
+import { UserQueryOptionsInput } from '@domain/user/dtos/query-options.input';
 
 export interface IUserRepository {
   create(dto: User): Promise<User>;

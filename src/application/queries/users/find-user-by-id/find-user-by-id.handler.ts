@@ -1,8 +1,8 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindUserByIdQuery } from './find-user-by-id.query';
-import { USER_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
+import { USER_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
 import { Inject } from '@nestjs/common';
-import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';
+import { IUserRepository } from '@application/common/interfaces/user/user-repository.interface';
 
 @QueryHandler(FindUserByIdQuery)
 class FindUserByIdQueryHandler implements IQueryHandler<FindUserByIdQuery> {

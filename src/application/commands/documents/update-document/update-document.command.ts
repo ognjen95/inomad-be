@@ -1,5 +1,5 @@
-import { UpdateDocumentInput } from 'src/domain/documents/dto/update-document.input';
-import { CurrentUserInfo } from 'src/presentation/resolvers/auth/types';
+import { UpdateDocumentInput } from '@domain/documents/dto/update-document.input';
+import { CurrentUserInfo } from '@presentation/resolvers/auth/types';
 
 export class UpdateDocumentCommand {
   constructor(

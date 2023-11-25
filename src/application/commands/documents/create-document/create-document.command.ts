@@ -1,5 +1,5 @@
-import { CreateDocumentInput } from 'src/domain/documents/dto/create-document.input';
-import { CurrentUserInfo } from 'src/presentation/resolvers/auth/types';
+import { CreateDocumentInput } from '@domain/documents/dto/create-document.input';
+import { CurrentUserInfo } from '@presentation/resolvers/auth/types';
 
 export class CreateDocumentCommand {
   constructor(

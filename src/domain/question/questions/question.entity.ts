@@ -1,9 +1,9 @@
 import { ObjectType, Field, registerEnumType } from '@nestjs/graphql';
 import { QuestionGroupEntity } from './question-group.entity';
-import { DocumentEntity } from 'src/domain/documents/document.entity';
-import { Document } from 'src/domain/documents/document';
+import { DocumentEntity } from '@domain/documents/document.entity';
+import { Document } from '@domain/documents/document';
 import { AggregateRoot } from '@nestjs/cqrs';
-import { DocumentType } from 'src/domain/documents/enums';
+import { DocumentType } from '@domain/documents/enums';
 import { QuestionGroup } from '../question-group';
 
 @ObjectType()

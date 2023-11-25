@@ -1,4 +1,4 @@
-import { TimeOff } from 'src/domain/time-off/TimeOff';
+import { TimeOff } from '@domain/time-off/TimeOff';
 import { EdgesResponse } from '../../types/query-return.type';
 
 export interface ITimeOffRepository {

@@ -1,9 +1,9 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { GetPresignedUrlQuery } from './get-presigned-url.query';
-import { IFileServiceInterface } from 'src/application/common/interfaces/documents/file-upload-service.interface';
+import { IFileServiceInterface } from '@application/common/interfaces/documents/file-upload-service.interface';
 import { Inject } from '@nestjs/common';
-import { FILE_SERVICE_TOKEN } from 'src/application/common/constants/tokens';
-import { PresignedUrlReturn } from 'src/domain/documents/entities/presigned-url-return.entity';
+import { FILE_SERVICE_TOKEN } from '@application/common/constants/tokens';
+import { PresignedUrlReturn } from '@domain/documents/entities/presigned-url-return.entity';
 
 @QueryHandler(GetPresignedUrlQuery)
 class GetPresignedUrHandler implements IQueryHandler<GetPresignedUrlQuery> {

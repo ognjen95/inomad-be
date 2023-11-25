@@ -6,8 +6,8 @@ import {
   PutObjectCommand,
 } from '@aws-sdk/client-s3';
 import { randomUUID } from 'crypto';
-import { PresignedUrlReturnModel } from 'src/application/common/types/file-upload.types';
-import { IFileServiceInterface } from 'src/application/common/interfaces/documents/file-upload-service.interface';
+import { PresignedUrlReturnModel } from '@application/common/types/file-upload.types';
+import { IFileServiceInterface } from '@application/common/interfaces/documents/file-upload-service.interface';
 
 @Injectable()
 export class FileService implements IFileServiceInterface {

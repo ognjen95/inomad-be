@@ -1,5 +1,5 @@
-import { CreateQuestionGroupInput } from 'src/domain/question/dtos/create-question-group.input';
-import { CurrentUserInfo } from 'src/presentation/resolvers/auth/types';
+import { CreateQuestionGroupInput } from '@domain/question/dtos/create-question-group.input';
+import { CurrentUserInfo } from '@presentation/resolvers/auth/types';
 
 export class CreateQuestionGroupCommand {
   constructor(

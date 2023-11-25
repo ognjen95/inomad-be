@@ -1,10 +1,10 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindAllQuestionsQuery } from './find-all-questions.query';
-import { IQuestionRepository } from 'src/application/common/interfaces/question/question-repository.interface';
+import { IQuestionRepository } from '@application/common/interfaces/question/question-repository.interface';
 import { Inject } from '@nestjs/common';
-import { QUESTION_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
-import { Question } from 'src/domain/question/question';
-import { EdgesResponse } from 'src/application/common/types/query-return.type';
+import { QUESTION_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
+import { Question } from '@domain/question/question';
+import { EdgesResponse } from '@application/common/types/query-return.type';
 
 @QueryHandler(FindAllQuestionsQuery)
 class FindAllQuestionsHandler implements IQueryHandler<FindAllQuestionsQuery> {

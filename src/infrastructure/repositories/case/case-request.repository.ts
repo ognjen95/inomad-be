@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
+import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
-import { CaseQueryOptionsInput } from 'src/domain/case/dtos/query-options.input';
-import { ICaseRequestRepository } from 'src/application/common/interfaces/case/case-repository.interface';
-import { CaseRequest } from 'src/domain/case-request/case-request';
+import { CaseQueryOptionsInput } from '@domain/case/dtos/query-options.input';
+import { ICaseRequestRepository } from '@application/common/interfaces/case/case-repository.interface';
+import { CaseRequest } from '@domain/case-request/case-request';
 import { CaseRequestStatus } from '.prisma/client';
 
 @Injectable()

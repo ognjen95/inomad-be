@@ -2,17 +2,17 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { TestEntity } from '../../../domain/test/test.entity';
 import { CreateTestInput } from '../../../domain/test/dtos/tests/create-test.input';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { Test } from 'src/domain/test/Test';
-import { FindAllTestsQuery } from 'src/application/queries/tests/find-all-tests/find-all-tests.query';
-import { FindTestByIdQuery } from 'src/application/queries/tests/fid-one-by-id/find-one-by-id.query';
-import { UpdateTestInput } from 'src/domain/test/dtos/tests/update-test.input';
-import { UpdateTestCommand } from 'src/application/commands/tests/update-text/update-test.command';
-import { CurrentUser } from 'src/presentation/decorators/current-user';
+import { Test } from '@domain/test/Test';
+import { FindAllTestsQuery } from '@application/queries/tests/find-all-tests/find-all-tests.query';
+import { FindTestByIdQuery } from '@application/queries/tests/fid-one-by-id/find-one-by-id.query';
+import { UpdateTestInput } from '@domain/test/dtos/tests/update-test.input';
+import { UpdateTestCommand } from '@application/commands/tests/update-text/update-test.command';
+import { CurrentUser } from '@presentation/decorators/current-user';
 import { CurrentUserInfo } from '../auth/types';
-import { TestQueryOptionsInput } from 'src/domain/test/dtos/tests/test-query-options.input';
-import { TemplateConnection } from 'src/domain/test/test.connection';
-import { CreateTestCommand } from 'src/application/commands/tests/assign-test-to-case/create-test.command';
-import { AssignTestToCaseCommand } from 'src/application/commands/tests/create-test/assign-test-to-case.command';
+import { TestQueryOptionsInput } from '@domain/test/dtos/tests/test-query-options.input';
+import { TemplateConnection } from '@domain/test/test.connection';
+import { CreateTestCommand } from '@application/commands/tests/assign-test-to-case/create-test.command';
+import { AssignTestToCaseCommand } from '@application/commands/tests/create-test/assign-test-to-case.command';
 
 @Resolver(() => TestEntity)
 export class TemplateResolver {

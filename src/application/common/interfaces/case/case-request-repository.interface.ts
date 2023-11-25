@@ -1,5 +1,5 @@
-import { Case } from 'src/domain/case/case';
-import { CaseQueryOptionsInput } from 'src/domain/case/dtos/query-options.input';
+import { Case } from '@domain/case/case';
+import { CaseQueryOptionsInput } from '@domain/case/dtos/query-options.input';
 export interface ICaseRepository {
   create(dto: Case): Promise<Case>;
   update(dto: Case): Promise<Case>;

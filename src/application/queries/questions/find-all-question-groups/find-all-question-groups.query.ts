@@ -1,5 +1,5 @@
-import { QuestionGroupOptionsInput } from 'src/domain/question/dtos/question-group-query-options.input';
-import { CurrentUserInfo } from 'src/presentation/resolvers/auth/types';
+import { QuestionGroupOptionsInput } from '@domain/question/dtos/question-group-query-options.input';
+import { CurrentUserInfo } from '@presentation/resolvers/auth/types';
 
 export class FindAllQuestionGroupsQuery {
   constructor(

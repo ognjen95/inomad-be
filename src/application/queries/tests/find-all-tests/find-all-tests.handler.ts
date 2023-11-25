@@ -1,9 +1,9 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindAllTestsQuery } from './find-all-tests.query';
-import { ITestRepository } from 'src/application/common/interfaces/test/test-repository.interface';
-import { Test } from 'src/domain/test/Test';
+import { ITestRepository } from '@application/common/interfaces/test/test-repository.interface';
+import { Test } from '@domain/test/Test';
 import { Inject } from '@nestjs/common';
-import { TEST_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
+import { TEST_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
 import { Connection, connectionFromArray } from 'graphql-relay';
 
 @QueryHandler(FindAllTestsQuery)

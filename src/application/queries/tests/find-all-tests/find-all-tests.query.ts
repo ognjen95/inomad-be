@@ -1,5 +1,5 @@
-import { TestQueryOptionsInput } from 'src/domain/test/dtos/tests/test-query-options.input';
-import { CurrentUserInfo } from 'src/presentation/resolvers/auth/types';
+import { TestQueryOptionsInput } from '@domain/test/dtos/tests/test-query-options.input';
+import { CurrentUserInfo } from '@presentation/resolvers/auth/types';
 
 export class FindAllTestsQuery {
   constructor(

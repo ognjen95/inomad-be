@@ -1,8 +1,8 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { Chat } from '../../../domain/chat/chat.entity';
-import { ChatService } from 'src/application/services/chat/chat-service';
-import { CurrentUser } from 'src/presentation/decorators/current-user';
-import { CurrentUserInfo } from 'src/presentation/resolvers/auth/types';
+import { ChatService } from '@application/services/chat/chat-service';
+import { CurrentUser } from '@presentation/decorators/current-user';
+import { CurrentUserInfo } from '@presentation/resolvers/auth/types';
 
 @Resolver(() => Chat)
 export class ChatResolver {

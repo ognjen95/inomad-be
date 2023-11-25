@@ -1,5 +1,5 @@
-import { TaskQueryOptionsInput } from 'src/domain/tasks/dto/task-query-options.input';
-import { CurrentUserInfo } from 'src/presentation/resolvers/auth/types';
+import { TaskQueryOptionsInput } from '@domain/tasks/dto/task-query-options.input';
+import { CurrentUserInfo } from '@presentation/resolvers/auth/types';
 
 export class FindAllTasksQuery {
   constructor(

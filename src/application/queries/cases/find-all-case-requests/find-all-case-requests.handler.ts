@@ -1,12 +1,12 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindAllCaseRequestsQuery } from './find-all-case-requests.query';
 import { Inject } from '@nestjs/common';
-import { CASE_REQUEST_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
+import { CASE_REQUEST_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
 import { connectionFromArray } from 'graphql-relay/connection/arrayConnection';
 import { Connection } from 'graphql-relay';
-import { ICaseRequestRepository } from 'src/application/common/interfaces/case/case-repository.interface';
-import { CaseRequest } from 'src/domain/case-request/case-request';
-import { UserRoles } from 'src/domain/user/enums';
+import { ICaseRequestRepository } from '@application/common/interfaces/case/case-repository.interface';
+import { CaseRequest } from '@domain/case-request/case-request';
+import { UserRoles } from '@domain/user/enums';
 
 @QueryHandler(FindAllCaseRequestsQuery)
 class FindAllCaseRequestsHandler

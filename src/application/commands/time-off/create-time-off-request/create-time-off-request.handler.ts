@@ -1,9 +1,9 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateTimeOffRequestCommand } from './create-time-off-request.command';
 import { Inject } from '@nestjs/common';
-import { TIME_OFF_TOKEN_REQUEST } from 'src/application/common/constants/tokens';
-import { ITimeOffRequestRepository } from 'src/application/common/interfaces/time-off/time-off-request.interface';
-import { TimeOffRequest } from 'src/domain/time-off/TimeOffRequest';
+import { TIME_OFF_TOKEN_REQUEST } from '@application/common/constants/tokens';
+import { ITimeOffRequestRepository } from '@application/common/interfaces/time-off/time-off-request.interface';
+import { TimeOffRequest } from '@domain/time-off/TimeOffRequest';
 
 @CommandHandler(CreateTimeOffRequestCommand)
 class CreateTimeOffRequestHandler

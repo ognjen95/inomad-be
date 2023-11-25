@@ -1,21 +1,21 @@
 import { Module } from '@nestjs/common';
 import { DocumentsResolver } from '../../resolvers/documents/documents.resolver';
-import { FileService } from 'src/application/services/files/file-upload.service';
+import { FileService } from '@application/services/files/file-upload.service';
 import { CqrsModule } from '@nestjs/cqrs';
-import GetPresignedUrHandler from 'src/application/queries/documents/get-presigned-url/get-presigned-url.handler';
+import GetPresignedUrHandler from '@application/queries/documents/get-presigned-url/get-presigned-url.handler';
 import {
   CASE_REPOSITORY_TOKEN,
   DOCUMENTS_REPOSITORY_TOKEN,
   FILE_SERVICE_TOKEN,
-} from 'src/application/common/constants/tokens';
-import { DocumentRepository } from 'src/infrastructure/repositories/document/document.repository';
-import GetDownloadUrlHandler from 'src/application/queries/documents/get-download-url/get-download-url.handler';
-import CreateDocumentHandler from 'src/application/commands/documents/create-document/create-document.handler';
-import FindAllDocumentsHandler from 'src/application/queries/documents/find-all-documents/find-all-documents.handler';
-import FindDocumentByIdHandler from 'src/application/queries/documents/find-document-by-id/find-document-by-id.handler';
-import UpdateDocumentHandler from 'src/application/commands/documents/update-document/update-document.handler';
-import UpdateCaseAdditionalDocumentHandler from 'src/application/commands/cases/update-additional-documents/update-additional-documents.handler';
-import { CaseRepository } from 'src/infrastructure/repositories/case/case.repository';
+} from '@application/common/constants/tokens';
+import { DocumentRepository } from '@infrastructure/repositories/document/document.repository';
+import GetDownloadUrlHandler from '@application/queries/documents/get-download-url/get-download-url.handler';
+import CreateDocumentHandler from '@application/commands/documents/create-document/create-document.handler';
+import FindAllDocumentsHandler from '@application/queries/documents/find-all-documents/find-all-documents.handler';
+import FindDocumentByIdHandler from '@application/queries/documents/find-document-by-id/find-document-by-id.handler';
+import UpdateDocumentHandler from '@application/commands/documents/update-document/update-document.handler';
+import UpdateCaseAdditionalDocumentHandler from '@application/commands/cases/update-additional-documents/update-additional-documents.handler';
+import { CaseRepository } from '@infrastructure/repositories/case/case.repository';
 
 @Module({
   imports: [CqrsModule],

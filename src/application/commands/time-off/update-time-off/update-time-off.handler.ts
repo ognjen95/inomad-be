@@ -1,9 +1,9 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateTimeOffCommand } from './update-time-off.command';
-import { TimeOff } from 'src/domain/time-off/TimeOff';
-import { ITimeOffRepository } from 'src/application/common/interfaces/time-off/time-off-repository.interface';
+import { TimeOff } from '@domain/time-off/TimeOff';
+import { ITimeOffRepository } from '@application/common/interfaces/time-off/time-off-repository.interface';
 import { Inject } from '@nestjs/common';
-import { TIME_OFF_TOKEN } from 'src/application/common/constants/tokens';
+import { TIME_OFF_TOKEN } from '@application/common/constants/tokens';
 
 @CommandHandler(UpdateTimeOffCommand)
 class UpdateTimeOffHandler implements ICommandHandler<UpdateTimeOffCommand> {

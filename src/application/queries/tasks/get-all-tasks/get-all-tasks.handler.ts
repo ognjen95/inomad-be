@@ -1,9 +1,9 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindAllTasksQuery } from './get-all-tasks.query';
-import { ITaskRepository } from 'src/application/common/interfaces/task/task-repository.interface';
-import { Task } from 'src/domain/tasks/task';
+import { ITaskRepository } from '@application/common/interfaces/task/task-repository.interface';
+import { Task } from '@domain/tasks/task';
 import { Inject } from '@nestjs/common';
-import { TASK_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
+import { TASK_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
 
 @QueryHandler(FindAllTasksQuery)
 class FindAllTasksHandler implements IQueryHandler<FindAllTasksQuery> {

@@ -1,10 +1,10 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindAllDocumentsQuery } from './find-all-documents.query';
 import { Inject, UnauthorizedException } from '@nestjs/common';
-import { DOCUMENTS_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
-import { UserRoles } from 'src/domain/user/enums';
-import { IDocumentRepository } from 'src/application/common/interfaces/documents/documents-repository.interface';
-import { Document } from 'src/domain/documents/document';
+import { DOCUMENTS_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
+import { UserRoles } from '@domain/user/enums';
+import { IDocumentRepository } from '@application/common/interfaces/documents/documents-repository.interface';
+import { Document } from '@domain/documents/document';
 import { connectionFromArray } from 'graphql-relay/connection/arrayConnection';
 import { Connection } from 'graphql-relay';
 

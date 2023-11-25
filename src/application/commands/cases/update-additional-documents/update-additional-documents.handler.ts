@@ -1,12 +1,12 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { ICaseRepository } from 'src/application/common/interfaces/case/case-request-repository.interface';
+import { ICaseRepository } from '@application/common/interfaces/case/case-request-repository.interface';
 import { Inject } from '@nestjs/common';
 import {
   CASE_REPOSITORY_TOKEN,
   DOCUMENTS_REPOSITORY_TOKEN,
-} from 'src/application/common/constants/tokens';
-import { IDocumentRepository } from 'src/application/common/interfaces/documents/documents-repository.interface';
-import { Document } from 'src/domain/documents/document';
+} from '@application/common/constants/tokens';
+import { IDocumentRepository } from '@application/common/interfaces/documents/documents-repository.interface';
+import { Document } from '@domain/documents/document';
 import { UpdateCaseAdditionalDocumentsCommand } from './update-additional-documents.command';
 
 @CommandHandler(UpdateCaseAdditionalDocumentsCommand)

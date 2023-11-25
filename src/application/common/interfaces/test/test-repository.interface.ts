@@ -1,5 +1,5 @@
-import { Test } from 'src/domain/test/Test';
-import { TestQueryOptionsInput } from 'src/domain/test/dtos/tests/test-query-options.input';
+import { Test } from '@domain/test/Test';
+import { TestQueryOptionsInput } from '@domain/test/dtos/tests/test-query-options.input';
 
 export interface ITestRepository {
   upsert(dto: Test): Promise<Test>;

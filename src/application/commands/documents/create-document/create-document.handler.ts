@@ -1,11 +1,11 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateDocumentCommand } from './create-document.command';
-import { IDocumentRepository } from 'src/application/common/interfaces/documents/documents-repository.interface';
-import { DOCUMENTS_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
+import { IDocumentRepository } from '@application/common/interfaces/documents/documents-repository.interface';
+import { DOCUMENTS_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
 import { Inject } from '@nestjs/common';
-import { Document } from 'src/domain/documents/document';
-import { UserRoles } from 'src/domain/user/enums';
-import { MutationReturn } from 'src/application/common/return-dtos/mutation-return-dt0';
+import { Document } from '@domain/documents/document';
+import { UserRoles } from '@domain/user/enums';
+import { MutationReturn } from '@application/common/return-dtos/mutation-return-dt0';
 
 @CommandHandler(CreateDocumentCommand)
 class CreateDocumentHandler implements ICommandHandler<CreateDocumentCommand> {

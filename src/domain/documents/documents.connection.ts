@@ -6,7 +6,7 @@ import {
   PageInfo as RelayPageInfo,
 } from 'graphql-relay';
 import { Int } from '@nestjs/graphql';
-import { PageInfo } from 'src/domain/common/page-info.entity';
+import { PageInfo } from '@domain/common/page-info.entity';
 import { DocumentEntity } from './document.entity';
 import { Document } from './document';
 

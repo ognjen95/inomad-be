@@ -1,13 +1,13 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { Test } from 'src/domain/test/Test';
-import { ITestRepository } from 'src/application/common/interfaces/test/test-repository.interface';
+import { Test } from '@domain/test/Test';
+import { ITestRepository } from '@application/common/interfaces/test/test-repository.interface';
 import {
   QUESTION_GROUP_REPOSITORY_TOKEN,
   TEST_REPOSITORY_TOKEN,
-} from 'src/application/common/constants/tokens';
+} from '@application/common/constants/tokens';
 import { Inject } from '@nestjs/common';
 import { CreateTestCommand } from './create-test.command';
-import { IQuestionGroupRepository } from 'src/application/common/interfaces/question/question-group-repository.interface';
+import { IQuestionGroupRepository } from '@application/common/interfaces/question/question-group-repository.interface';
 
 @CommandHandler(CreateTestCommand)
 class CreateTestHandler implements ICommandHandler<CreateTestCommand> {

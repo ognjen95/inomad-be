@@ -1,15 +1,15 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateProviderCompanyCommand } from './provider-company.command';
-import { IProviderCompanyRepository } from 'src/application/common/interfaces/provider-company/provider-company-repository.interface';
+import { IProviderCompanyRepository } from '@application/common/interfaces/provider-company/provider-company-repository.interface';
 import { BadRequestException, Inject } from '@nestjs/common';
 import {
   PROVIDER_REPOSITORY_TOKEN,
   USER_REPOSITORY_TOKEN,
-} from 'src/application/common/constants/tokens';
-import { ProviderCompany } from 'src/domain/provider-company/provider-company';
-import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';
-import { UserRoles } from 'src/domain/user/enums';
-import { UserOnboardingService } from 'src/application/services/onboarding/user-onboarding.service';
+} from '@application/common/constants/tokens';
+import { ProviderCompany } from '@domain/provider-company/provider-company';
+import { IUserRepository } from '@application/common/interfaces/user/user-repository.interface';
+import { UserRoles } from '@domain/user/enums';
+import { UserOnboardingService } from '@application/services/onboarding/user-onboarding.service';
 
 @CommandHandler(CreateProviderCompanyCommand)
 class CreateProviderCompanyHandler

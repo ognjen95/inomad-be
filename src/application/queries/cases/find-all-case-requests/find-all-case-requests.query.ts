@@ -1,5 +1,5 @@
-import { CaseQueryOptionsInput } from 'src/domain/case/dtos/query-options.input';
-import { CurrentUserInfo } from 'src/presentation/resolvers/auth/types';
+import { CaseQueryOptionsInput } from '@domain/case/dtos/query-options.input';
+import { CurrentUserInfo } from '@presentation/resolvers/auth/types';
 
 export class FindAllCaseRequestsQuery {
   constructor(

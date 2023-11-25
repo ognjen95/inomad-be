@@ -1,6 +1,6 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { GetDownloadUrlQuery } from './get-download-url.query';
-import { IFileServiceInterface } from 'src/application/common/interfaces/documents/file-upload-service.interface';
+import { IFileServiceInterface } from '@application/common/interfaces/documents/file-upload-service.interface';
 import {
   Inject,
   NotFoundException,
@@ -9,9 +9,9 @@ import {
 import {
   DOCUMENTS_REPOSITORY_TOKEN,
   FILE_SERVICE_TOKEN,
-} from 'src/application/common/constants/tokens';
-import { UserRoles } from 'src/domain/user/enums';
-import { IDocumentRepository } from 'src/application/common/interfaces/documents/documents-repository.interface';
+} from '@application/common/constants/tokens';
+import { UserRoles } from '@domain/user/enums';
+import { IDocumentRepository } from '@application/common/interfaces/documents/documents-repository.interface';
 
 @QueryHandler(GetDownloadUrlQuery)
 class GetDownloadUrlHandler implements IQueryHandler<GetDownloadUrlQuery> {

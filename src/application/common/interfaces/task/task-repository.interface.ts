@@ -1,5 +1,5 @@
-import { TaskQueryOptionsInput } from 'src/domain/tasks/dto/task-query-options.input';
-import { Task } from 'src/domain/tasks/task';
+import { TaskQueryOptionsInput } from '@domain/tasks/dto/task-query-options.input';
+import { Task } from '@domain/tasks/task';
 
 export type ITaskRepository = {
   create(

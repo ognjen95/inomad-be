@@ -1,6 +1,6 @@
-import { QuestionGroupOptionsInput } from 'src/domain/question/dtos/question-group-query-options.input';
-import { QuestionGroup } from 'src/domain/question/question-group';
-import { CurrentUserInfo } from 'src/presentation/resolvers/auth/types';
+import { QuestionGroupOptionsInput } from '@domain/question/dtos/question-group-query-options.input';
+import { QuestionGroup } from '@domain/question/question-group';
+import { CurrentUserInfo } from '@presentation/resolvers/auth/types';
 
 export interface IQuestionGroupRepository {
   create(dto: QuestionGroup): Promise<QuestionGroup>;

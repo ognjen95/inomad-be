@@ -1,13 +1,13 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateTaskCommand } from './create-task.command';
-import { ITaskRepository } from 'src/application/common/interfaces/task/task-repository.interface';
-import { Task } from 'src/domain/tasks/task';
+import { ITaskRepository } from '@application/common/interfaces/task/task-repository.interface';
+import { Task } from '@domain/tasks/task';
 import { Inject } from '@nestjs/common';
 import {
   CASE_REPOSITORY_TOKEN,
   TASK_REPOSITORY_TOKEN,
-} from 'src/application/common/constants/tokens';
-import { ICaseRepository } from 'src/application/common/interfaces/case/case-request-repository.interface';
+} from '@application/common/constants/tokens';
+import { ICaseRepository } from '@application/common/interfaces/case/case-request-repository.interface';
 
 @CommandHandler(CreateTaskCommand)
 class CreateTaskHandler implements ICommandHandler<CreateTaskCommand> {

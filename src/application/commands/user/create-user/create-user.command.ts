@@ -1,7 +1,7 @@
 import { ICommand } from '@nestjs/cqrs';
-import { CreateUserInput } from 'src/domain/user/dtos/create-user.input';
-import { UserRoles } from 'src/domain/user/enums';
-import { CurrentUserInfo } from 'src/presentation/resolvers/auth/types';
+import { CreateUserInput } from '@domain/user/dtos/create-user.input';
+import { UserRoles } from '@domain/user/enums';
+import { CurrentUserInfo } from '@presentation/resolvers/auth/types';
 
 export class CreateUserCommand implements ICommand {
   public isCustomer = false;

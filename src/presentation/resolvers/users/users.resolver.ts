@@ -8,27 +8,27 @@ import {
 } from '@nestjs/graphql';
 
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { CreateUserCommand } from 'src/application/commands/user/create-user/create-user.command';
-import { FindAllUsersQuery } from 'src/application/queries/users/find-all/find-all-users.query';
-import { FindUserByIdQuery } from 'src/application/queries/users/find-user-by-id/find-user-by-id.query';
-import { UpdateUserCommand } from 'src/application/commands/user/update-user/update-user.command';
-import { RemoveUserCommand } from 'src/application/commands/user/remove-user/remove-user.command';
-import { MutationReturn } from 'src/application/common/return-dtos/mutation-return-dt0';
-import { FindAllCasesQuery } from 'src/application/queries/cases/find-all-cases/find-all-cases.query';
+import { CreateUserCommand } from '@application/commands/user/create-user/create-user.command';
+import { FindAllUsersQuery } from '@application/queries/users/find-all/find-all-users.query';
+import { FindUserByIdQuery } from '@application/queries/users/find-user-by-id/find-user-by-id.query';
+import { UpdateUserCommand } from '@application/commands/user/update-user/update-user.command';
+import { RemoveUserCommand } from '@application/commands/user/remove-user/remove-user.command';
+import { MutationReturn } from '@application/common/return-dtos/mutation-return-dt0';
+import { FindAllCasesQuery } from '@application/queries/cases/find-all-cases/find-all-cases.query';
 
-import { FindCaseByIdQuery } from 'src/application/queries/cases/find-case-by-id/find-case-by-id.query';
-import { CreateUserInput } from 'src/domain/user/dtos/create-user.input';
-import { UpdateUserInput } from 'src/domain/user/dtos/update-user.input';
-import { UserQueryOptionsInput } from 'src/domain/user/dtos/query-options.input';
-import { UserConnection } from 'src/domain/user/user-connection';
-import { CaseConnection } from 'src/domain/case/case-connection';
-import { CaseEntity } from 'src/domain/case/case.entity';
-import { UserEntity } from 'src/domain/user/user.entity';
-import { User } from 'src/domain/user/user';
-import { IsPublic } from 'src/presentation/decorators/is-public';
-import { CurrentUser } from 'src/presentation/decorators/current-user';
+import { FindCaseByIdQuery } from '@application/queries/cases/find-case-by-id/find-case-by-id.query';
+import { CreateUserInput } from '@domain/user/dtos/create-user.input';
+import { UpdateUserInput } from '@domain/user/dtos/update-user.input';
+import { UserQueryOptionsInput } from '@domain/user/dtos/query-options.input';
+import { UserConnection } from '@domain/user/user-connection';
+import { CaseConnection } from '@domain/case/case-connection';
+import { CaseEntity } from '@domain/case/case.entity';
+import { UserEntity } from '@domain/user/user.entity';
+import { User } from '@domain/user/user';
+import { IsPublic } from '@presentation/decorators/is-public';
+import { CurrentUser } from '@presentation/decorators/current-user';
 import { CurrentUserInfo } from '../auth/types';
-import { CreateCustomerCommand } from 'src/application/commands/user/create-customer/create-user.command';
+import { CreateCustomerCommand } from '@application/commands/user/create-customer/create-user.command';
 
 @Resolver(() => UserEntity)
 export class UsersResolver {

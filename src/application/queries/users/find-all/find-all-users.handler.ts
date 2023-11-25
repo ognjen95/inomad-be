@@ -1,9 +1,9 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindAllUsersQuery } from './find-all-users.query';
-import { User } from 'src/domain/user/user';
+import { User } from '@domain/user/user';
 import { Inject } from '@nestjs/common';
-import { USER_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
-import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';
+import { USER_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
+import { IUserRepository } from '@application/common/interfaces/user/user-repository.interface';
 import { Connection, connectionFromArray } from 'graphql-relay';
 
 @QueryHandler(FindAllUsersQuery)

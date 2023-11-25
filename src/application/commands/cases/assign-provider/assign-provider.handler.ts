@@ -1,14 +1,14 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { AssignProviderCommand } from './assign-provider.command';
-import { ICaseRepository } from 'src/application/common/interfaces/case/case-request-repository.interface';
+import { ICaseRepository } from '@application/common/interfaces/case/case-request-repository.interface';
 import { Inject } from '@nestjs/common';
 import {
   CASE_REPOSITORY_TOKEN,
   CHAT_SERVICE_TOKEN,
-} from 'src/application/common/constants/tokens';
-import { UserRoles } from 'src/domain/user/enums';
-import { CaseStatus } from 'src/domain/case/enums';
-import { IChatServiceInterface } from 'src/application/common/interfaces/chat/chat-service.interface';
+} from '@application/common/constants/tokens';
+import { UserRoles } from '@domain/user/enums';
+import { CaseStatus } from '@domain/case/enums';
+import { IChatServiceInterface } from '@application/common/interfaces/chat/chat-service.interface';
 
 @CommandHandler(AssignProviderCommand)
 class AssignProviderHandler implements ICommandHandler<AssignProviderCommand> {

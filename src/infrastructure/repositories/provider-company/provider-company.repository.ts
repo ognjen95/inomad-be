@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
-import { IProviderCompanyRepository } from 'src/application/common/interfaces/provider-company/provider-company-repository.interface';
-import { ProviderCompany } from 'src/domain/provider-company/provider-company';
+import { PrismaService } from '@infrastructure/prisma/prisma.service';
+import { IProviderCompanyRepository } from '@application/common/interfaces/provider-company/provider-company-repository.interface';
+import { ProviderCompany } from '@domain/provider-company/provider-company';
 import { plainToInstance } from 'class-transformer';
 
 @Injectable()

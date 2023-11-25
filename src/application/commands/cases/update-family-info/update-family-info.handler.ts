@@ -1,8 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateFamilyInfoCommand } from './update-family-info.command';
-import { ICaseRepository } from 'src/application/common/interfaces/case/case-request-repository.interface';
+import { ICaseRepository } from '@application/common/interfaces/case/case-request-repository.interface';
 import { Inject } from '@nestjs/common';
-import { CASE_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
+import { CASE_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
 
 @CommandHandler(UpdateFamilyInfoCommand)
 class UpdateFamilyInfoHandler

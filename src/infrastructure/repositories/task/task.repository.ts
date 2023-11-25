@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
+import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
-import { Task } from 'src/domain/tasks/task';
-import { ITaskRepository } from 'src/application/common/interfaces/task/task-repository.interface';
-import { TaskQueryOptionsInput } from 'src/domain/tasks/dto/task-query-options.input';
+import { Task } from '@domain/tasks/task';
+import { ITaskRepository } from '@application/common/interfaces/task/task-repository.interface';
+import { TaskQueryOptionsInput } from '@domain/tasks/dto/task-query-options.input';
 
 @Injectable()
 export class TaskRepository implements ITaskRepository {

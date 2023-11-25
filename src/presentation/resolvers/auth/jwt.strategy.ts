@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { passportJwtSecret } from 'jwks-rsa';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { USER_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
-import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';
+import { USER_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
+import { IUserRepository } from '@application/common/interfaces/user/user-repository.interface';
 import { CurrentUserInfo } from './types';
 
 @Injectable()

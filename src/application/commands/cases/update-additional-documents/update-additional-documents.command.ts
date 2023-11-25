@@ -1,5 +1,5 @@
-import { UpdateCaseAdditionalDocumentsInput } from 'src/domain/case/dtos/update-additional-documents.input';
-import { CurrentUserInfo } from 'src/presentation/resolvers/auth/types';
+import { UpdateCaseAdditionalDocumentsInput } from '@domain/case/dtos/update-additional-documents.input';
+import { CurrentUserInfo } from '@presentation/resolvers/auth/types';
 
 export class UpdateCaseAdditionalDocumentsCommand {
   constructor(

@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-import { User } from 'src/domain/user/user';
-import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
+import { User } from '@domain/user/user';
+import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
-import { IUserRepository } from 'src/application/common/interfaces/user/user-repository.interface';
-import { UserQueryOptionsInput } from 'src/domain/user/dtos/query-options.input';
+import { IUserRepository } from '@application/common/interfaces/user/user-repository.interface';
+import { UserQueryOptionsInput } from '@domain/user/dtos/query-options.input';
 
 @Injectable()
 export class UserRepository implements IUserRepository {

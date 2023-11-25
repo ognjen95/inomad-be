@@ -1,4 +1,4 @@
-import { UpdateCaseRequestInput } from 'src/domain/case-request/dto/update-case-request.input';
+import { UpdateCaseRequestInput } from '@domain/case-request/dto/update-case-request.input';
 
 export class UpdateCaseRequestCommand {
   constructor(

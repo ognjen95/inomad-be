@@ -8,7 +8,7 @@ import {
 } from 'graphql-relay';
 import { Int, registerEnumType } from '@nestjs/graphql';
 import { EmploymentStatus, UserRoles } from './enums';
-import { PageInfo } from 'src/domain/common/page-info.entity';
+import { PageInfo } from '@domain/common/page-info.entity';
 import { UserEntity } from './user.entity';
 
 @ObjectType()

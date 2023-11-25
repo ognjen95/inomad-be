@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { ApplicantsIdsInput } from 'src/domain/user/dtos/query-options.input';
+import { ApplicantsIdsInput } from '@domain/user/dtos/query-options.input';
 
 @InputType()
 export class CaseWhereInput {

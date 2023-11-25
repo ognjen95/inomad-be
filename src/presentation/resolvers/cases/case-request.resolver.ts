@@ -1,13 +1,13 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { CaseRequestEntity } from '../../../domain/case-request/case-request.entity';
-import { UpdateCaseRequestInput } from 'src/domain/case-request/dto/update-case-request.input';
+import { UpdateCaseRequestInput } from '@domain/case-request/dto/update-case-request.input';
 import { CommandBus } from '@nestjs/cqrs/dist/command-bus';
-import { CreateCaseRequestCommand } from 'src/application/commands/cases/create-case request/create-case-request.command';
-import { MutationReturn } from 'src/application/common/return-dtos/mutation-return-dt0';
-import { UpdateCaseRequestCommand } from 'src/application/commands/cases/update-case-request/update-case-request.command';
-import { CurrentUser } from 'src/presentation/decorators/current-user';
+import { CreateCaseRequestCommand } from '@application/commands/cases/create-case request/create-case-request.command';
+import { MutationReturn } from '@application/common/return-dtos/mutation-return-dt0';
+import { UpdateCaseRequestCommand } from '@application/commands/cases/update-case-request/update-case-request.command';
+import { CurrentUser } from '@presentation/decorators/current-user';
 import { CurrentUserInfo } from '../auth/types';
-import { CreateCaseProposalCommand } from 'src/application/commands/cases/create-case-proposal/create-case-proposal.command';
+import { CreateCaseProposalCommand } from '@application/commands/cases/create-case-proposal/create-case-proposal.command';
 
 @Resolver(() => CaseRequestEntity)
 export class CaseRequestResolver {

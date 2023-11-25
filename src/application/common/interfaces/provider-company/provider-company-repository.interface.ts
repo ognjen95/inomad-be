@@ -1,5 +1,5 @@
 import { ConnectionArguments } from 'graphql-relay';
-import { ProviderCompany } from 'src/domain/provider-company/provider-company';
+import { ProviderCompany } from '@domain/provider-company/provider-company';
 
 export interface IProviderCompanyRepository {
   create(dto: ProviderCompany): Promise<ProviderCompany>;

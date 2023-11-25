@@ -1,6 +1,6 @@
-import { CaseQueryOptionsInput } from 'src/domain/case/dtos/query-options.input';
-import { UserRoles } from 'src/domain/user/enums';
-import { CurrentUserInfo } from 'src/presentation/resolvers/auth/types';
+import { CaseQueryOptionsInput } from '@domain/case/dtos/query-options.input';
+import { UserRoles } from '@domain/user/enums';
+import { CurrentUserInfo } from '@presentation/resolvers/auth/types';
 
 export class FindAllCasesQuery {
   constructor(

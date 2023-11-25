@@ -6,7 +6,7 @@ import {
   PageInfo as RelayPageInfo,
 } from 'graphql-relay';
 import { QuestionGroupEntity } from './question-group.entity';
-import { PageInfo } from 'src/domain/common/page-info.entity';
+import { PageInfo } from '@domain/common/page-info.entity';
 
 @ObjectType()
 class QuestionGroupsEdges implements RelayEdge<QuestionGroupEntity> {

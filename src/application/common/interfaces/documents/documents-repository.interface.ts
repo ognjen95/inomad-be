@@ -1,5 +1,5 @@
-import { Document } from 'src/domain/documents/document';
-import { DocumentQueryOptionsInput } from 'src/domain/documents/dto/document-query-options.input';
+import { Document } from '@domain/documents/document';
+import { DocumentQueryOptionsInput } from '@domain/documents/dto/document-query-options.input';
 
 export interface IDocumentRepository {
   findOneById(

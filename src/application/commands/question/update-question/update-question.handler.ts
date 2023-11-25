@@ -1,9 +1,9 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateQuestionCommand } from './update-question.command';
-import { IQuestionRepository } from 'src/application/common/interfaces/question/question-repository.interface';
-import { QUESTION_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
+import { IQuestionRepository } from '@application/common/interfaces/question/question-repository.interface';
+import { QUESTION_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
 import { Inject } from '@nestjs/common';
-import { Question } from 'src/domain/question/question';
+import { Question } from '@domain/question/question';
 
 @CommandHandler(UpdateQuestionCommand)
 class UpdateQuestionHandler implements ICommandHandler<UpdateQuestionCommand> {

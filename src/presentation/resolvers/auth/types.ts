@@ -1,4 +1,4 @@
-import { UserRoles } from 'src/domain/user/enums';
+import { UserRoles } from '@domain/user/enums';
 
 export type CurrentUserInfo = {
   userId: string;

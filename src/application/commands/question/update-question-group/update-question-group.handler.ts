@@ -4,13 +4,13 @@ import { Inject, UnauthorizedException } from '@nestjs/common';
 import {
   DOCUMENTS_REPOSITORY_TOKEN,
   QUESTION_GROUP_REPOSITORY_TOKEN,
-} from 'src/application/common/constants/tokens';
-import { QuestionGroup } from 'src/domain/question/question-group';
-import { IQuestionGroupRepository } from 'src/application/common/interfaces/question/question-group-repository.interface';
-import { UserRoles } from 'src/domain/user/enums';
-import { IDocumentRepository } from 'src/application/common/interfaces/documents/documents-repository.interface';
-import { QuestionType } from 'src/domain/question/questions/question.entity';
-import { Document } from 'src/domain/documents/document';
+} from '@application/common/constants/tokens';
+import { QuestionGroup } from '@domain/question/question-group';
+import { IQuestionGroupRepository } from '@application/common/interfaces/question/question-group-repository.interface';
+import { UserRoles } from '@domain/user/enums';
+import { IDocumentRepository } from '@application/common/interfaces/documents/documents-repository.interface';
+import { QuestionType } from '@domain/question/questions/question.entity';
+import { Document } from '@domain/documents/document';
 import { plainToInstance } from 'class-transformer';
 
 @CommandHandler(UpdateQuestionGroupCommand)

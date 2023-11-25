@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
+import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { DocumentType } from '@prisma/client';
 import { plainToInstance } from 'class-transformer';
-import { IDocumentRepository } from 'src/application/common/interfaces/documents/documents-repository.interface';
-import { Document } from 'src/domain/documents/document';
-import { DocumentQueryOptionsInput } from 'src/domain/documents/dto/document-query-options.input';
+import { IDocumentRepository } from '@application/common/interfaces/documents/documents-repository.interface';
+import { Document } from '@domain/documents/document';
+import { DocumentQueryOptionsInput } from '@domain/documents/dto/document-query-options.input';
 
 @Injectable()
 export class DocumentRepository implements IDocumentRepository {

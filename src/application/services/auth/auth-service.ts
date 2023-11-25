@@ -9,10 +9,10 @@ import {
   CognitoUserPool,
   CognitoUserSession,
 } from 'amazon-cognito-identity-js';
-import { IAuthService } from 'src/application/common/interfaces/auth/auth.interface';
+import { IAuthService } from '@application/common/interfaces/auth/auth.interface';
 import { decode, sign } from 'jsonwebtoken';
-import { USER_REPOSITORY_TOKEN } from 'src/application/common/constants/tokens';
-import { UserRepository } from 'src/infrastructure/repositories/user/user.repository';
+import { USER_REPOSITORY_TOKEN } from '@application/common/constants/tokens';
+import { UserRepository } from '@infrastructure/repositories/user/user.repository';
 
 @Injectable()
 export class AuthService implements IAuthService {

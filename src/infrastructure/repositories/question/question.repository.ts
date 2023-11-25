@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
+import { PrismaService } from '@infrastructure/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
-import { EdgesResponse } from 'src/application/common/types/query-return.type';
+import { EdgesResponse } from '@application/common/types/query-return.type';
 // import { QUERY_TAKE } from '../common/constants';
-import { IQuestionRepository } from 'src/application/common/interfaces/question/question-repository.interface';
-import { Question } from 'src/domain/question/question';
+import { IQuestionRepository } from '@application/common/interfaces/question/question-repository.interface';
+import { Question } from '@domain/question/question';
 import { Question as QuestionPrisma } from '@prisma/client';
 
 @Injectable()

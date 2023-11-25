@@ -1,10 +1,10 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { AuthenticateUserCommand } from './authenticate-user.command';
 
-import { IAuthService } from 'src/application/common/interfaces/auth/auth.interface';
+import { IAuthService } from '@application/common/interfaces/auth/auth.interface';
 import { Inject } from '@nestjs/common';
-import { AUTH_SERVICE_TOKEN } from 'src/application/common/constants/tokens';
-import { AuthReturn } from 'src/application/common/types/auth-return';
+import { AUTH_SERVICE_TOKEN } from '@application/common/constants/tokens';
+import { AuthReturn } from '@application/common/types/auth-return';
 
 @CommandHandler(AuthenticateUserCommand)
 class AuthenticateUserHandler

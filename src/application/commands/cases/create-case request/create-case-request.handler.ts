@@ -41,7 +41,11 @@ class CreateCaseRequestHandler
     const applicant = await this.useRepository.findOneById(userId);
 
     const caseRequests = await this.caseRequestRepository.findManyByApplicantId(
-      userId,
+      {
+        where: {
+          applicantId: userId,
+        },
+      },
     );
 
     const alreadyApplied = caseRequests.some(

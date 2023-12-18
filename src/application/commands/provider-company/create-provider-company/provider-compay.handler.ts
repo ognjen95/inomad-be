@@ -54,6 +54,8 @@ class CreateProviderCompanyHandler
       password: dto.password,
       userRole: UserRoles.PROVIDER_SUPERVISOR,
       companyId: createdCompany.getId,
+      nationality: user.getNationality,
+      phone: user.getPhone,
     });
 
     return {

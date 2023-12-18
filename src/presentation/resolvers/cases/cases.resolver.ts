@@ -28,18 +28,32 @@ import { CurrentUserInfo } from '../auth/types';
 import { AssignProviderCommand } from '@application/commands/cases/assign-provider/assign-provider.command';
 import { CaseConnection } from '@domain/case/entity/case-connection';
 import { CaseEntity } from '@domain/case/entity/case.entity';
+import { CaseStatus } from '../../../domain/case/entity/enums';
+import { ChangeCaseStatusCommand } from '../../../application/commands/cases/change-case-status/change-case-status.command';
+import { UserRoles } from '../../../domain/user/enums';
 
 @Resolver(() => CaseEntity)
 export class CasesResolver {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-  ) {}
+  ) { }
 
   @Mutation(() => MutationReturn)
   createCase(@Args('args') args: CreateCaseInput) {
     return this.commandBus.execute<CreateCaseCommand, CaseEntity>(
       new CreateCaseCommand(args),
+    );
+  }
+
+  @Mutation(() => MutationReturn)
+  changeCaseStatus(
+    @Args('status') status: CaseStatus,
+    @Args('caseId') caseId: string,
+    @CurrentUser() currentUser: CurrentUserInfo,
+  ) {
+    return this.commandBus.execute<ChangeCaseStatusCommand, CaseEntity>(
+      new ChangeCaseStatusCommand(status, caseId, currentUser),
     );
   }
 
@@ -63,20 +77,23 @@ export class CasesResolver {
   @Query(() => CaseRequestConnection, { name: 'caseRequests' })
   findAllRequests(
     @Parent() parentCase: CaseRequest,
+    @CurrentUser() currentUser: CurrentUserInfo,
     @Args('options', { nullable: true }) options?: CaseQueryOptionsInput,
   ) {
     return this.queryBus.execute<FindAllCaseRequestsQuery, CaseRequestEntity>(
       new FindAllCaseRequestsQuery({
-        caseId: parentCase.getId,
+        caseId: parentCase?.getId,
         ...options,
-      }),
+      }, currentUser),
     );
   }
 
   @Query(() => CaseEntity, { name: 'case' })
-  findOneById(@Args('id') id: string) {
+  findOneById(@Args('id', { nullable: true }) id: string,
+    @CurrentUser() currentUser: CurrentUserInfo,
+  ) {
     return this.queryBus.execute<FindCaseByIdQuery, CaseEntity>(
-      new FindCaseByIdQuery(id),
+      new FindCaseByIdQuery(id, currentUser),
     );
   }
 

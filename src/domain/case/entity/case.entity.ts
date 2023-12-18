@@ -134,6 +134,9 @@ export class CaseEntity extends AggregateRoot {
   @Field()
   protected name: string;
 
+  @Field({ nullable: true })
+  protected description: string;
+
   @Field(() => GeneralInfo, { nullable: true })
   protected generalInfo: GeneralInfo;
 

@@ -5,6 +5,7 @@ import { EmploymentStatus, UserRoles } from '../enums';
 import { TimeOff } from '../../time-off/entity/TimeOff';
 import { registerEnumType } from '@nestjs/graphql/dist/type-factories/register-enum-type.factory';
 import { User } from './user';
+import { FamilyInfo } from '../../case/entity/case.entity';
 
 @ObjectType()
 export class UserEntity extends AggregateRoot {
@@ -46,6 +47,12 @@ export class UserEntity extends AggregateRoot {
   @Field(() => Date, { nullable: true })
   protected birthday: Date;
 
+  @Field({ nullable: true })
+  protected nationality: string;
+
+  @Field({ nullable: true })
+  protected phone: string;
+
   protected timeOff?: TimeOff[];
 
   @Field(() => EmploymentStatus, { defaultValue: EmploymentStatus.PENDING })
@@ -55,7 +62,7 @@ export class UserEntity extends AggregateRoot {
   protected createdAt: Date = new Date();
 
   @Field(() => [UserEntity], { nullable: true, defaultValue: [] })
-  protected family: User;
+  protected family: FamilyInfo[];
 }
 
 registerEnumType(EmploymentStatus, {

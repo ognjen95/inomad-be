@@ -80,6 +80,11 @@ export class TaskRepository implements ITaskRepository {
   ): Promise<Task[]> {
     const tasks = await this.db.task.findMany({
       where: {
+        endDate: {
+          not: {
+            lt: new Date(),
+          }
+        },
         ...(options?.id && { id: options.id }),
         OR: [
           {
@@ -99,7 +104,7 @@ export class TaskRepository implements ITaskRepository {
         assignees: true,
       },
       orderBy: {
-        startDate: 'desc',
+        startDate: 'asc',
       },
     });
 

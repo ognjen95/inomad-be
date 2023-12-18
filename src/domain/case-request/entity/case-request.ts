@@ -3,6 +3,7 @@ import { UserRoles } from '../../user/enums';
 import { CaseRequestEntity } from './case-request.entity';
 import { CaseRequestStatus } from '../enums';
 import { User } from '../../user/entity/user';
+import { CurrentUserInfo } from '../../../presentation/resolvers/auth/types';
 
 export class CaseRequest extends CaseRequestEntity {
   constructor(applicantId: string, providerCompanyId: string, caseId: string) {
@@ -13,16 +14,15 @@ export class CaseRequest extends CaseRequestEntity {
     this.caseId = caseId;
   }
 
-  updateCaseRequestStatus(user: User, status: CaseRequestStatus) {
+  updateCaseRequestStatus(user: CurrentUserInfo, status: CaseRequestStatus) {
     if (
-      user.getUserRole === UserRoles.CUSTOMER &&
-      status === CaseRequestStatus.CANCELED &&
-      this.status === CaseRequestStatus.PENDING
+      user.userRole === UserRoles.CUSTOMER &&
+      this.applicantId === user.userId
     ) {
       this.status = status;
     } else if (
-      user.getUserRole === UserRoles.PROVIDER_SUPERVISOR &&
-      user.getProviderCompanyId === this.providerCompanyId
+      user.userRole === UserRoles.PROVIDER_SUPERVISOR &&
+      user.tenantId === this.providerCompanyId
     ) {
       this.status = status;
     } else {

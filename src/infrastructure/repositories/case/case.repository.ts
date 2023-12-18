@@ -18,16 +18,22 @@ export class CaseRepository implements ICaseRepository {
       data: {
         name: dto.getName,
         isPrivate: dto.getIsPrivate,
-        // generalInfo: {
-        //   firstName: dto.getGeneralInfo?.firstName,
-        //   middleName: dto.getGeneralInfo?.middleName,
-        //   lastName: dto.getGeneralInfo?.lastName,
-        //   birthday: dto.getGeneralInfo?.birthday,
-        //   email: dto.getGeneralInfo?.email,
-        //   passportFileId: dto.getGeneralInfo?.passportFileId,
-        //   nationality: dto.getGeneralInfo?.nationality,
-        //   phone: dto.getGeneralInfo?.phone,
-        // },
+        description: dto.getDescription,
+        generalInfo: {
+          firstName: dto.getGeneralInfo?.firstName,
+          middleName: dto.getGeneralInfo?.middleName,
+          lastName: dto.getGeneralInfo?.lastName,
+          birthday: dto.getGeneralInfo?.birthday,
+          email: dto.getGeneralInfo?.email,
+          nationality: dto.getGeneralInfo?.nationality,
+          phone: dto.getGeneralInfo?.phone,
+        },
+        familyInfo: {
+          familyMembers: dto.getFamilyInfo
+            ?.familyMembers as ApplicantFamilyMembers,
+          children: dto.getFamilyInfo?.children ?? [],
+          spouse: dto.getFamilyInfo?.spouse,
+        },
         applicants: {
           connect: dto.getApplicantsIds.map((id) => ({ id })),
         },

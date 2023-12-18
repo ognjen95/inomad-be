@@ -46,7 +46,7 @@ export class CaseRequestResolver {
     @Args('args') args: UpdateCaseRequestInput,
   ) {
     return this.commandBus.execute<UpdateCaseRequestCommand, CaseRequestEntity>(
-      new UpdateCaseRequestCommand(user.userId, args),
+      new UpdateCaseRequestCommand(user, args),
     );
   }
 

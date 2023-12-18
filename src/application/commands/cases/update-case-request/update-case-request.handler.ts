@@ -33,22 +33,16 @@ class UpdateCaseRequestHandler
   ) {}
 
   async execute({
-    userId,
+    currentUser,
     dto,
   }: UpdateCaseRequestCommand): Promise<MutationReturn> {
-    const providerSupervisor = await this.userRepository.findOneById(userId);
-
-    if (!providerSupervisor) {
-      throw new NotFoundException('User not found');
-    }
-
-    const caseRequest = await this.caseRequestRepository.findOneById(dto.id);
+      const caseRequest = await this.caseRequestRepository.findOneById(dto.id);
 
     if (!caseRequest) {
       throw new NotFoundException('Case request not found');
     }
 
-    caseRequest.updateCaseRequestStatus(providerSupervisor, dto.status);
+    caseRequest.updateCaseRequestStatus(currentUser, dto.status);
 
     if (dto.status === CaseRequestStatus.APPROVED) {
       const caseForThisRequest = await this.caseRepository.findOneById(
@@ -70,7 +64,7 @@ class UpdateCaseRequestHandler
       await this.chatService.createChat(
         caseForThisRequest.getName,
         [
-          userId,
+          currentUser.userId,
           ...caseForThisRequest.getApplicantsIds,
           ...caseForThisRequest.getProvidersIds,
         ],

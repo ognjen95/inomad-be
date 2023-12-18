@@ -26,7 +26,7 @@ export class CaseRequestEntity {
   @Field(() => Date, { defaultValue: new Date() })
   createdAt: Date;
 
-  @Field(() => Date)
+  @Field(() => Date, { nullable: true })
   deadline: Date;
 
   @Field(() => Date, { defaultValue: new Date() })

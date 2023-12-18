@@ -3,6 +3,8 @@ import { TimeOff } from '../../time-off/entity/TimeOff';
 import { EmploymentStatus, UserRoles } from '../enums';
 import { UpdateUserInput } from '../dtos/update-user.input';
 import { UserEntity } from './user.entity';
+import { FamilyInfo } from '../../case/entity/case.entity';
+import { UpdateCaseFamilyInfoInput } from '../../case/dtos/update-family-info-input';
 
 export class User extends UserEntity {
   constructor(
@@ -164,5 +166,29 @@ export class User extends UserEntity {
 
       this.providerCassesIds.push(providerCaseId);
     });
+  }
+
+  get getCaseId() {
+    return this.caseId;
+  }
+
+  set setCaseId(caseId: string) {
+    this.caseId = caseId;
+  }
+
+  get getNationality() {
+    return this.nationality;
+  }
+
+  set setNationality(nationality: string) {
+    this.nationality = nationality;
+  }
+
+  get getPhone() {
+    return this.phone;
+  }
+
+  set setPhone(phone: string) {
+    this.phone = phone;
   }
 }

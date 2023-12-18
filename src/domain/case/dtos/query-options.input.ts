@@ -7,6 +7,9 @@ export class CaseWhereInput {
   applicationId?: ApplicantsIdsInput;
 
   @Field({ nullable: true })
+  applicantId?: string;
+
+  @Field({ nullable: true })
   isProposal?: boolean;
 }
 

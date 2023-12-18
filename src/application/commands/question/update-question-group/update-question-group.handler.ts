@@ -22,7 +22,7 @@ class UpdateQuestionGroupHandler
     private readonly questionGroupRepository: IQuestionGroupRepository,
     @Inject(DOCUMENTS_REPOSITORY_TOKEN)
     private readonly documentRepostiory: IDocumentRepository,
-  ) {}
+  ) { }
 
   async execute({
     dto,
@@ -39,12 +39,16 @@ class UpdateQuestionGroupHandler
       currentUser,
     );
 
+    console.log(questionGroups[0].getQuestions)
+
     const questionGroup = questionGroups[0];
 
     const mapped = questionGroup.getQuestions.map(async (question) => {
       const questionUpdateDto = dto.questions.find(
         (dtoQuestions) => dtoQuestions.id === question.getId,
       );
+
+      console.log({ questionUpdateDto })
 
       if (questionUpdateDto) {
         const answers = questionUpdateDto.answers;
@@ -77,15 +81,23 @@ class UpdateQuestionGroupHandler
             question.getDocumentType,
           );
 
+          console.log({ docType: question.getDocumentType, question });
+
           doc.setProviderCompanyId = currentUser.tenantId;
 
           doc.setFileId = dtoDocumentExternalFileId;
-          // TODO: Change to create many
+
           const createdDocument = await this.documentRepostiory.create(doc);
 
           question.setDocumentId = createdDocument.getId;
 
           question.setDocument = createdDocument;
+
+          question.setDocumentFileId = createdDocument.getFileId;
+
+          question.setDocumentName = createdDocument.getName;
+
+          question.setDocumentType = createdDocument.getDocumentType;
         }
 
         question.setAnswers = answers;

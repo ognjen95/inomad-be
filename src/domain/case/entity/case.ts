@@ -260,4 +260,14 @@ export class Case extends CaseEntity {
       this.providers.push(provider);
     });
   }
+
+  get getDescription() {
+    return this.description;
+  }
+
+  set setDescription(description: string) {
+    if (!description) return;
+
+    this.description = description;
+  }
 }

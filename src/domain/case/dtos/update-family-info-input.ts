@@ -43,8 +43,8 @@ export class ChildInput {
 
 @InputType()
 export class UpdateCaseFamilyInfoInput {
-  @Field(() => String)
-  id: string;
+  @Field(() => String, { nullable: true })
+  id?: string;
 
   @Field(() => ApplicantFamilyMembers, { nullable: true })
   familyMembers: ApplicantFamilyMembers;

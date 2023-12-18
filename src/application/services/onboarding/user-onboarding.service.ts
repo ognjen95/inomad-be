@@ -45,6 +45,10 @@ export class UserOnboardingService {
       dto.userRole,
     );
 
+    user.setPhone = dto.phone;
+    user.setNationality = dto.nationality;
+    user.setBirthday = dto.birthday;
+
     const userExists = await this.userRepository.findOneByEmail(user.getEmail);
 
     if (userExists) {
@@ -75,10 +79,14 @@ export class UserOnboardingService {
       middleName: newUser.getMiddleName,
       birthday: newUser.getBirthday,
       email: newUser.getEmail,
-      phone: '',
-      nationality: '',
+      phone: dto.phone,
+      nationality: dto.nationality,
       passportFileId: '',
     };
+
+    newCase.setDescription = dto.description;
+
+    newCase.setFamilyInfo = dto.familyInfo;
 
     const createdCase = await this.caseRepository.create(newCase);
 
@@ -106,6 +114,9 @@ export class UserOnboardingService {
       dto.password,
       dto.userRole,
     );
+
+    user.setPhone = dto.phone;
+    user.setNationality = dto.nationality;
 
     user.setProviderCompanyId = dto.companyId;
 

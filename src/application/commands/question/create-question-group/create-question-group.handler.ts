@@ -31,6 +31,8 @@ class CreateQuestionGroupHandler
         q.comments,
       );
 
+      question.setDocumentType = q.documentType;
+
       question.setIsExample = true;
 
       if (q.documentName && q.documentType) {

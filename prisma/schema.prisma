@@ -37,7 +37,7 @@ model CaseRequest {
   caseId            String            @db.ObjectId
   deadline          DateTime?
   totalCost         Float?
-  isProposal        Boolean?           @default(false)
+  isProposal        Boolean?          @default(false)
 }
 
 type GeneralInfo {
@@ -45,8 +45,8 @@ type GeneralInfo {
   middleName     String?
   lastName       String?
   nationality    String?
-  email          String?
   phone          String?
+  email          String?
   passportFileId String?
   birthday       DateTime?
 }
@@ -109,6 +109,8 @@ model Case {
   workInfo    WorkInfo?
   familyInfo  FamilyInfo?
 
+  description  String?
+
   documents Documents[]
 
   employees    User[]   @relation(fields: [employeesIds], references: [id])
@@ -157,6 +159,8 @@ model User {
   birthday         DateTime?
   createdAt        DateTime         @default(now())
   userRole         UserRoles
+  nationality      String?
+  phone            String?
 
   testId String[] @db.ObjectId
   Test   Test[]

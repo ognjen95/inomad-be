@@ -33,6 +33,8 @@ export class UserRepository implements IUserRepository {
         // providerCompanyId: dto.getProviderCompanyId,
         providerCompany,
         externalId: dto.getExternalId,
+        phone: dto.getPhone,
+        nationality: dto.getNationality,
       },
     });
 

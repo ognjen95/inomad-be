@@ -15,19 +15,31 @@ class FindAllCaseRequestsHandler
   constructor(
     @Inject(CASE_REQUEST_REPOSITORY_TOKEN)
     private readonly caseRequestRepository: ICaseRequestRepository,
-  ) {}
+  ) { }
 
   async execute({
     options,
     currentUser,
   }: FindAllCaseRequestsQuery): Promise<Connection<CaseRequest>> {
+    console.log({ currentUser })
     if (currentUser.userRole === UserRoles.PROVIDER_SUPERVISOR) {
       options.providerCompanyId = currentUser.tenantId;
+
+      const cases = await this.caseRequestRepository.findAll(options);
+
+      return connectionFromArray(cases, {});
+    } else if (currentUser.userRole === UserRoles.CUSTOMER) {
+      const cases = await this.caseRequestRepository.findManyByApplicantId({
+        where: {
+          applicantId: currentUser.userId,
+          isProposal: true,
+        }
+      });
+
+      return connectionFromArray(cases, {});
     }
 
-    const cases = await this.caseRequestRepository.findAll(options);
 
-    return connectionFromArray(cases, {});
   }
 }
 

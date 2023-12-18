@@ -50,6 +50,7 @@ type CaseEntity {
   applicants: [UserEntity!]
   applicantsIds: [String!]!
   createdAt: DateTime!
+  description: String
   documents: [DocumentEntity!]
   documentsIds: [String!]
   education: EducationInfo
@@ -93,7 +94,7 @@ type CaseRequestEntity {
   case: CaseEntity
   caseId: String!
   createdAt: DateTime!
-  deadline: DateTime!
+  deadline: DateTime
   id: String!
   isProposal: Boolean
   providerCompanyId: String!
@@ -120,6 +121,7 @@ enum CaseStatus {
 }
 
 input CaseWhereInput {
+  applicantId: String
   applicationId: ApplicantsIdsInput
   isProposal: Boolean
 }
@@ -234,11 +236,15 @@ input CreateTimeOffRequestInput {
 input CreateUserInput {
   birthday: DateTime!
   companyId: String
+  description: String
   email: String!
+  familyInfo: UpdateCaseFamilyInfoInput
   firstName: String!
   lastName: String!
   middleName: String
+  nationality: String!
   password: String!
+  phone: String!
   userRole: UserRoles!
 }
 
@@ -340,6 +346,7 @@ type GeneralInfo {
 type Mutation {
   assignEmployeeToCase(args: UpdateCaseInput!): MutationReturn!
   assignTemplate(caseId: String!, templateId: String!): TestEntity!
+  changeCaseStatus(caseId: String!, status: String!): MutationReturn!
   createCase(args: CreateCaseInput!): MutationReturn!
   createCaseProposal(caseId: String!, deadline: DateTime!, price: Float!): MutationReturn!
   createCaseRequest(providerCompanyId: String!): MutationReturn!
@@ -440,7 +447,7 @@ type ProviderCompanyEntity {
 
 type Query {
   availableCases: CaseConnection!
-  case(id: String!): CaseEntity!
+  case(id: String): CaseEntity!
   caseRequest: [CaseRequestEntity!]!
   caseRequests(options: CaseQueryOptionsInput): CaseRequestConnection!
   cases(options: CaseQueryOptionsInput!): CaseConnection!
@@ -721,7 +728,7 @@ input UpdateCaseEducationInfoInput {
 input UpdateCaseFamilyInfoInput {
   children: [ChildInput!]
   familyMembers: ApplicantFamilyMembers
-  id: String!
+  id: String
   spouse: PartnerInput
 }
 
@@ -829,13 +836,17 @@ input UpdateTimeOffRequestInput {
 input UpdateUserInput {
   birthday: DateTime
   companyId: String
+  description: String
   email: String
   employmentStatus: EmploymentStatus
+  familyInfo: UpdateCaseFamilyInfoInput
   firstName: String
   id: String!
   lastName: String
   middleName: String
+  nationality: String
   password: String
+  phone: String
   providerCompanyId: String
   userRole: UserRoles
 }
@@ -866,6 +877,8 @@ type UserEntity {
   id: String!
   lastName: String!
   middleName: String
+  nationality: String
+  phone: String
   providerCassesIds: [String!]
   providerCompanyId: String
   userRole: UserRoles!

@@ -95,6 +95,9 @@ export class QuestionGroupRepository implements IQuestionGroupRepository {
           },
         },
       },
+      orderBy: {
+        createdAt: 'desc',
+      }
     });
 
     return plainToInstance(QuestionGroup, question);

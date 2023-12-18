@@ -22,6 +22,7 @@ import UpdateCaseWorkInfoHandler from '@application/commands/cases/update-work-i
 import UpdateFamilyInfoHandler from '@application/commands/cases/update-family-info/update-family-info.handler';
 import AssignProviderHandler from '@application/commands/cases/assign-provider/assign-provider.handler';
 import { ChatService } from '@application/services/chat/chat-service';
+import ChangeCaseStatusHandler from '../../../application/commands/cases/change-case-status/change-case-status.handler';
 
 @Module({
   imports: [CqrsModule],
@@ -54,6 +55,7 @@ import { ChatService } from '@application/services/chat/chat-service';
     UpdateCaseWorkInfoHandler,
     UpdateFamilyInfoHandler,
     AssignProviderHandler,
+    ChangeCaseStatusHandler,
   ],
 })
 export class CasesModule {}

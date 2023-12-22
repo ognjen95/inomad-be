@@ -17,7 +17,8 @@ import { UserRepository } from '@infrastructure/repositories/user/user.repositor
 @Injectable()
 export class AuthService implements IAuthService {
   private userPool = new CognitoUserPool({
-    UserPoolId: process.env.AWS_COGNITO_USER_POOL_ID,
+    // UserPoolId: process.env.AWS_COGNITO_USER_POOL_ID,
+    UserPoolId: 'ap-southeast-2_WjIfvco18',
     ClientId: process.env.AWS_COGNITO_CLIENT_ID,
   });
 

@@ -1,5 +1,5 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateUserCommand } from './create-user.command';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import { UserOnboardingService } from '@application/services/onboarding/user-onboarding.service';
 import { MutationReturn } from '@application/common/return-dtos/mutation-return-dt0';

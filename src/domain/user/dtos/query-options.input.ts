@@ -28,5 +28,5 @@ export class UserQueryOptionsInput {
 
   @IsOptional()
   @Field(() => [UserRoles], { nullable: true })
-  userRoles: UserRoles;
+  userRoles?: UserRoles[];
 }
